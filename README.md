@@ -1,1 +1,1 @@
-# IA048_Project_1
+# IA048_Project_Linear_Regression
