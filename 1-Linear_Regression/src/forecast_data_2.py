@@ -120,7 +120,7 @@ plt.xlim([1,24])
 plt.xlabel('Number of predictor inputs (K)')
 plt.ylabel('Nº of flights')
 
-plt.savefig("./plot/b/RMSE_by_K.pdf", format="pdf", bbox_inches="tight")
+plt.savefig("./plot/c/RMSE_by_K.pdf", format="pdf", bbox_inches="tight")
 
 #------------------------------------------------------------------------------
 # Calculating and simulation of best model
@@ -140,7 +140,7 @@ plt.title('RMSE = '+str("{:.3f}".format(rms_error))+' | MAPE = '+str("{:.3f}".fo
 plt.xlim([0,len(y_v)-1])
 plt.grid()
 
-plt.savefig("./plot/b/validation_best_K.pdf", format="pdf", bbox_inches="tight")
+plt.savefig("./plot/c/validation_best_K.pdf", format="pdf", bbox_inches="tight")
 
 print('\nK = '+str(k))
 
@@ -164,7 +164,7 @@ plt.title('RMSE = '+str("{:.3f}".format(rms_error))+' | MAPE = '+str("{:.3f}".fo
 plt.xlim([0,len(y_test)-1])
 plt.grid()
 
-plt.savefig("./plot/b/test_best_K.pdf", format="pdf", bbox_inches="tight")
+plt.savefig("./plot/c/test_best_K.pdf", format="pdf", bbox_inches="tight")
 
 print('\nK = '+str(k))
 
@@ -188,7 +188,7 @@ plt.title('RMSE = '+str("{:.3f}".format(rms_error))+' | MAPE = '+str("{:.3f}".fo
 plt.xlim([0,len(y_test2)-1])
 plt.grid()
 
-plt.savefig("./plot/b/test2_best_K.pdf", format="pdf", bbox_inches="tight")
+plt.savefig("./plot/c/test2_best_K.pdf", format="pdf", bbox_inches="tight")
 
 print('\nK = '+str(k))
 
