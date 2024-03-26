@@ -4,6 +4,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+RATE_TRAINING_VALIDATION = 0.7
+
 def trainingModel(data, k):
     y = data[k+1:len(data)]
     x = np.ones([len(y), k+1])
@@ -17,7 +19,6 @@ def trainingModel(data, k):
 
 def testModel(data, k, w):
     y = data[k+1:len(data)]
-
     x = np.ones([len(y), k+1])
 
     for i in range(1,k+1):
@@ -48,38 +49,6 @@ year = data_flights["Year"].to_numpy()
 
 month = data_flights["Month"].to_numpy()
 
-#------------------------------------------------------------------------------
-# Dataset - Training and Validation
-
-rate_train_validation = 0.8
-
-t_max = np.int16(204*rate_train_validation)
-
-ds_t_flights = flights[0:t_max]
-ds_t_month = month[0:t_max]
-ds_t_year = year[0:t_max]
-ds_t_n = np.linspace(0, len(ds_t_flights)-1, len(ds_t_flights))
-
-ds_v_flights = flights[t_max+1:204]
-ds_v_month = month[t_max+1:204]
-ds_v_year = year[t_max+1:204]
-ds_v_n = np.linspace(144, 203, len(ds_v_flights))
-
-print('\nTraining dataset length: '+str(len(ds_t_flights)))
-print('\nValidation dataset length: '+str(len(ds_v_flights)))
-
-#------------------------------------------------------------------------------
-# Dataset - Test
-
-ds_test_flights = flights[205:len(flights)]
-ds_test_month = month[205:len(month)]
-ds_test_year = year[205:len(year)]
-ds_test_n = np.linspace(0, len(ds_test_flights), len(ds_test_flights))
-
-ds_test2_flights = flights[len(flights)-21:len(flights)]
-ds_test2_month = month[len(month)-21:len(month)]
-ds_test2_year = year[len(year)-21:len(year)]
-
 ###############################################################################
 # Linear Regression - Least Squares
 
@@ -92,6 +61,21 @@ rms_error_t = np.zeros(24)
 rms_error_v = np.zeros(24)
 
 for k in range(1,25):
+
+    #------------------------------------------------------------------------------
+    # Dataset - Training and Validation
+
+    tv_max = (2019-2003)*12 + 11
+
+    t_max = np.int16(tv_max*RATE_TRAINING_VALIDATION)
+
+    ds_t_flights = flights[0:t_max]
+    ds_t_month = month[0:t_max]
+    ds_t_year = year[0:t_max]
+
+    ds_v_flights = flights[t_max+1-k:tv_max]
+    ds_v_month = month[t_max+1-k:tv_max]
+    ds_v_year = year[t_max+1-k:tv_max]
 
     w = trainingModel(ds_t_flights,k)
 
@@ -125,6 +109,24 @@ plt.savefig("./plot/b/RMSE_by_K.pdf", format="pdf", bbox_inches="tight")
 #------------------------------------------------------------------------------
 # Calculating and simulation of best model
 
+#------------------------------------------------------------------------------
+# Dataset - Training and Validation
+
+tv_max = (2019-2003)*12 + 11
+
+t_max = np.int16(tv_max*RATE_TRAINING_VALIDATION)
+
+ds_t_flights = flights[0:t_max]
+ds_t_month = month[0:t_max]
+ds_t_year = year[0:t_max]
+
+ds_v_flights = flights[t_max+1-k:tv_max]
+ds_v_month = month[t_max+1-k:tv_max]
+ds_v_year = year[t_max+1-k:tv_max]
+
+print('\nTraining dataset length: '+str(len(ds_t_flights)))
+print('\nValidation dataset length: '+str(len(ds_v_flights)))
+
 w = trainingModel(ds_t_flights,k)
 
 y_v, y_v_hat, rms_error, map_error = testModel(ds_v_flights,k,w)
@@ -151,6 +153,14 @@ print('MAPE of validation dataset = '+str("{:.3f}".format(map_error*100))+' %\n'
 #------------------------------------------------------------------------------
 # Testing the model with Test Dataset
 
+# Dataset - Test 1
+
+test_min1 = (2020-2003)*12 
+
+ds_test_flights = flights[test_min1:len(flights)]
+ds_test_month = month[test_min1:len(month)]
+ds_test_year = year[test_min1:len(year)]
+
 y_test, y_test_hat, rms_error, map_error = testModel(ds_test_flights,k,w)
 
 plt.figure(figsize = (8,6))
@@ -174,6 +184,13 @@ print('MAPE of test dataset = '+str("{:.3f}".format(map_error*100))+' %\n')
 
 #------------------------------------------------------------------------------
 # Testing the model with Test 2 Dataset
+
+# Dataset - Test 2
+
+test_min2 = (2021-2003)*12
+ds_test2_flights = flights[test_min2:len(flights)]
+ds_test2_month = month[test_min2:len(month)]
+ds_test2_year = year[test_min2:len(year)]
 
 y_test2, y_test2_hat, rms_error, map_error = testModel(ds_test2_flights,k,w)
 
