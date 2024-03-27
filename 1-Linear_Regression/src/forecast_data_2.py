@@ -5,22 +5,22 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 def trainingModel(data, k):
-    y = data[k+1:len(data)]
+    y = data[k:len(data)]
     x = np.ones([len(y), k+1])
 
     for i in range(1,k+1):
-        x[:, i] = data[i:len(y)+i]
+        x[:, i] = data[i-1:len(y)+i-1]
 
     w = np.linalg.pinv(x).dot(y)
     
     return w
 
 def testModel(data, k, w):
-    y = data[k+1:len(data)]
+    y = data[k:len(data)]
     x = np.ones([len(y), k+1])
 
     for i in range(1,k+1):
-        x[:, i] = data[i:len(y)+i]
+        x[:, i] = data[i-1:len(y)+i-1]
 
     y_hat = x.dot(w)
 
@@ -63,17 +63,17 @@ for k in range(1,25):
     #------------------------------------------------------------------------------
     # Dataset - Training and Validation
 
-    v_max = (2021-2003)*12 + 11
+    v_max = (2021-2003)*12 + 12
 
-    t_max = (2019-2003)*12 + 11
+    t_max = (2019-2003)*12 + 12
 
     ds_t_flights = flights[0:t_max]
     ds_t_month = month[0:t_max]
     ds_t_year = year[0:t_max]
 
-    ds_v_flights = flights[t_max+1-k:v_max]
-    ds_v_month = month[t_max+1-k:v_max]
-    ds_v_year = year[t_max+1-k:v_max]
+    ds_v_flights = flights[t_max-k:v_max]
+    ds_v_month = month[t_max-k:v_max]
+    ds_v_year = year[t_max-k:v_max]
 
     w = trainingModel(ds_t_flights,k)
 
@@ -110,17 +110,24 @@ plt.savefig("./plot/c/RMSE_by_K.pdf", format="pdf", bbox_inches="tight")
 #------------------------------------------------------------------------------
 # Dataset - Training and Validation
 
-v_max = (2021-2003)*12 + 11
+v_max = (2021-2003)*12 + 12
 
-t_max = (2019-2003)*12 + 11
+t_max = (2019-2003)*12 + 12
 
 ds_t_flights = flights[0:t_max]
 ds_t_month = month[0:t_max]
 ds_t_year = year[0:t_max]
 
-ds_v_flights = flights[t_max+1-k:v_max]
-ds_v_month = month[t_max+1-k:v_max]
-ds_v_year = year[t_max+1-k:v_max]
+ds_v_flights = flights[t_max-k:v_max]
+ds_v_month = month[t_max-k:v_max]
+ds_v_year = year[t_max-k:v_max]
+
+ds_v_date = []
+
+for i in range(k,len(ds_v_year)):
+    ds_v_date.append(str(ds_v_month[i])+'/'+str(ds_v_year[i])[2:4])
+
+n = np.linspace(0,len(ds_v_date)-1,len(ds_v_date))
 
 print('\nTraining dataset length: '+str(len(ds_t_flights)))
 print('\nValidation dataset length: '+str(len(ds_v_flights)))
@@ -129,16 +136,21 @@ w = trainingModel(ds_t_flights,k)
 
 y_v, y_v_hat, rms_error, map_error = testModel(ds_v_flights,k,w)
 
-plt.figure(figsize = (8,6))
-plt.plot(y_v, 'b', label=r'$y(n)$')
-plt.plot(y_v_hat, 'r', label=r'$\hat{y}(n)$')
-plt.legend(loc='upper right')
+
+fig = plt.figure(figsize = (8,6))
+
+mid = (fig.subplotpars.right + fig.subplotpars.left)/2
+plt.plot(y_v, '.-b', label=r'$y(n)$')
+plt.plot(y_v_hat, '.-r', label=r'$\hat{y}(n)$')
+plt.xticks(n, ds_v_date, rotation='vertical')
+plt.legend(loc='lower right')
 plt.xlabel('Samples')
 plt.ylabel('Nº of flights')
-plt.suptitle('Validation of the model for K = '+str(k))
+plt.suptitle('Validation of the model for K = '+str(k), x=mid)
 plt.title('RMSE = '+str("{:.3f}".format(rms_error))+' | MAPE = '+str("{:.3f}".format(map_error*100))+' %', fontsize = 10)
-plt.xlim([0,len(y_v)-1])
+plt.xlim([0,len(ds_v_date)-1])
 plt.grid()
+plt.tight_layout()
 
 plt.savefig("./plot/c/validation_best_K.pdf", format="pdf", bbox_inches="tight")
 
@@ -155,22 +167,33 @@ print('MAPE of validation dataset = '+str("{:.3f}".format(map_error*100))+' %\n'
 
 test_min1 = (2022-2003)*12 
 
-ds_test_flights = flights[test_min1:len(flights)]
-ds_test_month = month[test_min1:len(month)]
-ds_test_year = year[test_min1:len(year)]
+ds_test_flights = flights[test_min1-k:len(flights)]
+ds_test_month = month[test_min1-k:len(month)]
+ds_test_year = year[test_min1-k:len(year)]
+
+ds_test_date = []
+
+for i in range(k,len(ds_test_year)):
+    ds_test_date.append(str(ds_test_month[i])+'/'+str(ds_test_year[i])[2:4])
+
+n = np.linspace(0,len(ds_test_date)-1,len(ds_test_date))
 
 y_test, y_test_hat, rms_error, map_error = testModel(ds_test_flights,k,w)
 
-plt.figure(figsize = (8,6))
-plt.plot(y_test, 'b', label=r'$y(n)$')
-plt.plot(y_test_hat, 'r', label=r'$\hat{y}(n)$')
-plt.legend(loc='upper right')
+fig = plt.figure(figsize = (8,6))
+
+mid = (fig.subplotpars.right + fig.subplotpars.left)/2
+plt.plot(y_test, '.-b', label=r'$y(n)$')
+plt.plot(y_test_hat, '.-r', label=r'$\hat{y}(n)$')
+plt.xticks(n, ds_test_date, rotation='vertical')
+plt.legend(loc='lower right')
 plt.xlabel('Samples')
 plt.ylabel('Nº of flights')
-plt.suptitle('Test 2020~2023 of the model for K = '+str(k))
+plt.suptitle('Test 2020~2023 of the model for K = '+str(k), x=mid)
 plt.title('RMSE = '+str("{:.3f}".format(rms_error))+' | MAPE = '+str("{:.3f}".format(map_error*100))+' %', fontsize = 10)
-plt.xlim([0,len(y_test)-1])
+plt.xlim([0,len(ds_test_date)-1])
 plt.grid()
+plt.tight_layout()
 
 plt.savefig("./plot/c/test_best_K.pdf", format="pdf", bbox_inches="tight")
 
