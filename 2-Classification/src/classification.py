@@ -66,40 +66,107 @@ def getdJ_CEdW(y, y_hat, x):
     
     return dJCE
 
-def trainClassifier(X, y,batch):
-    W = np.random.rand(NUMBER_OF_CLASSES, NUMBER_OF_ATRIBUTES)/100 # Rand values in the interval (0, 0,01)
+def validateClassifier(y,X,W,):
+    y_hat, class_y_hat = softmax(X,W)
+    
+    hit = 0
+    
+    for i in range(len(y)):
+        if class_y_hat[i] == y[i]:
+            hit += 1
+    
+    return hit/len(y)
+
+def trainClassifier(X, y,epochs,batch):
+    W = np.zeros([epochs+1,NUMBER_OF_CLASSES,NUMBER_OF_ATRIBUTES])
+    W[0] = np.random.rand(NUMBER_OF_CLASSES, NUMBER_OF_ATRIBUTES)/100 # Rand values in the interval (0, 0,01)
 
     y_ohe = oneHotEncoding(y=y)
     
-    hit = [0]
-    not_hit = [0]
-    RMSE_sample = [0]
+    hit_train = [0]
+    hit_val = [0]
+    not_hit_train = [0]
+    not_hit_val = [0]
+    dJ = []
+    
+    
+    x_val = X[np.int16(len(y)*0.7):len(y)]
+    y_val = y[np.int16(len(y)*0.7):len(y)]
+    
+    X = X[0:np.int16(len(y)*0.7)]
+    y = y[0:np.int16(len(y)*0.7)]
     
     r = list(range(len(y)))
     
-    random.shuffle(r)
-
-    for i in r:
-
-        Xi = X[i, np.newaxis] 
+    if(not batch):
         
-        y_hat, class_y_hat = softmax(Xi,W)
-        
-        if(y[i] == class_y_hat):
-            hit.append(hit[-1]+1)
-        else:
-            not_hit.append(hit[-1]+1)
+        for k in range(epochs):
+            random.shuffle(r)
             
-        RMSE_sample.append(np.average(np.sqrt(y[i]**2 - y_hat**2)))
+            hit = 0
+            not_hit = 0
+
+            for i in r:
+
+                Xi = X[i, np.newaxis] 
+                
+                y_hat, class_y_hat = softmax(Xi,W[0])
+                
+                if(y[i] == class_y_hat):
+                    hit += 1
+                else:
+                    not_hit += 1
+                
+                dJCE = getdJ_CEdW(y=y_ohe[i],y_hat=y_hat,x=Xi)
+                
+                W[0] = W[0] + STEP*dJCE
+                
+                dJ.append(np.linalg.norm(dJCE))
+            
+            hit_train.append(hit/len(y))
+            not_hit_train.append(not_hit/len(y))
+                
+            hit_val.append(validateClassifier(y_val,x_val,W[0]))
+            
+        W = W[0]
+    
+    else:
         
-        dJCE = getdJ_CEdW(y=y_ohe[i],y_hat=y_hat,x=Xi)
-        
-        W = W + STEP*dJCE
-        
+        for k in range(epochs):
+            dJCE = 0
+            
+            hit = 0
+            not_hit = 0
+            
+            random.shuffle(r)
+
+            for i in r:
+
+                Xi = X[i, np.newaxis] 
+                
+                y_hat, class_y_hat = softmax(Xi,W[k])
+                
+                if(y[i] == class_y_hat):
+                    hit += 1
+                else:
+                    not_hit += 1
+                
+                dJCE += getdJ_CEdW(y=y_ohe[i],y_hat=y_hat,x=Xi)
+                
+            W[k+1] = W[k] + STEP*dJCE/len(r)
+            
+            dJ.append(np.linalg.norm(dJCE)/len(r))
+                
+            hit_train.append(hit/len(y))
+            not_hit_train.append(not_hit/len(y))
+            
+            hit_val.append(validateClassifier(y_val,x_val,W[k]))
+            
+        W = W[np.argmax(hit_val)]
         
     #print(W)
     
-    return W, RMSE_sample, hit, not_hit
+    return W, hit_train, hit_val, dJ
     
 def classify(x,W):
     y_hat, class_y_hat = softmax(x=x,w=W)
