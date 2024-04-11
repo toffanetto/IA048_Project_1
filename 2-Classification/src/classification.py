@@ -51,13 +51,24 @@ def oneHotEncoding(y):
         y_ohe[i,(y[i]-1)] = 1
     return y_ohe
 
-def getJ_CE(y, y_hat):
+def getJ_CE(y, X, W):
+    y_hat, class_y_hat = softmax(X,W)
     J_CE = 0
     
-    for i in range(y.shape[1]):
+    try:
+        for i in range(y.shape[0]):
+            for k in range(y.shape[1]):
+                J_CE += y[i][k]*np.log(y_hat[i][k])
+                
+        J_CE /= (y.shape[0]*y.shape[1])
+        
+    except:
+        y_hat = y_hat.T
         for k in range(y.shape[0]):
-            J_CE += y[i][k]*np.log(y_hat[i][k])
-    
+            J_CE += y[k]*np.log(y_hat[k])
+            
+        J_CE /= y.shape[0]
+            
     return -(J_CE)
             
 def getdJ_CEdW(y, y_hat, x):
@@ -66,7 +77,7 @@ def getdJ_CEdW(y, y_hat, x):
     
     return dJCE
 
-def validateClassifier(y,X,W,):
+def validateClassifier(y,X,W):
     y_hat, class_y_hat = softmax(X,W)
     
     hit = 0
@@ -80,21 +91,20 @@ def validateClassifier(y,X,W,):
 def trainClassifier(X, y,epochs,batch):
     W = np.zeros([epochs+1,NUMBER_OF_CLASSES,NUMBER_OF_ATRIBUTES])
     W[0] = np.random.rand(NUMBER_OF_CLASSES, NUMBER_OF_ATRIBUTES)/100 # Rand values in the interval (0, 0,01)
-
-    y_ohe = oneHotEncoding(y=y)
     
     hit_train = [0]
     hit_val = [0]
-    not_hit_train = [0]
-    not_hit_val = [0]
-    dJ = []
-    
+    J_train = []
+    J_val = []
     
     x_val = X[np.int16(len(y)*0.7):len(y)]
     y_val = y[np.int16(len(y)*0.7):len(y)]
     
     X = X[0:np.int16(len(y)*0.7)]
     y = y[0:np.int16(len(y)*0.7)]
+    
+    y_ohe = oneHotEncoding(y=y)
+    y_ohe_val = oneHotEncoding(y=y_val)
     
     r = list(range(len(y)))
     
@@ -104,7 +114,6 @@ def trainClassifier(X, y,epochs,batch):
             random.shuffle(r)
             
             hit = 0
-            not_hit = 0
 
             for i in r:
 
@@ -114,19 +123,17 @@ def trainClassifier(X, y,epochs,batch):
                 
                 if(y[i] == class_y_hat):
                     hit += 1
-                else:
-                    not_hit += 1
                 
                 dJCE = getdJ_CEdW(y=y_ohe[i],y_hat=y_hat,x=Xi)
                 
                 W[0] = W[0] + STEP*dJCE
                 
-                dJ.append(np.linalg.norm(dJCE))
+                J_train.append(getJ_CE(y_ohe[i],Xi,W[0]))
             
             hit_train.append(hit/len(y))
-            not_hit_train.append(not_hit/len(y))
                 
             hit_val.append(validateClassifier(y_val,x_val,W[0]))
+            J_val.append(getJ_CE(y_ohe_val,x_val,W[0]))
             
         W = W[0]
     
@@ -136,7 +143,6 @@ def trainClassifier(X, y,epochs,batch):
             dJCE = 0
             
             hit = 0
-            not_hit = 0
             
             random.shuffle(r)
 
@@ -148,25 +154,22 @@ def trainClassifier(X, y,epochs,batch):
                 
                 if(y[i] == class_y_hat):
                     hit += 1
-                else:
-                    not_hit += 1
                 
                 dJCE += getdJ_CEdW(y=y_ohe[i],y_hat=y_hat,x=Xi)
                 
             W[k+1] = W[k] + STEP*dJCE/len(r)
-            
-            dJ.append(np.linalg.norm(dJCE)/len(r))
                 
+            J_train.append(getJ_CE(y_ohe, X, W[k+1]))
             hit_train.append(hit/len(y))
-            not_hit_train.append(not_hit/len(y))
             
             hit_val.append(validateClassifier(y_val,x_val,W[k+1]))
+            J_val.append(getJ_CE(y_ohe_val,x_val,W[k+1]))
             
         W = W[np.argmax(hit_val)]
         
     #print(W)
     
-    return W, hit_train, hit_val, dJ
+    return W, hit_train, hit_val, J_train, J_val
     
 def classify(x,W):
     y_hat, class_y_hat = softmax(x=x,w=W)
