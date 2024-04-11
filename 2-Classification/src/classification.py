@@ -160,7 +160,7 @@ def trainClassifier(X, y,epochs,batch):
             hit_train.append(hit/len(y))
             not_hit_train.append(not_hit/len(y))
             
-            hit_val.append(validateClassifier(y_val,x_val,W[k]))
+            hit_val.append(validateClassifier(y_val,x_val,W[k+1]))
             
         W = W[np.argmax(hit_val)]
         
