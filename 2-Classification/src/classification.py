@@ -96,6 +96,7 @@ def trainClassifier(X, y,epochs,batch):
     hit_val = [0]
     J_train = []
     J_val = []
+    J = 0
     
     x_val = X[np.int16(len(y)*0.7):len(y)]
     y_val = y[np.int16(len(y)*0.7):len(y)]
@@ -114,6 +115,7 @@ def trainClassifier(X, y,epochs,batch):
             random.shuffle(r)
             
             hit = 0
+            J = 0
 
             for i in r:
 
@@ -128,7 +130,11 @@ def trainClassifier(X, y,epochs,batch):
                 
                 W[0] = W[0] + STEP*dJCE
                 
-                J_train.append(getJ_CE(y_ohe[i],Xi,W[0]))
+                #J += getJ_CE(y_ohe,X,W[0])
+            
+            #J_train.append(J/len(y))
+            
+            J_train.append(getJ_CE(y_ohe, X, W[0]))
             
             hit_train.append(hit/len(y))
                 
