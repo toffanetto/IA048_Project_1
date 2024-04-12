@@ -18,7 +18,15 @@ def getData(train, raw):
         
         X = df_X.to_numpy()
         y = df_y.to_numpy()
-        return X, y
+        
+        classes_rate = np.zeros(6)
+
+        for i in range(len(y)):
+            classes_rate[y[i]-1] += 1
+            
+        classes_rate /= len(y)
+
+        return X, y, classes_rate
     
     if(train == False and raw == False):
         df_X = pd.read_csv("../data/UCI HAR Dataset/test/X_test.txt", sep="\s+", header=None)
@@ -26,7 +34,15 @@ def getData(train, raw):
         
         X = df_X.to_numpy()
         y = df_y.to_numpy()
-        return X, y
+        
+        classes_rate = np.zeros(6)
+
+        for i in range(len(y)):
+            classes_rate[y[i]-1] += 1
+            
+        classes_rate /= len(y)
+
+        return X, y, classes_rate
     
 def softmax(x,w):
     n = w.shape
@@ -77,23 +93,22 @@ def getdJ_CEdW(y, y_hat, x):
     
     return dJCE
 
-def validateClassifier(y,X,W):
+def validateClassifier(y,X,W,classes_rate):
     y_hat, class_y_hat = softmax(X,W)
     
-    hit = 0
+    hit = np.zeros(6)
     
     for i in range(len(y)):
-        if class_y_hat[i] == y[i]:
-            hit += 1
+         hit[y[i]-1] += 1 if y[i] == class_y_hat else 0
     
-    return hit/len(y)
+    return np.average(hit/(classes_rate*len(y)))
 
-def trainClassifier(X, y,epochs,batch):
+def trainClassifier(X,y,epochs,batch,classes_rate):
     W = np.zeros([epochs+1,NUMBER_OF_CLASSES,NUMBER_OF_ATRIBUTES])
     W[0] = np.random.rand(NUMBER_OF_CLASSES, NUMBER_OF_ATRIBUTES)/100 # Rand values in the interval (0, 0,01)
     
-    hit_train = [0]
-    hit_val = [0]
+    ba_train = [0]
+    ba_val = [0]
     J_train = []
     J_val = []
     J = 0
@@ -114,7 +129,7 @@ def trainClassifier(X, y,epochs,batch):
         for k in range(epochs):
             random.shuffle(r)
             
-            hit = 0
+            hit = np.zeros(6)
             J = 0
 
             for i in r:
@@ -123,8 +138,7 @@ def trainClassifier(X, y,epochs,batch):
                 
                 y_hat, class_y_hat = softmax(Xi,W[0])
                 
-                if(y[i] == class_y_hat):
-                    hit += 1
+                hit[y[i]-1] += 1 if y[i] == class_y_hat else 0
                 
                 dJCE = getdJ_CEdW(y=y_ohe[i],y_hat=y_hat,x=Xi)
                 
@@ -136,9 +150,9 @@ def trainClassifier(X, y,epochs,batch):
             
             J_train.append(getJ_CE(y_ohe, X, W[0]))
             
-            hit_train.append(hit/len(y))
+            ba_train.append(np.average(hit/(classes_rate*len(y))))
                 
-            hit_val.append(validateClassifier(y_val,x_val,W[0]))
+            ba_val.append(validateClassifier(y_val,x_val,W[0]))
             J_val.append(getJ_CE(y_ohe_val,x_val,W[0]))
             
         W = W[0]
@@ -158,40 +172,37 @@ def trainClassifier(X, y,epochs,batch):
                 
                 y_hat, class_y_hat = softmax(Xi,W[k])
                 
-                if(y[i] == class_y_hat):
-                    hit += 1
+                hit[y[i]-1] += 1 if y[i] == class_y_hat else 0
                 
                 dJCE += getdJ_CEdW(y=y_ohe[i],y_hat=y_hat,x=Xi)
                 
             W[k+1] = W[k] + STEP*dJCE/len(r)
                 
             J_train.append(getJ_CE(y_ohe, X, W[k+1]))
-            hit_train.append(hit/len(y))
+            ba_train.append(np.average(hit/(classes_rate*len(y))))
             
-            hit_val.append(validateClassifier(y_val,x_val,W[k+1]))
+            ba_val.append(validateClassifier(y_val,x_val,W[0],classes_rate))
             J_val.append(getJ_CE(y_ohe_val,x_val,W[k+1]))
             
-        W = W[np.argmax(hit_val)]
+        W = W[np.argmin(J_val)]
         
     #print(W)
     
-    return W, hit_train, hit_val, J_train, J_val
+    return W, ba_train, ba_val, J_train, J_val
     
 def classify(x,W):
     y_hat, class_y_hat = softmax(x=x,w=W)
     return y_hat,class_y_hat
 
-def rateModel(y,y_hat):
-    hit_rate = 0
-    not_hit_rate = 0
+def rateModel(y,y_hat,classes_rate):
+    
+    hit = np.zeros(6)
     confusion_matrix = np.zeros([NUMBER_OF_CLASSES,NUMBER_OF_CLASSES])
     
     for i in range(len(y)):
         confusion_matrix[y[i]-1, y_hat[i]-1] += 1
-        if (y[i] == y_hat[i]):
-            hit_rate += 1
+        hit[y[i]-1] += 1 if y[i] == y_hat[i] else 0
+            
+    ba = np.average(hit/(classes_rate*len(y)))
         
-    hit_rate /= len(y)
-    not_hit_rate = 1 - hit_rate
-        
-    return confusion_matrix, hit_rate, not_hit_rate
+    return confusion_matrix, ba
