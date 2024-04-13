@@ -60,7 +60,7 @@ Não existe forma fechada para a obtenção dos pesos de $\+W$, logo, o mesmo pr
 \end{equation}
 
 \begin{equation}\label{eq:dJCE}
-	\nabla\+W = \frac{\partial J_{CE}(\+W)}{\partial \+w_k} = \sum_{i=0}^{N-1} \left(y_{i,k} - \hat{y}_k\left(\+x(i)\right)\right)\+\Phi(\+x(i))^T
+	\frac{\partial J_{CE}(\+W)}{\partial \+w_k} = \sum_{i=0}^{N-1} \left(y_{i,k} - \hat{y}_k\left(\+x(i)\right)\right)\+\Phi(\+x(i))^T
 \end{equation}
 
 A atualização dos pesos é dada por \eqref{eq:wk1}, onde $l$ é a iteração dos pesos.
@@ -69,22 +69,27 @@ A atualização dos pesos é dada por \eqref{eq:wk1}, onde $l$ é a iteração d
 	\+W[l+1] = \+W[l] - \eta\nabla\+W
 \end{equation}
 
-Devido ao tamanho do conjunto de dados, foi proposto o treinamento por \textit{mini-batch}, testadas com tamanhos de 500, 1000 e 2000 amostras, e um passo ($\eta$) de 0,01, que apresentou boa convergência nos testes realizados \textit{a priori}. O processo de validação cruzada para o treinamento do modelo foi feito na forma \textit{holdout}, considerando o conjunto de validação 30\% do \textit{dataset} de treinamento.
+Devido ao tamanho do conjunto de dados, foi proposto o treinamento por \textit{mini-batch}, testadas com tamanhos de 500, 1000 e 2000 amostras, e um passo ($\eta$) de 0,01, que apresentou boa convergência nos testes realizados \textit{a priori}. O processo de validação cruzada para o treinamento do modelo foi feito na forma \textit{holdout}, considerando o conjunto de validação 30\% do \textit{dataset} de treinamento. A inicialização dos pesos foi feita de forma aleatória, seguindo uma distribuição gaussiana, nos entornos de 0.
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
 \subsection{Dados tratados}
 
 \subsubsection*{\textit{Mini-batch} 500 amostras}
+
+Para um primeiro caso, treinou-se o modelo de regressão logística utilizando o \textit{mini-batch} de 500 amostras. A cada 500 amostras de treinamento, entregues em ordem aleatória a cada época, realiza-se a evolução da matriz de pesos $\+W$, calculando a nova função de custo (entropia cruzada), e o valor da acurácia balanceada, para todo conjunto de treinamento e validação.
+
+A \autoref{fig:CE_500_epochs_batch_size500} mostra o decaimento da entropia cruzada de treinamento e validação durante as épocas de treinamento. Para 500 épocas, observa-se que não há o estado de regime das métricas, ou a inversão do crescimento da entropia cruzada de validação, que indicaria \textit{overfitting}. Porém, analisando a acurácia balanceada do modelo, exibida na \autoref{fig:BA_500_epochs_batch_size500}, percebe-se que a medida de desempenho apresenta saturação, após aproximadamente 300 épocas de treinamento, sendo assim utilizada para a parada antecipada (\textit{early stopping}) do treinamento do modelo.
 
 % TODO: \usepackage{graphicx} required
 \begin{figure}[H]
 	\begin{subfigure}[H]{0.49\textwidth}
 		\centering
 		\includegraphics[width = 0.98\linewidth]{../../plot/LR_1/CE_500_epochs_batch_size500}
-		\label{fig:CE_500_epochs_batch_size500}
 		\caption{Evolução da entropia cruzada.}
+		\label{fig:CE_500_epochs_batch_size500}
 	\end{subfigure}
 	\begin{subfigure}[H]{0.49\textwidth}
 		\centering
@@ -94,6 +99,8 @@ Devido ao tamanho do conjunto de dados, foi proposto o treinamento por \textit{m
 	\end{subfigure}
 	\caption{Evolução da entropia cruzada e da acurácia balanceada durante o treinamento para \textit{mini-batch} de 500 amostras e $\eta = 0,01$.}
 \end{figure}
+
+Com o treinamento, obteve-se um classificador que ao aplicar os dados de teste, obteve uma acurácia balanceada média de 0,9162, com matriz de confusão mostrada na \autoref{tab:mc_lr_500} e métricas de precisão e \textit{recall} por classe listadas na \autoref{tab:pr_lr_500}. Observa-se facilmente o grande desempenho do classificador para a classe 6, possuindo total assertividade em identificar a classe, sem haver nenhum engano da classe com as outras, e vice-versa. Pela matriz, observa-se grande confusão da classe 1 com a classe 2 e 3, justificando a mesma possuir o menor \textit{recall}. Já a classe 3 é a que possuí menor precisão, sendo classificada erroneamente como a classe 1 e 2.
 
 \begin{equation}\label{eq:ba_lr_500}
 	BA = 0,9162
@@ -134,13 +141,15 @@ Devido ao tamanho do conjunto de dados, foi proposto o treinamento por \textit{m
 
 \subsubsection*{\textit{Mini-batch} 1000 amostras}
 
+Ao aumentar o tamanho de amostras por atualização da matriz de pesos, observa-se uma convergência mais suave e mais assertiva, apresentando uma curva de acurácia balanceada (\autoref{fig:BA_500_epochs_batch_size1000}) mais bem comportada, devido à apresentar uma maior média de amostras para formar uma iteração de $\+W$ pelo gradiente negativo da entropia cruzada (\autoref{fig:CE_500_epochs_batch_size1000}).
+
 % TODO: \usepackage{graphicx} required
 \begin{figure}[H]
 	\begin{subfigure}[H]{0.49\textwidth}
 		\centering
 		\includegraphics[width = 0.98\linewidth]{../../plot/LR_1/CE_500_epochs_batch_size1000}
-		\label{fig:CE_500_epochs_batch_size1000}
 		\caption{Evolução da entropia cruzada.}
+		\label{fig:CE_500_epochs_batch_size1000}
 	\end{subfigure}
 	\begin{subfigure}[H]{0.49\textwidth}
 		\centering
@@ -150,6 +159,8 @@ Devido ao tamanho do conjunto de dados, foi proposto o treinamento por \textit{m
 	\end{subfigure}
 	\caption{Evolução da entropia cruzada e da acurácia balanceada durante o treinamento para \textit{mini-batch} de 1000 amostras e $\eta = 0,01$.}
 \end{figure}
+
+Com a alteração do tamanho da batelada utilizada, o modelo obteve um decrescimento no seu desempenho, atingindo uma acurácia balanceada de 0,9042. O comportamento da matriz de confusão (\autoref{tab:mc_lr_1000}) e das métricas de precisão e \textit{recall} (\autoref{tab:pr_lr_1000}) são similares, porém com menor desempenho comparados ao modelo anterior.
 
 \begin{equation}\label{eq:ba_lr_1000}
 BA = 0,9042
@@ -194,13 +205,17 @@ BA = 0,9042
 
 \subsubsection*{\textit{Mini-batch} 2000 amostras}
 
+Aumentando ainda mais o número de amostras por \textit{mini-batch}, observa-se uma envolução ainda mais comportada da acurácia balanceada, apresentando oscilações muito menos perceptíveis, como visto na \autoref{fig:BA_500_epochs_batch_size2000}. O decaimento da função de custo, \autoref{fig:CE_500_epochs_batch_size2000} se dá da mesma forma, uma vez que cada evolução do vetor de peso carrega a média da entropia cruzada para cada amostra da batelada.
+
+O desempenho obtido ao utilizar 2000 amostras por \textit{mini-batch} é ainda menor, chegando a uma acurácia balanceada de 0,8898. A matriz de confusão, como pode ser observado na \autoref{tab:mc_lr_2000} e precisão e \textit{recall} das classes (\autoref{tab:pr_lr_2000}), se apresentam da mesma forma, onde mesmo com a queda de \textit{performance}, se observa o mesmo perfil de comportamento para as classes.
+
 % TODO: \usepackage{graphicx} required
 \begin{figure}[H]
 	\begin{subfigure}[H]{0.49\textwidth}
 		\centering
 		\includegraphics[width = 0.98\linewidth]{../../plot/LR_1/CE_500_epochs_batch_size2000}
-		\label{fig:CE_500_epochs_batch_size2000}
 		\caption{Evolução da entropia cruzada.}
+		\label{fig:CE_500_epochs_batch_size2000}
 	\end{subfigure}
 	\begin{subfigure}[H]{0.49\textwidth}
 		\centering
@@ -217,7 +232,7 @@ BA = 0,8898
 
 \begin{table}[H]
 \centering
-\begin{tabular}{c|c|c|c|c|c|c|}
+\begin{tabular}{c||c|c|c|c|c|c|}
 	\cline{2-7}
 	& \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} \\ \hline\hline
 	\multicolumn{1}{|c||}{\textbf{1}} & 489        & 0          & 7          & 0          & 0          & 0          \\ \hline
@@ -248,12 +263,14 @@ BA = 0,8898
 
 \subsubsection*{Análise}
 
+Foi realizado o treinamento do modelo para a \textit{mini-batch} de 500 amostras em um \textit{range} de 1000 épocas, para observar a acomodação da função de custo. Observa-se na \autoref{fig:CE_1000_epochs_batch_size500} que a taxa de decrescimento da entropia cruzada vai reduzindo, porém não chega a um estado de regime, também não obtendo o estado de \textit{overfitting} com o aumento do custo para a validação. É possível aferir também que não há grande aumento da acurácia balanceada, se fazendo então, o treinamento de 500 épocas feito anteriormente, suficiente para a obtenção de um modelo que explora de forma suficiente o espaço de hipóteses ($\mathcal{H}$).
+
 \begin{figure}[H]
 	\begin{subfigure}[H]{0.49\textwidth}
 		\centering
 		\includegraphics[width = 0.98\linewidth]{../../plot/LR_1/CE_1000_epochs_batch_size500}
-		\label{fig:CE_1000_epochs_batch_size500}
 		\caption{Evolução da entropia cruzada.}
+		\label{fig:CE_1000_epochs_batch_size500}
 	\end{subfigure}
 	\begin{subfigure}[H]{0.49\textwidth}
 		\centering
@@ -289,7 +306,7 @@ O critério de classificação pode se basear puramente na classe majoritária e
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Dados tratados}
 
-Para implementação do algoritmo de \textit{k}NN, foi escolhido a utilização da distância euclidiana no espaço dos atributos, e a decisão do rótulo vencedor por meio do voto majoritário dos $k$ vizinhos mais próximos.
+Para implementação do algoritmo de \textit{k}-NN, foi escolhido a utilização da distância euclidiana no espaço dos atributos, e a decisão do rótulo vencedor por meio do voto majoritário dos $k$ vizinhos mais próximos.
 
 Para obtenção do valor de $k$, foi executada uma busca em \textit{grid} do hiper-parâmetro, variando seu valor entre 1 e 29. Utilizando da técnica de validação cruzada \textit{k-fold}, com quatro pastas, foi realizada a inferência das classes dos dados da pasta de validação com base nos vizinhos mais próximos encontrados nas pastas de treinamento, para cada valor de $k$ testado. A \autoref{fig:gridsearch} exibe à evolução da acurácia balanceada para os valores de $k$, obtendo um conjunto de valores ótimos em \eqref{eq:k_fold_k}.
 
@@ -335,7 +352,7 @@ Uma vez definido o classificador ótimo, obtém-se os indicadores de performance
 		\multicolumn{1}{|c||}{\textbf{5}} & 0   & 0   & 0   & 31  & 501 & 0   \\ \hline
 		\multicolumn{1}{|c||}{\textbf{6}} & 0   & 0   & 0   & 1   & 1   & 535 \\ \hline
 	\end{tabular}
-	\caption{Matriz de confusão do classificador k-NN com k = 15.}
+	\caption{Matriz de confusão do classificador \textit{k}-NN com \textit{k} = 15.}
 	\label{tab:mc_knn_1}
 \end{table}
 
@@ -361,8 +378,22 @@ Extraindo da matriz de confusão as métricas de precisão e \textit{recall}, ob
 
 Ao comparar os classificadores utilizando a regressão logística e o k-NN, observa-se que a acurácia balanceada para a regressão logística de melhor desempenho foi superior, mas para ter uma comparação mais minuciosa entre os dois classificadores, deve-se analisar também suas matrizes de confusão. Comparando a precisão e o \textit{recall}, o desempenho das classes em \textit{ranking} se apresenta da mesma forma, porém, para a regressão logística a classe 6 conseguiu obter tanto precisão quanto \textit{recall} máximo.
 
-A regressão logística apresentou um desempenho 1,87\% maior que o k-NN para a acurácia balanceada, porém possuí uma complexidade muito maior. Para obter o modelo de regressão logística multi-classe com \textit{softmax}, é necessário realizar o treinamento do modelo, buscando variar os hiper-parâmetros para se conseguir o melhor desempenho. Essa etapa demanda de muito processamento, porém garante uma utilização do classificador mais leve, uma vez que é necessária apenas o vetor de pesos. Já o k-NN, não demanda treinamento, sendo necessária apenas a inferência da classe com base nos vizinhos mais próximos, o que apesar de consumir armazenamento para manter o \textit{dataset}, não precisa de tanto processamento prévio, sendo uma solução simples e rápida. Porém, devido a busca em \textit{grid} utilizando a validação \textit{k-fold} para obter o melhor $k$ para os dados de treinamento, tal etapa demandou bastante processamento, o que elevou consideravelmente a complexidade do k-NN.
+A regressão logística apresentou um desempenho relativo 1,87\% maior que o k-NN para a acurácia balanceada, porém possuí uma complexidade muito maior. Para obter o modelo de regressão logística multi-classe com \textit{softmax}, é necessário realizar o treinamento do modelo, buscando variar os hiper-parâmetros para se conseguir o melhor desempenho. Essa etapa demanda de muito processamento, porém garante uma utilização do classificador mais leve, uma vez que é necessária apenas o vetor de pesos. Já o \textit{k}-NN, não demanda treinamento, sendo necessária apenas a inferência da classe com base nos vizinhos mais próximos, o que apesar de consumir armazenamento para manter o \textit{dataset}, não precisa de tanto processamento prévio, sendo uma solução simples e rápida. Porém, devido a busca em \textit{grid} utilizando a validação \textit{k-fold} para obter o melhor $k$ para os dados de treinamento, tal etapa demandou bastante processamento, o que elevou consideravelmente a complexidade do \textit{k}-NN.
 
+\subsubsection*{Comparação com o $k$ ótimo}
+
+Somente a título de comparação, foi realizada a busca em \textit{grid} do melhor valor de $k$, utilizando os próprios dados de teste do problema. A \autoref{fig:gridsearchk} mostra a evolução da acurácia balanceada dos dados de teste para o aumento do número de vizinhos, chegando ao valor ótimo em $k = 8$, com $BA = 0,9028$. 
+
+Em comparação com o número de vizinhos obtidos via validação em \textit{k}-pastas, observa-se que o número de vizinhos é perto da metade do obtido anteriormente, e apresentando uma performance melhor. Porém, ao se realizar uma busca de um hiper-parâmetro com métodos de busca em \textit{grid} utilizando validação cruzada, busca-se obter o melhor valor com base nos dados de treinamento, que são os únicos conhecidos na etapa de treinamento/modelagem do classificador. Espera-se que os dados de treinamento sejam suficiente para generalizar os dados como um todo, fazendo com que a solução ótima para o \textit{dataset} de treinamento tenda a ser a solução ótima para todos os dados inéditos que o modelo irá receber.
+
+Dessa forma, mesmo o valor de $k$ tendo mudado consideravelmente, a acurácia não apresentou grandes mudanças, sendo ainda sim um bom modelo para conseguir fazer a classificação dos dados de teste.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\linewidth]{../../plot/knn_1/grid_search}
+	\caption{Busca em \textit{grid} do valor de $k$ ótimo para o conjunto de testes.}
+	\label{fig:gridsearchk}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Dados brutos}
@@ -376,6 +407,16 @@ A regressão logística apresentou um desempenho 1,87\% maior que o k-NN para a 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Comparação entre os classificadores}
 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Dados tratados}
 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Dados brutos}
 
