@@ -69,7 +69,9 @@ A atualização dos pesos é dada por \eqref{eq:wk1}, onde $l$ é a iteração d
 	\+W[l+1] = \+W[l] - \eta\nabla\+W
 \end{equation}
 
-Devido ao tamanho do conjunto de dados, foi proposto o treinamento por \textit{mini-batch}, testadas com tamanhos de 500, 1000 e 2000 amostras, e um passo ($\eta$) de 0,01, que apresentou boa convergência nos testes realizados \textit{a priori}.
+Devido ao tamanho do conjunto de dados, foi proposto o treinamento por \textit{mini-batch}, testadas com tamanhos de 500, 1000 e 2000 amostras, e um passo ($\eta$) de 0,01, que apresentou boa convergência nos testes realizados \textit{a priori}. O processo de validação cruzada para o treinamento do modelo foi feito na forma \textit{holdout}, considerando o conjunto de validação 30\% do \textit{dataset} de treinamento.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Dados tratados}
@@ -109,7 +111,7 @@ Devido ao tamanho do conjunto de dados, foi proposto o treinamento por \textit{m
 	\multicolumn{1}{|c||}{\textbf{5}} & 1          & 0          & 0          & 33         & 498        & 0          \\ \hline
 	\multicolumn{1}{|c||}{\textbf{6}} & 0          & 0          & 0          & 0          & 0          & 537        \\ \hline
 \end{tabular}
-	\caption{Matriz de confusão do classificador k-NN com k = 8.}
+	\caption{Matriz de confusão do classificador com \textit{mini-batch} de 500 amostras.}
 	\label{tab:mc_lr_500}
 \end{table}
 
@@ -124,7 +126,7 @@ Devido ao tamanho do conjunto de dados, foi proposto o treinamento por \textit{m
 		\textbf{5}      & 0.9361            & 0.8861                   \\
 		\textbf{6}      & 1.0000            & 1.0000                  
 	\end{tabular}
-	\caption{Precisão e \textit{Recall} do classificador por classe.}
+	\caption{Precisão e \textit{Recall} do classificador com \textit{mini-batch} de 500 amostras por classe.}
 	\label{tab:pr_lr_500}
 \end{table}
 
@@ -165,7 +167,7 @@ BA = 0,9042
 	\multicolumn{1}{|c||}{\textbf{5}} & 0          & 1          & 0          & 54         & 477        & 0          \\ \hline
 	\multicolumn{1}{|c||}{\textbf{6}} & 0          & 0          & 0          & 0          & 0          & 537        \\ \hline
 \end{tabular}
-\caption{Matriz de confusão do classificador k-NN com k = 8.}
+\caption{Matriz de confusão do classificador com \textit{mini-batch} de 1000 amostras.}
 \label{tab:mc_lr_1000}
 \end{table}
 
@@ -180,7 +182,7 @@ BA = 0,9042
 	\textbf{5}      & 0.8966            & 0.8866                   \\
 	\textbf{6}      & 1.0000            & 0.9981                  
 \end{tabular}
-\caption{Precisão e \textit{Recall} do classificador por classe.}
+\caption{Precisão e \textit{Recall} do classificador com \textit{mini-batch} de 1000 amostras por classe.}
 \label{tab:pr_lr_1000}
 \end{table}
 
@@ -225,7 +227,7 @@ BA = 0,8898
 	\multicolumn{1}{|c||}{\textbf{5}} & 1          & 1          & 0          & 58         & 472        & 0          \\ \hline
 	\multicolumn{1}{|c||}{\textbf{6}} & 0          & 0          & 0          & 0          & 0          & 537        \\ \hline
 \end{tabular}
-\caption{Matriz de confusão do classificador k-NN com k = 8.}
+\caption{Matriz de confusão do classificador com \textit{mini-batch} de 2000 amostras.}
 \label{tab:mc_lr_2000}
 \end{table}
 
@@ -240,7 +242,7 @@ BA = 0,8898
 	\textbf{5}      & 0.8872            & 0.8384                   \\
 	\textbf{6}      & 1.0000            & 0.9981                  
 \end{tabular}
-\caption{Precisão e \textit{Recall} do classificador por classe.}
+\caption{Precisão e \textit{Recall} do classificador com \textit{mini-batch} de 2000 amostras por classe.}
 \label{tab:pr_lr_2000}
 \end{table}
 
@@ -333,7 +335,7 @@ Uma vez definido o classificador ótimo, obtém-se os indicadores de performance
 		\multicolumn{1}{|c||}{\textbf{5}} & 0   & 0   & 0   & 31  & 501 & 0   \\ \hline
 		\multicolumn{1}{|c||}{\textbf{6}} & 0   & 0   & 0   & 1   & 1   & 535 \\ \hline
 	\end{tabular}
-	\caption{Matriz de confusão do classificador k-NN com k = 8.}
+	\caption{Matriz de confusão do classificador k-NN com k = 15.}
 	\label{tab:mc_knn_1}
 \end{table}
 
@@ -356,6 +358,10 @@ Extraindo da matriz de confusão as métricas de precisão e \textit{recall}, ob
 \end{table}
 
 \subsubsection*{Comparação com a regressão logística}
+
+Ao comparar os classificadores utilizando a regressão logística e o k-NN, observa-se que a acurácia balanceada para a regressão logística de melhor desempenho foi superior, mas para ter uma comparação mais minuciosa entre os dois classificadores, deve-se analisar também suas matrizes de confusão. Comparando a precisão e o \textit{recall}, o desempenho das classes em \textit{ranking} se apresenta da mesma forma, porém, para a regressão logística a classe 6 conseguiu obter tanto precisão quanto \textit{recall} máximo.
+
+A regressão logística apresentou um desempenho 1,87\% maior que o k-NN para a acurácia balanceada, porém possuí uma complexidade muito maior. Para obter o modelo de regressão logística multi-classe com \textit{softmax}, é necessário realizar o treinamento do modelo, buscando variar os hiper-parâmetros para se conseguir o melhor desempenho. Essa etapa demanda de muito processamento, porém garante uma utilização do classificador mais leve, uma vez que é necessária apenas o vetor de pesos. Já o k-NN, não demanda treinamento, sendo necessária apenas a inferência da classe com base nos vizinhos mais próximos, o que apesar de consumir armazenamento para manter o \textit{dataset}, não precisa de tanto processamento prévio, sendo uma solução simples e rápida. Porém, devido a busca em \textit{grid} utilizando a validação \textit{k-fold} para obter o melhor $k$ para os dados de treinamento, tal etapa demandou bastante processamento, o que elevou consideravelmente a complexidade do k-NN.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
