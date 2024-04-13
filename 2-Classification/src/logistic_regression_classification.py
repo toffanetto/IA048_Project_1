@@ -184,8 +184,30 @@ def rateModel(y,y_hat,classes_rate):
     
     for i in range(len(y)):
         confusion_matrix[y[i]-1, y_hat[i]-1] += 1
+        
         hit[y[i]-1] += 1 if y[i] == y_hat[i] else 0
             
     ba = np.average(hit/(classes_rate*len(y)))
         
     return confusion_matrix, ba
+
+def confusionMatrixExtract(confusion_matrix):
+    score = {1 : {'Precision': 0, 'Recall': 0}, 
+             2 : {'Precision': 0, 'Recall': 0},
+             3 : {'Precision': 0, 'Recall': 0},
+             4 : {'Precision': 0, 'Recall': 0},
+             5 : {'Precision': 0, 'Recall': 0},
+             6 : {'Precision': 0, 'Recall': 0}}
+    
+    for i in range(NUMBER_OF_CLASSES):
+        TP = FP = FN =0
+        for j in range(NUMBER_OF_CLASSES):
+            TP = confusion_matrix[i][j] if i == j else TP
+            FP += confusion_matrix[i][j] if i != j else 0
+            FN += confusion_matrix[j][i] if i != j else 0
+            
+        score[i+1]['Precision']= TP/(TP+FP)
+        score[i+1]['Recall']= TP/(TP+FN)
+    
+    return score
+    
