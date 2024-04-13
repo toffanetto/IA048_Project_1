@@ -1,5 +1,6 @@
 # @toffanetto
 
+from os import X_OK
 import numpy as np
 import pandas as pd
 import bisect
@@ -85,6 +86,44 @@ def classify(x, Y, y_label, k):
         y_hat[i] = class_kNN
         
     return y_hat
+
+def kFoldValidation(x,y,k,classes_rate):
+    fold_len = np.int16(np.ceil(len(y)/k))
+        
+    x_fold = []
+    y_fold = []
+    
+    k_voting = []
+    ba_voting = []
+
+    for i in range(k):
+        try:
+            x_fold.append(x[i*fold_len:(i+1)*fold_len])
+            y_fold.append(y[i*fold_len:(i+1)*fold_len])
+        except:
+            x_fold.append(x[i*fold_len:len(y)])
+            y_fold.append(y[i*fold_len:len(y)])
+    
+    for i in range(k):
+        x_train = None
+        y_train = None
+        x_val = x_fold[i]
+        y_val = y_fold[i]
+        for j in range(k):
+            if(j!=i):
+                try:
+                    x_train = np.concatenate((x_train,x_fold[j]))
+                    y_train = np.concatenate((y_train,y_fold[j]))
+                except:
+                    x_train = x_fold[j]
+                    y_train = y_fold[j]
+                    
+        k_i, ba_i = findBestK(x=x_val, Y=[x_train, y_train], y_label=y_val, classes_rate=classes_rate)
+        k_voting.append(k_i)
+        ba_voting.append(ba_i)
+    
+    return k_voting, ba_voting
+    
 
 def findBestK(x, Y, y_label, classes_rate):
     

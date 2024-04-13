@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.3.27)  11 APR 2024 20:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.3.27)  12 APR 2024 21:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -791,7 +791,7 @@ Package ragged2e Info: ABD: executing \RaggedRight on input line 37.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
-<img/logo_unicamp.pdf, id=46, 302.71455pt x 339.65479pt>
+<img/logo_unicamp.pdf, id=50, 302.71455pt x 339.65479pt>
 File: img/logo_unicamp.pdf Graphic file (type pdf)
 <use img/logo_unicamp.pdf>
 Package pdftex.def Info: img/logo_unicamp.pdf  used on input line 46.
@@ -832,66 +832,26 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \openout2 = `corpo.aux'.
 
  (./corpo.tex
-<img/0-005/CE_by_epoch-Batch-300.pdf, id=81, 433.30287pt x 327.20317pt>
-File: img/0-005/CE_by_epoch-Batch-300.pdf Graphic file (type pdf)
-<use img/0-005/CE_by_epoch-Batch-300.pdf>
-Package pdftex.def Info: img/0-005/CE_by_epoch-Batch-300.pdf  used on input lin
-e 17.
-(pdftex.def)             Requested size: 237.01411pt x 178.97873pt.
-<img/0-005/CE_by_epoch-Step-200.pdf, id=82, 426.91965pt x 327.20317pt>
-File: img/0-005/CE_by_epoch-Step-200.pdf Graphic file (type pdf)
-<use img/0-005/CE_by_epoch-Step-200.pdf>
-Package pdftex.def Info: img/0-005/CE_by_epoch-Step-200.pdf  used on input line
- 22.
-(pdftex.def)             Requested size: 237.01411pt x 181.65482pt.
-<img/0-005/Accuracy_by_epoch-Batch-300.pdf, id=83, 419.20332pt x 327.20317pt>
-File: img/0-005/Accuracy_by_epoch-Batch-300.pdf Graphic file (type pdf)
-<use img/0-005/Accuracy_by_epoch-Batch-300.pdf>
-Package pdftex.def Info: img/0-005/Accuracy_by_epoch-Batch-300.pdf  used on inp
-ut line 33.
-(pdftex.def)             Requested size: 237.01411pt x 184.99994pt.
-<img/0-005/Accuracy_by_epoch-Step-200.pdf, id=84, 419.20332pt x 327.20317pt>
-File: img/0-005/Accuracy_by_epoch-Step-200.pdf Graphic file (type pdf)
-<use img/0-005/Accuracy_by_epoch-Step-200.pdf>
-Package pdftex.def Info: img/0-005/Accuracy_by_epoch-Step-200.pdf  used on inpu
-t line 38.
-(pdftex.def)             Requested size: 237.01411pt x 184.99994pt.
-<img/0-05/CE_by_epoch-Batch-300.pdf, id=85, 426.91965pt x 327.20317pt>
-File: img/0-05/CE_by_epoch-Batch-300.pdf Graphic file (type pdf)
-<use img/0-05/CE_by_epoch-Batch-300.pdf>
-Package pdftex.def Info: img/0-05/CE_by_epoch-Batch-300.pdf  used on input line
- 51.
-(pdftex.def)             Requested size: 237.01411pt x 181.65482pt.
-<img/0-05/CE_by_epoch-Step-200.pdf, id=86, 420.53642pt x 327.20317pt>
-File: img/0-05/CE_by_epoch-Step-200.pdf Graphic file (type pdf)
-<use img/0-05/CE_by_epoch-Step-200.pdf>
-Package pdftex.def Info: img/0-05/CE_by_epoch-Step-200.pdf  used on input line 
-56.
-(pdftex.def)             Requested size: 237.01411pt x 184.4108pt.
+<../../plot/Balancing_of_classes.pdf, id=90, 422.39493pt x 327.20317pt>
+File: ../../plot/Balancing_of_classes.pdf Graphic file (type pdf)
+<use ../../plot/Balancing_of_classes.pdf>
+Package pdftex.def Info: ../../plot/Balancing_of_classes.pdf  used on input lin
+e 24.
+(pdftex.def)             Requested size: 362.77264pt x 281.02975pt.
 
 [2
 
- <./img/0-005/CE_by_epoch-Batch-300.pdf> <./img/0-005/CE_by_epoch-Step-200.pdf>
- <./img/0-005/Accuracy_by_epoch-Batch-300.pdf> <./img/0-005/Accuracy_by_epoch-S
-tep-200.pdf>]
-<img/0-05/Accuracy_by_epoch-Batch-300.pdf, id=257, 419.20332pt x 327.20317pt>
-File: img/0-05/Accuracy_by_epoch-Batch-300.pdf Graphic file (type pdf)
-<use img/0-05/Accuracy_by_epoch-Batch-300.pdf>
-Package pdftex.def Info: img/0-05/Accuracy_by_epoch-Batch-300.pdf  used on inpu
-t line 66.
-(pdftex.def)             Requested size: 237.01411pt x 184.99994pt.
-<img/0-05/Accuracy_by_epoch-Step-200.pdf, id=258, 419.20332pt x 327.20317pt>
-File: img/0-05/Accuracy_by_epoch-Step-200.pdf Graphic file (type pdf)
-<use img/0-05/Accuracy_by_epoch-Step-200.pdf>
-Package pdftex.def Info: img/0-05/Accuracy_by_epoch-Step-200.pdf  used on input
- line 71.
-(pdftex.def)             Requested size: 237.01411pt x 184.99994pt.
-) [3 <./img/0-05/CE_by_epoch-Batch-300.pdf> <./img/0-05/CE_by_epoch-Step-200.pd
-f> <./img/0-05/Accuracy_by_epoch-Batch-300.pdf> <./img/0-05/Accuracy_by_epoch-S
-tep-200.pdf>]
+ <../../plot/Balancing_of_classes.pdf>]
+<../../plot/knn_1/grid_search.pdf, id=137, 505.62651pt x 312.7202pt>
+File: ../../plot/knn_1/grid_search.pdf Graphic file (type pdf)
+<use ../../plot/knn_1/grid_search.pdf>
+Package pdftex.def Info: ../../plot/knn_1/grid_search.pdf  used on input line 9
+0.
+(pdftex.def)             Requested size: 362.77264pt x 224.36626pt.
+ [3] [4 <../../plot/knn_1/grid_search.pdf>]) [5]
 \openout2 = `anexos.aux'.
 
- (./anexos.tex) [4
+ (./anexos.tex) [6
 
 
 
@@ -901,21 +861,21 @@ tep-200.pdf>]
 (./anexos.aux))
 Package rerunfilecheck Info: File `IA048-Atividade_Classificacao-Gabriel_Toffan
 etto.out' has not changed.
-(rerunfilecheck)             Checksum: 11D879FC03D85C4DBEDB723F5DBD7E9F;1609.
+(rerunfilecheck)             Checksum: 47C21669337BF88F6B60AE082C20B982;1737.
  ) 
 Here is how much of TeX's memory you used:
- 18149 strings out of 480186
- 307356 string characters out of 5894355
- 638490 words of memory out of 5000000
- 35732 multiletter control sequences out of 15000+600000
- 483726 words of font info for 62 fonts, out of 8000000 for 9000
+ 18099 strings out of 480186
+ 304688 string characters out of 5894355
+ 642728 words of memory out of 5000000
+ 35677 multiletter control sequences out of 15000+600000
+ 484487 words of font info for 63 fonts, out of 8000000 for 9000
  38 hyphenation exceptions out of 8191
- 109i,11n,106p,379b,516s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 109i,12n,106p,582b,350s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/toffanetto/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbi172
 8.600pk> </home/toffanetto/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/e
-cti1200.600pk> </home/toffanetto/.texlive2021/texmf-var/fonts/pk/ljfour/jknappe
-n/ec/ecrm1095.600pk> </home/toffanetto/.texlive2021/texmf-var/fonts/pk/ljfour/j
-knappen/ec/ecbx1440.600pk> </home/toffanetto/.texlive2021/texmf-var/fonts/pk/lj
+crm0800.600pk> </home/toffanetto/.texlive2021/texmf-var/fonts/pk/ljfour/jknappe
+n/ec/ecbx1440.600pk> </home/toffanetto/.texlive2021/texmf-var/fonts/pk/ljfour/j
+knappen/ec/ecti1200.600pk> </home/toffanetto/.texlive2021/texmf-var/fonts/pk/lj
 four/jknappen/ec/ecrm1000.600pk> </home/toffanetto/.texlive2021/texmf-var/fonts
 /pk/ljfour/jknappen/ec/ecbi1200.600pk> </home/toffanetto/.texlive2021/texmf-var
 /fonts/pk/ljfour/jknappen/ec/ecbx1728.600pk> </home/toffanetto/.texlive2021/tex
@@ -923,13 +883,18 @@ mf-var/fonts/pk/ljfour/jknappen/ec/ecrm2488.600pk> </home/toffanetto/.texlive20
 21/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/toffanetto/.tex
 live2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </home/toffanett
 o/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1440.600pk></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb>
-Output written on IA048-Atividade_Classificacao-Gabriel_Toffanetto.pdf (4 pages
-, 223337 bytes).
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmsy8.pfb>
+Output written on IA048-Atividade_Classificacao-Gabriel_Toffanetto.pdf (6 pages
+, 197060 bytes).
 PDF statistics:
- 748 PDF objects out of 1000 (max. 8388607)
- 201 compressed objects within 3 object streams
- 21 named destinations out of 1000 (max. 500000)
- 138 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 583 PDF objects out of 1000 (max. 8388607)
+ 196 compressed objects within 2 object streams
+ 27 named destinations out of 1000 (max. 500000)
+ 116 words of extra memory for PDF output out of 10000 (max. 10000000)
 

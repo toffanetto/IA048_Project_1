@@ -7,7 +7,7 @@ import random
 NUMBER_OF_CLASSES = 6
 NUMBER_OF_ATRIBUTES = 561
 
-STEP = 0.005
+STEP = 0.01
 
 def getData(train, raw):
     
@@ -99,14 +99,11 @@ def validateClassifier(y,X,W,classes_rate):
     hit = np.zeros(6)
     
     for i in range(len(y)):
-         hit[y[i]-1] += 1 if y[i] == class_y_hat else 0
+         hit[y[i]-1] += 1 if y[i] == class_y_hat[i] else 0
     
     return np.average(hit/(classes_rate*len(y)))
 
 def trainClassifier(X,y,epochs,batch,classes_rate):
-    W = np.zeros([epochs+1,NUMBER_OF_CLASSES,NUMBER_OF_ATRIBUTES])
-    W[0] = np.random.rand(NUMBER_OF_CLASSES, NUMBER_OF_ATRIBUTES)/100 # Rand values in the interval (0, 0,01)
-    
     ba_train = [0]
     ba_val = [0]
     J_train = []
@@ -119,72 +116,58 @@ def trainClassifier(X,y,epochs,batch,classes_rate):
     X = X[0:np.int16(len(y)*0.7)]
     y = y[0:np.int16(len(y)*0.7)]
     
+    batch = len(y) if batch == 0 else batch
+    
+    W_len = epochs*(np.int16(np.ceil(len(y)/batch)))
+    
+    W = np.zeros([W_len+1,NUMBER_OF_CLASSES,NUMBER_OF_ATRIBUTES])
+    W[0] = np.random.rand(NUMBER_OF_CLASSES, NUMBER_OF_ATRIBUTES)/100 # Rand values in the interval (0, 0,01)
+    
     y_ohe = oneHotEncoding(y=y)
     y_ohe_val = oneHotEncoding(y=y_val)
     
     r = list(range(len(y)))
     
-    if(not batch):
-        
-        for k in range(epochs):
-            random.shuffle(r)
-            
-            hit = np.zeros(6)
-            J = 0
-
-            for i in r:
-
-                Xi = X[i, np.newaxis] 
-                
-                y_hat, class_y_hat = softmax(Xi,W[0])
-                
-                hit[y[i]-1] += 1 if y[i] == class_y_hat else 0
-                
-                dJCE = getdJ_CEdW(y=y_ohe[i],y_hat=y_hat,x=Xi)
-                
-                W[0] = W[0] + STEP*dJCE
-                
-                #J += getJ_CE(y_ohe,X,W[0])
-            
-            #J_train.append(J/len(y))
-            
-            J_train.append(getJ_CE(y_ohe, X, W[0]))
-            
-            ba_train.append(np.average(hit/(classes_rate*len(y))))
-                
-            ba_val.append(validateClassifier(y_val,x_val,W[0]))
-            J_val.append(getJ_CE(y_ohe_val,x_val,W[0]))
-            
-        W = W[0]
+    l = 0
     
-    else:
+    for k in range(epochs):
         
-        for k in range(epochs):
-            dJCE = 0
-            
-            hit = 0
-            
-            random.shuffle(r)
+        dJCE = 0
+        
+        hit = np.zeros(NUMBER_OF_CLASSES)
+        
+        random.shuffle(r)
+    
+        j = 0
 
-            for i in r:
+        for i in r:
+            
+            j += 1
 
-                Xi = X[i, np.newaxis] 
-                
-                y_hat, class_y_hat = softmax(Xi,W[k])
-                
-                hit[y[i]-1] += 1 if y[i] == class_y_hat else 0
-                
-                dJCE += getdJ_CEdW(y=y_ohe[i],y_hat=y_hat,x=Xi)
-                
-            W[k+1] = W[k] + STEP*dJCE/len(r)
-                
-            J_train.append(getJ_CE(y_ohe, X, W[k+1]))
-            ba_train.append(np.average(hit/(classes_rate*len(y))))
+            Xi = X[i, np.newaxis] 
             
-            ba_val.append(validateClassifier(y_val,x_val,W[0],classes_rate))
-            J_val.append(getJ_CE(y_ohe_val,x_val,W[k+1]))
+            y_hat, class_y_hat = softmax(Xi,W[l])
             
-        W = W[np.argmin(J_val)]
+            hit[y[i]-1] += 1 if y[i] == class_y_hat else 0
+            
+            dJCE += getdJ_CEdW(y=y_ohe[i],y_hat=y_hat,x=Xi)
+            
+            if(j == batch or i==r[-1]):
+            
+                W[l+1] = W[l] + STEP*dJCE/j
+                    
+                J_train.append(getJ_CE(y_ohe, X, W[l+1]))
+                ba_train.append(np.average(hit/(classes_rate*j)))
+                
+                ba_val.append(validateClassifier(y_val,x_val,W[l],classes_rate))
+                J_val.append(getJ_CE(y_ohe_val,x_val,W[l+1]))
+        
+                dJCE = 0
+                hit = np.zeros(NUMBER_OF_CLASSES)
+                j = 0   
+                l += 1
+        
+    W = W[np.argmin(J_val)]
         
     #print(W)
     
