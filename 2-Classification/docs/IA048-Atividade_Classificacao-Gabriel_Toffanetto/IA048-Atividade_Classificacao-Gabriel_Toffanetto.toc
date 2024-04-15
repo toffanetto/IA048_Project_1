@@ -1,13 +1,10 @@
 \babel@toc {brazilian}{}\relax 
 \contentsline {section}{\numberline {1}Apresentação dos dados}{2}{section.1}%
-\contentsline {subsection}{\numberline {1.1}Dados tratados}{2}{subsection.1.1}%
 \contentsline {section}{\numberline {2}Classificação via Regressão Logística}{3}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Dados tratados}{4}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Dados brutos}{8}{subsection.2.2}%
-\contentsline {section}{\numberline {3}Classificação via \textit {k neareast neighbours}}{9}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Dados tratados}{9}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Dados brutos}{12}{subsection.3.2}%
-\contentsline {section}{\numberline {4}Comparação entre os classificadores}{12}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Dados tratados}{12}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Dados brutos}{12}{subsection.4.2}%
-\contentsline {section}{Anexos}{13}{subsection.4.2}%
+\contentsline {section}{\numberline {3}Classificação via \textit {k neareast neighbours}}{10}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Dados tratados}{10}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Dados brutos}{13}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Análise dos resultados}{16}{section.4}%
+\contentsline {section}{Anexos}{17}{section.4}%

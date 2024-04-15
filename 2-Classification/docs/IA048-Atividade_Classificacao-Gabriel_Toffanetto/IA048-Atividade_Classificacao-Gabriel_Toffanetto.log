@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.3.27)  13 APR 2024 16:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.3.27)  15 APR 2024 16:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -791,7 +791,7 @@ Package ragged2e Info: ABD: executing \RaggedRight on input line 37.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
-<img/logo_unicamp.pdf, id=54, 302.71455pt x 339.65479pt>
+<img/logo_unicamp.pdf, id=42, 302.71455pt x 339.65479pt>
 File: img/logo_unicamp.pdf Graphic file (type pdf)
 <use img/logo_unicamp.pdf>
 Package pdftex.def Info: img/logo_unicamp.pdf  used on input line 46.
@@ -807,18 +807,18 @@ Underfull \hbox (badness 10000) in paragraph at lines 46--46
  []
 
 (./IA048-Atividade_Classificacao-Gabriel_Toffanetto.toc
-LaTeX Font Info:    Trying to load font information for U+rsfs on input line 3.
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 4.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 3.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 4.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 3.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 4.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -832,137 +832,171 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \openout2 = `corpo.aux'.
 
  (./corpo.tex
-<../../plot/Balancing_of_classes.pdf, id=96, 422.39493pt x 327.20317pt>
+<../../plot/Balancing_of_classes.pdf, id=78, 422.39493pt x 327.20317pt>
 File: ../../plot/Balancing_of_classes.pdf Graphic file (type pdf)
 <use ../../plot/Balancing_of_classes.pdf>
 Package pdftex.def Info: ../../plot/Balancing_of_classes.pdf  used on input lin
-e 24.
-(pdftex.def)             Requested size: 290.22107pt x 224.82181pt.
+e 22.
+(pdftex.def)             Requested size: 266.03474pt x 206.08916pt.
 
 [2
 
  <../../plot/Balancing_of_classes.pdf>] [3
 
 ]
-<../../plot/LR_1/CE_500_epochs_batch_size500.pdf, id=166, 426.91965pt x 327.203
+<../../plot/LR_1/CE_500_epochs_batch_size500.pdf, id=147, 426.91965pt x 327.203
 17pt>
 File: ../../plot/LR_1/CE_500_epochs_batch_size500.pdf Graphic file (type pdf)
 <use ../../plot/LR_1/CE_500_epochs_batch_size500.pdf>
 Package pdftex.def Info: ../../plot/LR_1/CE_500_epochs_batch_size500.pdf  used 
-on input line 90.
-(pdftex.def)             Requested size: 232.27281pt x 178.02512pt.
-<../../plot/LR_1/BA_500_epochs_batch_size500.pdf, id=167, 419.20332pt x 327.203
+on input line 88.
+(pdftex.def)             Requested size: 237.01411pt x 181.65482pt.
+<../../plot/LR_1/BA_500_epochs_batch_size500.pdf, id=148, 419.20332pt x 327.203
 17pt>
 File: ../../plot/LR_1/BA_500_epochs_batch_size500.pdf Graphic file (type pdf)
 <use ../../plot/LR_1/BA_500_epochs_batch_size500.pdf>
 Package pdftex.def Info: ../../plot/LR_1/BA_500_epochs_batch_size500.pdf  used 
-on input line 96.
-(pdftex.def)             Requested size: 234.64526pt x 183.15263pt.
+on input line 94.
+(pdftex.def)             Requested size: 237.01411pt x 184.99994pt.
  [4
 
  <../../plot/LR_1/CE_500_epochs_batch_size500.pdf> <../../plot/LR_1/BA_500_epoc
 hs_batch_size500.pdf>]
-<../../plot/LR_1/CE_500_epochs_batch_size1000.pdf, id=264, 426.91965pt x 327.20
+<../../plot/LR_1/CE_500_epochs_batch_size1000.pdf, id=245, 426.91965pt x 327.20
 317pt>
 File: ../../plot/LR_1/CE_500_epochs_batch_size1000.pdf Graphic file (type pdf)
 <use ../../plot/LR_1/CE_500_epochs_batch_size1000.pdf>
 Package pdftex.def Info: ../../plot/LR_1/CE_500_epochs_batch_size1000.pdf  used
- on input line 150.
-(pdftex.def)             Requested size: 232.27281pt x 178.02512pt.
-<../../plot/LR_1/BA_500_epochs_batch_size1000.pdf, id=265, 419.20332pt x 327.20
+ on input line 148.
+(pdftex.def)             Requested size: 237.01411pt x 181.65482pt.
+<../../plot/LR_1/BA_500_epochs_batch_size1000.pdf, id=246, 419.20332pt x 327.20
 317pt>
 File: ../../plot/LR_1/BA_500_epochs_batch_size1000.pdf Graphic file (type pdf)
 <use ../../plot/LR_1/BA_500_epochs_batch_size1000.pdf>
 Package pdftex.def Info: ../../plot/LR_1/BA_500_epochs_batch_size1000.pdf  used
- on input line 156.
-(pdftex.def)             Requested size: 234.64526pt x 183.15263pt.
+ on input line 154.
+(pdftex.def)             Requested size: 237.01411pt x 184.99994pt.
  [5 <../../plot/LR_1/CE_500_epochs_batch_size1000.pdf> <../../plot/LR_1/BA_500_
 epochs_batch_size1000.pdf>]
-<../../plot/LR_1/CE_500_epochs_batch_size2000.pdf, id=359, 426.91965pt x 327.20
+<../../plot/LR_1/CE_500_epochs_batch_size2000.pdf, id=341, 426.91965pt x 327.20
 317pt>
 File: ../../plot/LR_1/CE_500_epochs_batch_size2000.pdf Graphic file (type pdf)
 <use ../../plot/LR_1/CE_500_epochs_batch_size2000.pdf>
 Package pdftex.def Info: ../../plot/LR_1/CE_500_epochs_batch_size2000.pdf  used
- on input line 216.
-(pdftex.def)             Requested size: 232.27281pt x 178.02512pt.
-<../../plot/LR_1/BA_500_epochs_batch_size2000.pdf, id=360, 419.20332pt x 327.20
+ on input line 210.
+(pdftex.def)             Requested size: 237.01411pt x 181.65482pt.
+<../../plot/LR_1/BA_500_epochs_batch_size2000.pdf, id=342, 419.20332pt x 327.20
 317pt>
 File: ../../plot/LR_1/BA_500_epochs_batch_size2000.pdf Graphic file (type pdf)
 <use ../../plot/LR_1/BA_500_epochs_batch_size2000.pdf>
 Package pdftex.def Info: ../../plot/LR_1/BA_500_epochs_batch_size2000.pdf  used
- on input line 222.
-(pdftex.def)             Requested size: 234.64526pt x 183.15263pt.
+ on input line 216.
+(pdftex.def)             Requested size: 237.01411pt x 184.99994pt.
  [6] [7 <../../plot/LR_1/CE_500_epochs_batch_size2000.pdf> <../../plot/LR_1/BA_
 500_epochs_batch_size2000.pdf>]
-<../../plot/LR_1/CE_1000_epochs_batch_size500.pdf, id=462, 430.11125pt x 327.20
+<../../plot/LR_1/CE_1000_epochs_batch_size500.pdf, id=444, 430.11125pt x 327.20
 317pt>
 File: ../../plot/LR_1/CE_1000_epochs_batch_size500.pdf Graphic file (type pdf)
 <use ../../plot/LR_1/CE_1000_epochs_batch_size500.pdf>
 Package pdftex.def Info: ../../plot/LR_1/CE_1000_epochs_batch_size500.pdf  used
- on input line 271.
-(pdftex.def)             Requested size: 232.27281pt x 176.69705pt.
-<../../plot/LR_1/BA_1000_epochs_batch_size500.pdf, id=463, 422.39493pt x 327.20
+ on input line 265.
+(pdftex.def)             Requested size: 237.01411pt x 180.30179pt.
+<../../plot/LR_1/BA_1000_epochs_batch_size500.pdf, id=445, 422.39493pt x 327.20
 317pt>
 File: ../../plot/LR_1/BA_1000_epochs_batch_size500.pdf Graphic file (type pdf)
 <use ../../plot/LR_1/BA_1000_epochs_batch_size500.pdf>
 Package pdftex.def Info: ../../plot/LR_1/BA_1000_epochs_batch_size500.pdf  used
- on input line 277.
-(pdftex.def)             Requested size: 234.64526pt x 181.76466pt.
+ on input line 271.
+(pdftex.def)             Requested size: 237.01411pt x 183.59698pt.
+<../../plot/LR_2/CE_500_epochs_batch_size500.pdf, id=449, 433.30287pt x 327.203
+17pt>
+File: ../../plot/LR_2/CE_500_epochs_batch_size500.pdf Graphic file (type pdf)
+<use ../../plot/LR_2/CE_500_epochs_batch_size500.pdf>
+Package pdftex.def Info: ../../plot/LR_2/CE_500_epochs_batch_size500.pdf  used 
+on input line 298.
+(pdftex.def)             Requested size: 237.01411pt x 178.97873pt.
+<../../plot/LR_2/BA_500_epochs_batch_size500.pdf, id=450, 419.20332pt x 327.203
+17pt>
+File: ../../plot/LR_2/BA_500_epochs_batch_size500.pdf Graphic file (type pdf)
+<use ../../plot/LR_2/BA_500_epochs_batch_size500.pdf>
+Package pdftex.def Info: ../../plot/LR_2/BA_500_epochs_batch_size500.pdf  used 
+on input line 304.
+(pdftex.def)             Requested size: 237.01411pt x 184.99994pt.
  [8 <../../plot/LR_1/CE_1000_epochs_batch_size500.pdf> <../../plot/LR_1/BA_1000
 _epochs_batch_size500.pdf>]
-<../../plot/knn_1/grid_search_k_fold.pdf, id=551, 499.24329pt x 312.7202pt>
+[9 <../../plot/LR_2/CE_500_epochs_batch_size500.pdf> <../../plot/LR_2/BA_500_ep
+ochs_batch_size500.pdf>]
+<../../plot/knn_1/grid_search_k_fold.pdf, id=627, 499.24329pt x 312.7202pt>
 File: ../../plot/knn_1/grid_search_k_fold.pdf Graphic file (type pdf)
 <use ../../plot/knn_1/grid_search_k_fold.pdf>
 Package pdftex.def Info: ../../plot/knn_1/grid_search_k_fold.pdf  used on input
- line 321.
+ line 373.
 (pdftex.def)             Requested size: 362.77264pt x 227.2436pt.
-
-[9
+ [10
 
  <../../plot/knn_1/grid_search_k_fold.pdf>]
-<../../plot/knn_1/grid_search_k_fold-k_optimal.pdf, id=616, 499.24329pt x 312.7
+<../../plot/knn_1/grid_search_k_fold-k_optimal.pdf, id=692, 499.24329pt x 312.7
 202pt>
 File: ../../plot/knn_1/grid_search_k_fold-k_optimal.pdf Graphic file (type pdf)
 
 <use ../../plot/knn_1/grid_search_k_fold-k_optimal.pdf>
 Package pdftex.def Info: ../../plot/knn_1/grid_search_k_fold-k_optimal.pdf  use
-d on input line 330.
+d on input line 382.
 (pdftex.def)             Requested size: 362.77264pt x 227.2436pt.
- [10 <../../plot/knn_1/grid_search_k_fold-k_optimal.pdf>] [11]
-<../../plot/knn_1/grid_search.pdf, id=690, 499.24329pt x 312.7202pt>
+
+[11 <../../plot/knn_1/grid_search_k_fold-k_optimal.pdf>] [12]
+<../../plot/knn_1/grid_search.pdf, id=766, 499.24329pt x 312.7202pt>
 File: ../../plot/knn_1/grid_search.pdf Graphic file (type pdf)
 <use ../../plot/knn_1/grid_search.pdf>
-Package pdftex.def Info: ../../plot/knn_1/grid_search.pdf  used on input line 3
-93.
+Package pdftex.def Info: ../../plot/knn_1/grid_search.pdf  used on input line 4
+47.
 (pdftex.def)             Requested size: 362.77264pt x 227.2436pt.
-) [12 <../../plot/knn_1/grid_search.pdf>]
+<../../plot/knn_2/grid_search_k_fold.pdf, id=770, 499.24329pt x 312.7202pt>
+File: ../../plot/knn_2/grid_search_k_fold.pdf Graphic file (type pdf)
+<use ../../plot/knn_2/grid_search_k_fold.pdf>
+Package pdftex.def Info: ../../plot/knn_2/grid_search_k_fold.pdf  used on input
+ line 466.
+(pdftex.def)             Requested size: 362.77264pt x 227.2436pt.
+ [13 <../../plot/knn_1/grid_search.pdf>]
+<../../plot/knn_2/grid_search_k_fold-k_optimal.pdf, id=830, 499.24329pt x 312.7
+202pt>
+File: ../../plot/knn_2/grid_search_k_fold-k_optimal.pdf Graphic file (type pdf)
+
+<use ../../plot/knn_2/grid_search_k_fold-k_optimal.pdf>
+Package pdftex.def Info: ../../plot/knn_2/grid_search_k_fold-k_optimal.pdf  use
+d on input line 473.
+(pdftex.def)             Requested size: 362.77264pt x 227.2436pt.
+ [14 <../../plot/knn_2/grid_search_k_fold.pdf> <../../plot/knn_2/grid_search_k_
+fold-k_optimal.pdf>] [15]) [16
+
+]
 \openout2 = `anexos.aux'.
 
-
-(./anexos.tex) [13
-
+ (./anexos.tex) [17
 
 
 
-] (./IA048-Atividade_Classificacao-Gabriel_Toffanetto.aux
-(./corpo.aux) (./anexos.aux))
+
+]
+(./IA048-Atividade_Classificacao-Gabriel_Toffanetto.aux (./corpo.aux)
+(./anexos.aux))
 Package rerunfilecheck Info: File `IA048-Atividade_Classificacao-Gabriel_Toffan
 etto.out' has not changed.
-(rerunfilecheck)             Checksum: 6DF36B79B7F61143FBB30F25DEB40C7F;1864.
+(rerunfilecheck)             Checksum: AA8CA7E133F90782F811EB2F6E8A21E0;1405.
  ) 
 Here is how much of TeX's memory you used:
- 18274 strings out of 480186
- 310816 string characters out of 5894355
- 648214 words of memory out of 5000000
- 35802 multiletter control sequences out of 15000+600000
+ 18329 strings out of 480186
+ 312963 string characters out of 5894355
+ 650435 words of memory out of 5000000
+ 35844 multiletter control sequences out of 15000+600000
  486184 words of font info for 67 fonts, out of 8000000 for 9000
  38 hyphenation exceptions out of 8191
- 109i,11n,106p,1127b,520s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 109i,11n,106p,904b,520s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/toffanetto/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbi172
 8.600pk> </home/toffanetto/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/e
 crm1095.600pk> </home/toffanetto/.texlive2021/texmf-var/fonts/pk/ljfour/jknappe
-n/ec/ecrm0800.600pk> </home/toffanetto/.texlive2021/texmf-var/fonts/pk/ljfour/j
-knappen/ec/ecbx1440.600pk> </home/toffanetto/.texlive2021/texmf-var/fonts/pk/lj
+n/ec/ecbx1440.600pk> </home/toffanetto/.texlive2021/texmf-var/fonts/pk/ljfour/j
+knappen/ec/ecrm0800.600pk> </home/toffanetto/.texlive2021/texmf-var/fonts/pk/lj
 four/jknappen/ec/ecti1200.600pk> </home/toffanetto/.texlive2021/texmf-var/fonts
 /pk/ljfour/jknappen/ec/ecrm1000.600pk> </home/toffanetto/.texlive2021/texmf-var
 /fonts/pk/ljfour/jknappen/ec/ecbi1200.600pk> </home/toffanetto/.texlive2021/tex
@@ -981,11 +1015,11 @@ ublic/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cms
 y8.pfb>
-Output written on IA048-Atividade_Classificacao-Gabriel_Toffanetto.pdf (13 page
-s, 443154 bytes).
+Output written on IA048-Atividade_Classificacao-Gabriel_Toffanetto.pdf (17 page
+s, 519997 bytes).
 PDF statistics:
- 1176 PDF objects out of 1200 (max. 8388607)
- 369 compressed objects within 4 object streams
- 62 named destinations out of 1000 (max. 500000)
- 174 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1393 PDF objects out of 1440 (max. 8388607)
+ 417 compressed objects within 5 object streams
+ 73 named destinations out of 1000 (max. 500000)
+ 170 words of extra memory for PDF output out of 10000 (max. 10000000)
 

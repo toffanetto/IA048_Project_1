@@ -6,7 +6,6 @@ import pandas as pd
 import bisect
 
 NUMBER_OF_CLASSES = 6
-NUMBER_OF_ATRIBUTES = 561
 
 def getData(train, raw):
     
@@ -29,6 +28,71 @@ def getData(train, raw):
     
     if(train == False and raw == False):
         df_X = pd.read_csv("../data/UCI HAR Dataset/test/X_test.txt", sep="\s+", header=None)
+        df_y = pd.read_csv("../data/UCI HAR Dataset/test/y_test.txt", names=["Class"])
+        
+        X = df_X.to_numpy()
+        y = df_y.to_numpy()
+        
+        classes_rate = np.zeros(6)
+
+        for i in range(len(y)):
+            classes_rate[y[i]-1] += 1
+            
+        classes_rate /= len(y)
+
+        return X, y, classes_rate
+    
+    if(train == True and raw == True):
+        
+        df_acc_x_train = pd.read_csv("../data/UCI HAR Dataset/train/Inertial Signals/body_acc_x_train.txt", 
+                                     sep="\s+", header=None)
+        df_acc_y_train = pd.read_csv("../data/UCI HAR Dataset/train/Inertial Signals/body_acc_y_train.txt", 
+                                     sep="\s+", header=None)
+        df_acc_z_train = pd.read_csv("../data/UCI HAR Dataset/train/Inertial Signals/body_acc_z_train.txt", 
+                                     sep="\s+", header=None)
+        df_gyro_x_train = pd.read_csv("../data/UCI HAR Dataset/train/Inertial Signals/body_gyro_x_train.txt", 
+                                      sep="\s+", header=None)
+        df_gyro_y_train = pd.read_csv("../data/UCI HAR Dataset/train/Inertial Signals/body_gyro_y_train.txt", 
+                                      sep="\s+", header=None)
+        df_gyro_z_train = pd.read_csv("../data/UCI HAR Dataset/train/Inertial Signals/body_gyro_z_train.txt", 
+                                      sep="\s+", header=None)
+        
+        df_X = pd.concat([df_acc_x_train,df_acc_y_train,df_acc_z_train,
+                          df_gyro_x_train,df_gyro_y_train,df_gyro_z_train],axis=1)
+        
+        df_y = pd.read_csv("../data/UCI HAR Dataset/train/y_train.txt", names=["Class"])
+        
+        X = df_X.to_numpy()
+        y = df_y.to_numpy()
+        
+        classes_rate = np.zeros(6)
+
+        for i in range(len(y)):
+            classes_rate[y[i]-1] += 1
+            
+        classes_rate /= len(y)
+
+        return X, y, classes_rate
+        
+    
+    if(train == False and raw == True):
+        
+        df_acc_x_test = pd.read_csv("../data/UCI HAR Dataset/test/Inertial Signals/body_acc_x_test.txt", 
+                                     sep="\s+", header=None)
+        df_acc_y_test = pd.read_csv("../data/UCI HAR Dataset/test/Inertial Signals/body_acc_y_test.txt", 
+                                     sep="\s+", header=None)
+        df_acc_z_test = pd.read_csv("../data/UCI HAR Dataset/test/Inertial Signals/body_acc_z_test.txt", 
+                                     sep="\s+", header=None)
+        df_gyro_x_test = pd.read_csv("../data/UCI HAR Dataset/test/Inertial Signals/body_gyro_x_test.txt", 
+                                      sep="\s+", header=None)
+        df_gyro_y_test = pd.read_csv("../data/UCI HAR Dataset/test/Inertial Signals/body_gyro_y_test.txt", 
+                                      sep="\s+", header=None)
+        df_gyro_z_test = pd.read_csv("../data/UCI HAR Dataset/test/Inertial Signals/body_gyro_z_test.txt", 
+                                      sep="\s+", header=None)
+        
+        df_X = pd.concat([df_acc_x_test,df_acc_y_test,df_acc_z_test,
+                          df_gyro_x_test,df_gyro_y_test,df_gyro_z_test],axis=1)
+        
         df_y = pd.read_csv("../data/UCI HAR Dataset/test/y_test.txt", names=["Class"])
         
         X = df_X.to_numpy()
