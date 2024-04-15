@@ -452,7 +452,7 @@ Dessa forma, mesmo o valor de $k$ tendo mudado consideravelmente, a acurácia n�
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Dados brutos}
 
-Utilizando agora para a aplicação do \textit{k}-NN o conjunto de dados brutos, formados pelos 768 atributos obtidos diretamente dos sensores para cada janela de tempo, realiza-se novamente a busca em \textit{grid} utilizando validação cruzada por meio da técnica \textit{k-fold} com 4 pastas. A \autoref{fig:gridsearch2} exibe a acurácia balanceada do classificador para o grupo de validação com cada uma das pastas de acordo com o aumento do número de vizinhos, onde foram obtidos os valores de $k$ ótimos para cada pasta de acordo com \eqref{eq:k_optimal2}.
+Utilizando agora para a aplicação do \textit{k}-NN o conjunto de dados brutos, formados pelos 768 atributos obtidos diretamente dos sensores para cada janela de tempo, utilizando as mesmas considerações realizadas anteriormente, realiza-se novamente a busca em \textit{grid} utilizando validação cruzada por meio da técnica \textit{k-fold} com 4 pastas. A \autoref{fig:gridsearch2} exibe a acurácia balanceada do classificador para o grupo de validação com cada uma das pastas de acordo com o aumento do número de vizinhos, onde foram obtidos os valores de $k$ ótimos para cada pasta de acordo com \eqref{eq:k_optimal2}.
 
 \begin{equation}\label{eq:k_optimal2}
 	k = [2\ 2\ 2\ 1]
