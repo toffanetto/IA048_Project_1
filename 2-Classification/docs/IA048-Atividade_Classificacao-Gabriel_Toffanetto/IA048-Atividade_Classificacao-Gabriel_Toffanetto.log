@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.3.27)  15 APR 2024 16:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.3.27)  15 APR 2024 17:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -967,31 +967,31 @@ Package pdftex.def Info: ../../plot/knn_2/grid_search_k_fold-k_optimal.pdf  use
 d on input line 473.
 (pdftex.def)             Requested size: 362.77264pt x 227.2436pt.
  [14 <../../plot/knn_2/grid_search_k_fold.pdf> <../../plot/knn_2/grid_search_k_
-fold-k_optimal.pdf>] [15]) [16
+fold-k_optimal.pdf>] [15] [16
 
-]
+]) [17]
 \openout2 = `anexos.aux'.
 
- (./anexos.tex) [17
+ (./anexos.tex)
+[18
 
 
 
 
-]
-(./IA048-Atividade_Classificacao-Gabriel_Toffanetto.aux (./corpo.aux)
+] (./IA048-Atividade_Classificacao-Gabriel_Toffanetto.aux (./corpo.aux)
 (./anexos.aux))
 Package rerunfilecheck Info: File `IA048-Atividade_Classificacao-Gabriel_Toffan
 etto.out' has not changed.
 (rerunfilecheck)             Checksum: AA8CA7E133F90782F811EB2F6E8A21E0;1405.
  ) 
 Here is how much of TeX's memory you used:
- 18329 strings out of 480186
- 312963 string characters out of 5894355
+ 18330 strings out of 480186
+ 312970 string characters out of 5894355
  650435 words of memory out of 5000000
  35844 multiletter control sequences out of 15000+600000
  486184 words of font info for 67 fonts, out of 8000000 for 9000
  38 hyphenation exceptions out of 8191
- 109i,11n,106p,904b,520s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 109i,11n,106p,1313b,520s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/toffanetto/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbi172
 8.600pk> </home/toffanetto/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/e
 crm1095.600pk> </home/toffanetto/.texlive2021/texmf-var/fonts/pk/ljfour/jknappe
@@ -1015,11 +1015,11 @@ ublic/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cms
 y8.pfb>
-Output written on IA048-Atividade_Classificacao-Gabriel_Toffanetto.pdf (17 page
-s, 519997 bytes).
+Output written on IA048-Atividade_Classificacao-Gabriel_Toffanetto.pdf (18 page
+s, 524349 bytes).
 PDF statistics:
- 1393 PDF objects out of 1440 (max. 8388607)
- 417 compressed objects within 5 object streams
- 73 named destinations out of 1000 (max. 500000)
+ 1397 PDF objects out of 1440 (max. 8388607)
+ 420 compressed objects within 5 object streams
+ 74 named destinations out of 1000 (max. 500000)
  170 words of extra memory for PDF output out of 10000 (max. 10000000)
 

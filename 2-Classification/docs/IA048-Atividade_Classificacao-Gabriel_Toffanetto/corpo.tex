@@ -519,21 +519,27 @@ Ao fornecer dados brutos para o classificador, o mesmo aprende como realizar a c
 \clearpage
 \section{Análise dos resultados}
 
+Com base nos ensaios realizados, foi possível obter classificadores por meio das técnicas regressão logística e \textit{k} vizinhos mais próximos, para dados pré-processados e dados brutos. Por meio dos gráficos de treinamento/desempenho, observou-se o comportamento das métricas entropia cruzada e acurácia balanceada durante o treinamento/otimização dos hiper-parâmetros. Além disso, através das matrizes de confusão, onde foi possível observar melhor o comportamento do classificador e o desempenho das classes.
+
 %1) Classificador regressão logistica
 
-	
+A escolha de hiper-parâmetros se mostrou importante para o desempenho do classificador. Para a regressão logística, observa-se que o tamanho do \textit{mini-batch} influencia no desempenho final da acurácia balanceada, enquanto o tamanho do passo interfere diretamente na convergência do treinamento. A busca por um valor ótimo pode ser exaustiva, se feita por busca em \textit{grid}, porém foi possível obter bons resultados ao aproximar os valores com poucos testes feitos de forma prévia ao treinamento. Ao apresentar dados brutos para a regressão logística, é notável a dificuldade que o modelo teve de minimizar a função de custo e evoluir com a capacidade de classificação, uma vez que os dados possuem menos informações explícitas para serem aproveitadas.
 
 
 %2) kNN
 
-
+Já para o \textit{k}-NN, como há somente um hiper-parâmetro a ser encontrado, foi possível a realização da busca em \textit{grid}, utilizando um método de validação mais sofisticado, o \textit{k-fold}. Com a otimização do número de vizinhos, obteve-se o valor ótimo para cada uma das pastas, sendo feita a maximização da métrica médias de todas as pastas para encontrar um único valor $k$. Como a validação cruzada para encontrar tal valor é feita para os dados de treinamento, não se sabe se esse valor é ótimo para os dados de treinamento, como realmente não foram, como mostrado anteriormente. Enquanto para dados tratados, o valor encontrado de $k$ foi 15, o valor ótimo se posicionou em 8, mas como a acurácia balanceada se manteve consideravelmente estável para todos os valores maiores que 8, o desempenho do classificador se manteve aceitável. Um fato importante de ser ressaltado, é que para os dados tratados, o \textit{k}-NN apresentou um desempenho ligeiramente menor que a regressão logística, porém já para os dados brutos, sua acurácia balanceada foi mais de duas vezes maior, mostrando que teve maior capacidade de correlacionar os dados com base na vizinhança de dados rotulados.
 
 
 %3) Desempenho das classes
 
-
+Como foi visto nas matrizes de confusão, e nas tabelas de precisão e \textit{recall} por classe, as classes não possuem desempenho similar, porém esses desempenhos vem a apresentar padrões. As atividades classificadas podem se dividir em grupos, seja pela movimentação: Atividades em movimento e atividades em repouso, e ainda pode-se pensar na posição: Atividades com o tronco ereto, atividades com o tronco inclinado e atividades com o tronco na horizontal. Observa-se que as classes de repouso dificilmente são confundidas pelas classes de movimento, e também que a classe deitado, por ser a única com o tronco na posição horizontal, apresenta maior distinção das outras.
 
 %4) Dados brutos vs dados processados
+
+Ao realizar a classificação com dados pré-processados, as classes se tornam mais distintas por meio da extração de informações que não estão presentes diretamente nos dados, como componentes de frequência, componentes estatísticas e informações filtradas dos dados originais. Ao se basear nessas novas informações, se torna mais fácil diferenciar as atividades, principalmente ao se considerar atividades que se alteram por componentes de frequência e amplitude. Ao concatenar os dados dos sensores, se obtém um \textit{dataset} com 768 atributos, em frente aos 561 do conjunto de dados tratados. Porém, os dados tratados trazem inúmeras informações, enquanto os dados brutos fornecem apenas 6 sequências de leituras de aceleração e orientação.
+
+A queda de desempenho ao treinar os mesmos classificadores com os dados brutos, das mesmas atividades, mostra que os modelos de aprendizado utilizados não possuem capacidade suficiente de extrair informações contidas dentro dos dados de entrada, devido a sua baixa complexidade e pouca ou nenhuma mudança de configuração dos dados. Os modelos baseados em \textit{deep learning}, por exemplo, apresentam profundidade suficiente para poderem receber dados de entrada com pouco ou nenhum pré-processamento, e a partir de inúmeras camadas não lineares, transformar o problema inicial em um novo problema a cada camada, onde cada uma delas se especializa em obter determinados padrões dos dados, fazendo com que a extração de informações internas aos dados sejam realizadas pelo modelo.
 
 %	4.1) Dados com menos propriedades explicitas
 %	4.2) São mais atributos, mas no fim das contas são 6 séries temporais de cada atributo
