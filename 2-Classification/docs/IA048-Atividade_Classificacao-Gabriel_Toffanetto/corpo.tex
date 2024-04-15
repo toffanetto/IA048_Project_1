@@ -2,11 +2,11 @@
 
 \section{Apresentação dos dados}
 
-O problema de classificação com o reconhecimento de atividades humanas utiliza como base de dados amostras tomadas do acelerômetro e do giroscópio do \textit{smartphone} preso à cintura do candidato. Dessa forma, com base na leitura desses sensores, pode-se identificar se a pessoa está caminhando, subindo escadas, descendo escadas, sentada, de pé ou deitada, que representam as seis classes do problema.
+O problema de classificação se da com o reconhecimento de atividades humanas utiliza como base de dados amostras tomadas do acelerômetro e do giroscópio de um \textit{smartphone} preso à cintura do candidato. Dessa forma, com base na leitura desses sensores, pode-se identificar se a pessoa está caminhando, subindo escadas, descendo escadas, sentada, de pé ou deitada, que representam as seis classes do problema.
 
 Os dados brutos utilizados são formados da concatenação das 128 medições dos sensores de orientação e aceleração, para os eixos $x$, $y$ e $z$, em cada janela de tempo. Dessa forma, chega-se a um \textit{dataset} de treinamento e teste com 768 atributos. São um total de 7352 amostras para treinamento e validação, e 2947 amostras para teste.
 
-Além dos dados brutos, é fornecido também os dados processados, com extração sobre os dados no tempo, na frequência, e também características estatísticas dos mesmos. Os dados tratados são formados por amostras de 561 atributos derivados da análise no tempo e na frequência dos dados provenientes do acelerômetro e do giroscópio do \textit{smartphone}. 
+Além dos dados brutos, é fornecido também dados pré-processados, com extração sobre os dados no tempo, na frequência, e também características estatísticas dos mesmos. Os dados tratados são formados por amostras de 561 atributos derivados de informações obtidas dos dados provenientes do acelerômetro e do giroscópio do \textit{smartphone}. 
 
 O balanceamento das classes nos conjuntos de dados foi realizado por meio do cálculo da taxa de ocorrência dos mesmos, dada de acordo com \eqref{eq:rate}. A \autoref{fig:balancingofclasses} mostra a distribuição das classes, e pode-se ver que não existe um balanceamento homogêneo, onde a classe 3 é a que menos ocorre, enquanto a classe  6 é a que mais ocorre.
 
@@ -44,14 +44,14 @@ Onde o $\+w_k$ é o vetor de pesos para a classe $k$, e a matriz de pesos $\+W$ 
 
 \begin{equation}\label{eq:W}
 	\+W = \begin{bmatrix}
-		\+w_1 \\
-		\+w_2 \\
+		\+w_1^T \\
+		\+w_2^T \\
 		\vdots \\
-		\+w_Q
+		\+w_Q^T
 	\end{bmatrix}
 \end{equation}
 
-Não existe forma fechada para a obtenção dos pesos de $\+W$, logo, o mesmo precisa ser feito de forma iterativa. A métrica utilizada como função de custo para o problema é a entropia cruzada, dada por \eqref{eq:JCE}. O otimização dos pesos se dá pela técnica do gradiente descendente, dado por \eqref{eq:dJCE}.
+Não existe forma fechada para a obtenção dos pesos de $\+W$, logo, o mesmo precisa ser feito de forma iterativa. A métrica utilizada como função de custo para o problema é a entropia cruzada, dada por \eqref{eq:JCE}. O otimização dos pesos se dá pela técnica do gradiente descendente, enunciada por \eqref{eq:dJCE}.
 
 \begin{equation}\label{eq:JCE}
 	J_{CE}(\+W) = -\sum_{i=0}^{N-1}\sum_{k=1}^{Q}y_{i,k}\log\left[\hat{y}_k(\+x(i)\right]
@@ -67,7 +67,7 @@ A atualização dos pesos é dada por \eqref{eq:wk1}, onde $l$ é a iteração d
 	\+W[l+1] = \+W[l] - \eta\nabla\+W
 \end{equation}
 
-Devido ao tamanho do conjunto de dados, foi proposto o treinamento por \textit{mini-batch}, testadas com tamanhos de 500, 1000 e 2000 amostras, e um passo ($\eta$) de 0,01, que apresentou boa convergência nos testes realizados \textit{a priori}. O processo de validação cruzada para o treinamento do modelo foi feito na forma \textit{holdout}, considerando o conjunto de validação 30\% do \textit{dataset} de treinamento. A inicialização dos pesos foi feita de forma aleatória, seguindo uma distribuição gaussiana, nos entornos de 0.
+Devido ao tamanho do conjunto de dados, foi proposto o treinamento por \textit{mini-batch}, testadas com tamanhos de 500, 1000 e 2000 amostras, e um passo ($\eta$) de 0,01, que apresentou boa convergência em testes realizados \textit{a priori}. O processo de validação cruzada para o treinamento do modelo foi feito utilizando a técnica \textit{holdout}, considerando o conjunto de validação como 30\% do \textit{dataset} de treinamento. A inicialização dos pesos foi feita de forma aleatória, seguindo uma distribuição gaussiana, nos entornos de zero.
 
 
 
@@ -255,6 +255,8 @@ BA = 0,8898
 \label{tab:pr_lr_2000}
 \end{table}
 
+\clearpage
+
 \subsubsection*{Análise do número de épocas de treinamento}
 
 Foi realizado o treinamento do modelo para a \textit{mini-batch} de 500 amostras em um \textit{range} de 1000 épocas, para observar a acomodação da função de custo. Observa-se na \autoref{fig:CE_1000_epochs_batch_size500} que a taxa de decrescimento da entropia cruzada vai reduzindo, porém não chega a um estado de regime, também não obtendo o estado de \textit{overfitting} com o aumento do custo para a validação. É possível aferir também que não há grande aumento da acurácia balanceada, se fazendo então, o treinamento de 500 épocas feito anteriormente, suficiente para a obtenção de um modelo que explora de forma suficiente o espaço de hipóteses ($\mathcal{H}$).
@@ -288,7 +290,7 @@ Foi realizado o treinamento do modelo para a \textit{mini-batch} de 500 amostras
 
 Considerando os hiper-parâmetros do melhor classificador utilizando a regressão logística testado com os dados pré-processados coletados do acelerômetro e do giroscópio, treinou-se um classificador para os dados brutos obtidos dos sensores. Esses dados possuem apenas as amostras de dados lidos dos sensores, ou seja, nenhuma informação útil é extraída \textit{a priori}.
 
-A evolução da entropia cruzada e da acurácia balanceada para o treinamento utilizando \textit{mini-batch} de 500 amostras e passo $\eta = 0,01$ é mostrado na \autoref{fig:CE_BA_raw}. Rapidamente se observa a dificuldade em minimizar a função de custo, principalmente para os dados de validação, onde o decaimento da entropia cruzada é muito pequeno. Com a rápida saturação da entropia cruzada de validação, observa-se também a saturação da acurácia balanceada de validação, em um valor abaixo de 0,3, comprovando a dificuldade do modelo em reduzir o erro de classificação.
+A evolução da entropia cruzada e da acurácia balanceada para o treinamento utilizando \textit{mini-batch} de 500 amostras e passo $\eta = 0,01$ é mostrado na \autoref{fig:CE_BA_raw}. Rapidamente se observa a dificuldade em minimizar a função de custo, principalmente para os dados de validação, onde o decaimento da entropia cruzada é muito pequeno. Observa-se também a saturação da acurácia balanceada de validação, em um valor abaixo de 0,3, comprovando a dificuldade do modelo em reduzir o erro de classificação.
 
 A acurácia balanceada do classificador após o treinamento é de 0,2506, apresentando um desempenho muito inferior ao classificador anterior treinado com dados tratados. A matriz de confusão da \autoref{tab:mc_lr_500_raw} comprova junto com o cálculo da precisão e \textit{recall} por classe (\autoref{tab:pr_lr_500_raw}), que o classificador apresenta uma enorme incapacidade de detectar certas classes, apresentando apenas 8 acertos para a classe 4. É interessante ressaltar que nessa situação, não se vê o mesmo comportamento do desempenho de classes visto anteriormente, onde a classe 3 que antes apresentava a pior precisão, agora apresenta a maior, pois com a mudança dos atributos, o modelo tenta aprender novas formas de relacionar os dados.
 
@@ -360,7 +362,7 @@ O critério de classificação pode se basear puramente na classe majoritária e
 
 Para implementação do algoritmo de \textit{k}-NN, foi escolhido a utilização da distância euclidiana no espaço dos atributos, e a decisão do rótulo vencedor por meio do voto majoritário dos $k$ vizinhos mais próximos.
 
-Para obtenção do valor de $k$, foi executada uma busca em \textit{grid} do hiper-parâmetro, variando seu valor entre 1 e 29. Utilizando da técnica de validação cruzada \textit{k-fold}, com quatro pastas, foi realizada a inferência das classes dos dados da pasta de validação com base nos vizinhos mais próximos encontrados nas pastas de treinamento, para cada valor de $k$ testado. A \autoref{fig:gridsearch} exibe à evolução da acurácia balanceada para os valores de $k$, obtendo um conjunto de valores ótimos em \eqref{eq:k_fold_k}.
+Para obtenção do valor de $k$, foi executada uma busca em \textit{grid} do hiper-parâmetro, variando seu valor entre 1 e 29. Utilizando da técnica de validação cruzada \textit{k-fold}, com quatro pastas, foi realizada a inferência das classes dos dados da pasta de validação com base nos vizinhos mais próximos encontrados nas pastas de treinamento, para cada valor de $k$ testado. A \autoref{fig:gridsearch} exibe à evolução da acurácia balanceada para os valores de $k$, obtendo um conjunto de valores ótimos para cada pasta em \eqref{eq:k_fold_k}.
 
 \begin{equation}\label{eq:k_fold_k}
 	k = [17\ 28\ 12\ 18]
@@ -475,13 +477,13 @@ Adotando novamente a heurística de obter a acurácia balanceada média para tod
 	\label{fig:gridsearch-k_optimal2}
 \end{figure}
 
-Realizando o teste do classificador obtido para o conjunto de dados brutos de teste, foi obtida uma acurácia balanceada que 0,6233, sendo sua matrix de confusão apresentada na \autoref{tab:mc_knn_2} e os valores de precisão e \textit{recall} na \autoref{tab:pr_knn_2}. Observa-se que a acurácia balanceada para dados brutos foi bem menor que utilizando o mesmo método para dados tratados, uma vez que existem menos informações extraídas para gerar vizinhos com informações de fácil comparação, tal resultado é esperado. Porém, o método de vizinhos mais próximos apresentou um resultado muito superior que a regressão logística para os dados brutos dos sensores, com mais que o dobro de acurácia.
+Realizando o teste do classificador obtido para o conjunto de dados brutos de teste, foi obtida uma acurácia balanceada que 0,6233, sendo sua matriz de confusão apresentada na \autoref{tab:mc_knn_2} e os valores de precisão e \textit{recall} na \autoref{tab:pr_knn_2}. Observa-se que a acurácia balanceada para dados brutos foi bem menor que utilizando o mesmo método para dados tratados, uma vez que existem menos informações extraídas para gerar vizinhos com informações de fácil comparação, tal resultado é esperado. Porém, o método de vizinhos mais próximos apresentou um resultado muito superior que a regressão logística para os dados brutos dos sensores, com mais que o dobro de acurácia.
 
 \begin{equation}
 	BA = 0.6233
 \end{equation}
 
-Observando a matrix de confusão (\autoref{tab:mc_knn_2}), é possível perceber que as classes 4, 5 e 6 não são confundidas com as classes 1, 2 e 3, porém são muito confundidas entre sí. Como essas classes representam o comportamento de estar de pé, sentado e deitado, espera-se que não haja movimento, ou seja, as leituras dos sensores para cada janela tendem a variar pouco, fazendo com que seja fácil diferenciar as classes que demandam movimento (caminhar, subir e descer escadas). Já as classes de movimento, essas se confundem com as classes que não possuem movimento, principalmente com a classe 5, que representa o estado de pé.
+Observando a matriz de confusão (\autoref{tab:mc_knn_2}), é possível perceber que as classes 4, 5 e 6 não são confundidas com as classes 1, 2 e 3, porém são muito confundidas entre sí. Como essas classes representam o comportamento de estar de pé, sentado e deitado, espera-se que não haja movimento, ou seja, as leituras dos sensores para cada janela tendem a variar pouco, fazendo com que seja fácil diferenciar as classes que demandam movimento (caminhar, subir e descer escadas). Já as classes de movimento, essas se confundem com as classes que não possuem movimento, principalmente com a classe 5, que representa o estado de pé.
 
 \begin{table}[H]
 	\centering
