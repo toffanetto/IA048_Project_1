@@ -1,5 +1,4 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{Apresentação dos dados}
 
 A base de dados BloodMNIST é formada por um total de 15380 imagens de células sanguíneas divdidas em 8 classes, como mostrado na \autoref{fig:samples_of_classes}. Essas amostras se dividem em conjunto de treinamento, com 11959 representantes e teste, com 3421 itens. As imagens estão disponíveis em diferentes resoluções, sendo \textit{a priori}, escolhida a resolução de 28x28 para trazer mais eficiência computacional, principalmente para o caso das redes densas. Porém, propõem-se o teste de amostras de maior resolução para a rede convolucional já treinada com as amostras 28x28, para validação da robustez ao tamanho da entrada.
@@ -32,6 +31,10 @@ Para realizar o treinamento utilizando da ferramenta de validação cruzada, foi
 \end{figure}
 
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
 \section{MLP}
 
 A implementação da rede MLP com uma camada intermediária se deu por meio do uso do \textit{framework} TensorFlow, possuindo uma camada de entrada que sequencia os pixels da imagem em um vetor, uma camada de neurônios intermediária, e uma camada de saída com função de ativação \textit{softmax} para geração do vetor \textit{one-hot encoding} das probabilidades da entrada pertencer à cada uma das 8 classes.
@@ -42,15 +45,21 @@ Para realizar a busca do melhor modelo da MLP, considerando que existem uma gran
 
 A busca por etapas se deu da seguinte forma: Dada a condição inicial, uma MLP de 256 neurônios na camada intermediária com função de ativação ReLU, sem \textit{dropout} e ajustada por \textit{Stochastic Gradient Descendent} (SGD), testou-se a rede alterando primeiramente o número de neurônios. Uma vez conhecido o valor que obteve maior acurácia, testou-se as funções de ativações canditadas para esse número de neurônios, buscando a combinação que desse a melhor acurácia. O processo se repete para o \textit{dropout} e o algoritmo de otimização, onde ao final se obtém a combinação que agrega o melhor número de neurônios visto, melhor função de ativação para tal conjunto de neurônios, melhor taxa de \textit{dropout} e o melhor otimizador.
 
+Hiper-parâmetros variados durante a busca:
+
 
 \begin{itemize}
-	\item Número de neurônios: [ \texttt{256}, \texttt{512}, \texttt{1024}, \texttt{2048}, \texttt{4096} ]
-	\item Função de ativação: [ \texttt{ReLU}, \texttt{Sigmoide} ]
-	\item \textit{Dropout}: [ \texttt{0,0}, \texttt{0,25}, \texttt{0,5} ]
-	\item Otimizador: [ \texttt{SGD}, \texttt{ADAM} ]
+	\item Número de neurônios: [ \texttt{256}; \texttt{512}; \texttt{1024}; \texttt{2048}; \texttt{4096} ]
+	\item Função de ativação: [ \texttt{ReLU}; \texttt{Sigmoide} ]
+	\item \textit{Dropout}: [ \texttt{0,0}; \texttt{0,25}; \texttt{0,5} ]
+	\item Otimizador: [ \texttt{SGD}; \texttt{ADAM} ]
 \end{itemize} 
 
+Para todos os casos, foram treinadas 500 épocas, com \textit{mini-batch} de 32 amostras, utilizando uma função de \textit{callback} para salvar os parâmetros da melhor época, evitando assim preocupações com \textit{overfitting}.
+
 \subsubsection{Número de neurônios}
+
+
 
 \begin{figure}[H]
 	\centering
@@ -168,6 +177,8 @@ A busca por etapas se deu da seguinte forma: Dada a condição inicial, uma MLP 
 	\caption{Evolução da perda e acurácia de treinamento e validação com as épocas de treinamento para os otimizadores analisados.}
 \end{figure}
 
+Citar \cite{wilson2018marginal}
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\linewidth]{../../plot/mlp/search_optimizer}
@@ -257,4 +268,18 @@ A busca por etapas se deu da seguinte forma: Dada a condição inicial, uma MLP 
 \caption{Análise de um caso de erro de classificação.}
 \label{fig:error_analyser_62}
 \end{figure}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\section{CNN Simples}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\section{CNN Profunda}
 
