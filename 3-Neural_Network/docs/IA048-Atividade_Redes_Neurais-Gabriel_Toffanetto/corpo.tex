@@ -59,7 +59,7 @@ Para todos os casos, foram treinadas 500 épocas, com \textit{mini-batch} de 32 
 
 \subsubsection{Número de neurônios}
 
-
+Com intuito de definir a quantidade de neurônios que irão compor a camada intermediária da MLP, treinou-se a rede para camadas intermediárias com 256, 512, 1024, 2048 e 4096 neurônios, monitorando a perda e a acurácia para os dados de treinamento e de validação. Os gráficos da \autoref{fig:search_neurons_training}, mostram a evolução dessas medidas ao longo das épocas. Observa-se que para todos os casos, ocorre \textit{overfitting} no treinamento, onde a perda de validação, em vermelho, começa a apresentar uma elevação na sua curva ruidosa. Porém, como o treinamento foi realizado salvando o conjunto de pesos da melhor época, não se faz um problema treinar o modelo mais épocas do que o necessário.
 
 \begin{figure}[H]
 	\centering
@@ -93,7 +93,10 @@ Para todos os casos, foram treinadas 500 épocas, com \textit{mini-batch} de 32 
 		\label{fig:mlp_4096_relu_0.0_sgd}
 	\end{subfigure}
 	\caption{Evolução da perda e acurácia de treinamento e validação com as épocas de treinamento para cada número de neurônios avaliados.}
+	\label{fig:search_neurons_training}
 \end{figure}
+
+Ao analisar a acurácia e perda de validação para cada um dos modelos treinados com uma quantidade diferente de neurônios na camada intermediária, obtém-se a \autoref{fig:search_neurons}.
 
 
 \begin{figure}[H]
