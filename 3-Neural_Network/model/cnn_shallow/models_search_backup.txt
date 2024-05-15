@@ -1,7 +1,3 @@
-{'n_kernels': 32, 'kernel_size': 5, 'activation_fnc': 'relu', 'pooling': 'max', 'optimizer': 'sgd', 'loss': 0.3057157099246979, 'accuracy': 0.8993868231773376}
-{'n_kernels': 64, 'kernel_size': 5, 'activation_fnc': 'relu', 'pooling': 'max', 'optimizer': 'sgd', 'loss': 0.30535590648651123, 'accuracy': 0.8996655344963074}
-{'n_kernels': 128, 'kernel_size': 5, 'activation_fnc': 'relu', 'pooling': 'max', 'optimizer': 'sgd', 'loss': 0.3016168177127838, 'accuracy': 0.9005016684532166}
-{'n_kernels': 256, 'kernel_size': 5, 'activation_fnc': 'relu', 'pooling': 'max', 'optimizer': 'sgd', 'loss': 0.3020159602165222, 'accuracy': 0.9005016684532166}
 {'n_kernels': 8, 'kernel_size': 5, 'activation_fnc': 'relu', 'pooling': 'max', 'optimizer': 'sgd', 'loss': 0.32966211438179016, 'accuracy': 0.8879598379135132}
 {'n_kernels': 16, 'kernel_size': 5, 'activation_fnc': 'relu', 'pooling': 'max', 'optimizer': 'sgd', 'loss': 0.3312288522720337, 'accuracy': 0.8860089182853699}
 {'n_kernels': 32, 'kernel_size': 5, 'activation_fnc': 'relu', 'pooling': 'max', 'optimizer': 'sgd', 'loss': 0.31571367383003235, 'accuracy': 0.8952062726020813}

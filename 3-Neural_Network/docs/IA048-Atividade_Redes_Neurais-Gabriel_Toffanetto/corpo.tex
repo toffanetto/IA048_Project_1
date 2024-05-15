@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Apresentação dos dados}
 
-A base de dados BloodMNIST é formada por um total de 15380 imagens de células sanguíneas divdidas em 8 classes, como mostrado na \autoref{fig:samples_of_classes}. Essas amostras se dividem em conjunto de treinamento, com 11959 representantes e teste, com 3421 itens. As imagens estão disponíveis em diferentes resoluções, sendo \textit{a priori}, escolhida a resolução de 28x28 para trazer mais eficiência computacional, principalmente para o caso das redes densas. Porém, propõem-se o teste de amostras de maior resolução para a rede convolucional já treinada com as amostras 28x28, para validação da robustez ao tamanho da entrada.
+A base de dados BloodMNIST é formada por um total de 15380 imagens de células sanguíneas divdidas em 8 classes, como mostrado na \autoref{fig:samples_of_classes}. Essas amostras se dividem em conjunto de treinamento, com 11959 representantes e teste, com 3421 itens. As imagens estão disponíveis em diferentes resoluções, sendo \textit{a priori}, escolhida a resolução de 28x28 para trazer uma maior eficiência computacional, principalmente para o caso das redes densas. \textbf{Porém, propõem-se o teste de amostras de maior resolução para a rede convolucional já treinada com as amostras 28x28, para validação da robustez ao tamanho da entrada.}
 
 \begin{figure}[H]
 	\centering
@@ -61,6 +61,24 @@ Para todos os casos, foram treinadas 500 épocas, com \textit{mini-batch} de 32 
 
 Com intuito de definir a quantidade de neurônios que irão compor a camada intermediária da MLP, treinou-se a rede para camadas intermediárias com 256, 512, 1024, 2048 e 4096 neurônios, monitorando a perda e a acurácia para os dados de treinamento e de validação. Os gráficos da \autoref{fig:search_neurons_training}, mostram a evolução dessas medidas ao longo das épocas. Observa-se que para todos os casos, ocorre \textit{overfitting} no treinamento, onde a perda de validação, em vermelho, começa a apresentar uma elevação na sua curva ruidosa. Porém, como o treinamento foi realizado salvando o conjunto de pesos da melhor época, não se faz um problema treinar o modelo mais épocas do que o necessário.
 
+
+
+Ao analisar a acurácia e perda de validação para cada um dos modelos treinados com uma quantidade diferente de neurônios na camada intermediária, obtém-se a \autoref{fig:search_neurons}. Como esperado, ao aumentar o número de neurônios se aumenta a acurácia e reduz a perda, uma vez que a rede se torna mais flexível e consegue aproximar mais o mapeamento alvo do treinamento. Porém, com o aumento da flexibilidade da máquina, o treinamento também se torna mais desafiador, sendo necessários uma grande quantidade de dados para maximizar a generalização do modelo.
+
+Considerando todos os números de neurônios utilizados, não há um aumento estrondoso da acurácia, mostrando que para todos eles, o mapeamento pode ser bem aproximado, porém, a redução da perda é considerável considerando a rede com camada intermediária de 256 neurônios e a de 4096 neurônios. Observando a forma da curva de acuária, é perceptível que a taxa de crescimento apresenta uma saturação, ou seja, o valor máximo da acurácia que pode ser atingido por essa arquitetura de rede neural tende a atingir um valor máximo.
+
+Com isso, a camada intermediária de 4096 neurônios foi escolhida para a rede final, e será utilizada nas buscas dos hiper-parâmetros subsequentes.
+
+
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\linewidth]{../../plot/mlp/search_neurons}
+	\caption{Acurácia e perda com a variação do número de neurônios da camada intermediária.}
+	\label{fig:search_neurons}
+\end{figure}
+
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[H]{0.49\textwidth}
@@ -96,17 +114,13 @@ Com intuito de definir a quantidade de neurônios que irão compor a camada inte
 	\label{fig:search_neurons_training}
 \end{figure}
 
-Ao analisar a acurácia e perda de validação para cada um dos modelos treinados com uma quantidade diferente de neurônios na camada intermediária, obtém-se a \autoref{fig:search_neurons}.
-
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.75\linewidth]{../../plot/mlp/search_neurons}
-	\caption{Acurácia e perda com a variação do número de neurônios da camada intermediária.}
-	\label{fig:search_neurons}
-\end{figure}
-
 \subsubsection{Função de ativação}
+
+	A função de ativação é a responsável por dar um mapeamento não-linear para a MLP, dessa forma, sua escolha é crucial para viabilizar o treinamento da rede, assim como para garantir a capacidade de generalização da mesma. Foram escolhidas duas funções de ativação com características diferentes, a ReLU, que executa a operação de um retificador linear, e a sigmoide, que varia seu valor de 0 a 1 na forma de uma função logística. 
+	
+	A \autoref{fig:mlp_4096_relu_0.0_sgd_act_fnc} mostra o desenvolvimento do treinamento para a rede com função de ativação ReLU. Observa-se que ocorre um leve \textit{overfitting}, e que é possível se aproximar de forma considerável de um bom mínimo local da superfície de erro. Já para a função sigmoidal, \autoref{fig:mlp_4096_sigmoid_0.0_sgd}, o treinamento ocorre de forma muito mais lenta, não se aproximando tanto do mínimo local. Mesmo assim, se observa a saturação da acurácia de validação em um valor menor.
+	
+	Como a função sigmoidal apresenta saturação, seus valores de ativação tendem a ser menores que os valores de saída de neurônios com ReLU, o que faz com que o gradiente seja limitado e os passos de treinamento sejam menores, justificando um treinamento mais lento, e a acomodação na bacia de atração de um mínimo local de pior qualidade.
 
 \begin{figure}[H]
 	\centering
@@ -124,6 +138,8 @@ Ao analisar a acurácia e perda de validação para cada um dos modelos treinado
 	\caption{Evolução da perda e acurácia de treinamento e validação com as épocas de treinamento para cada função de ativação candidata.}
 \end{figure}
 
+Como previsto pelos dados de treinamento, a acurácia para a rede com função de ativação logística é menor, como visto na \autoref{fig:search_activation_fnc}. Dessa forma, a função ReLU foi mantida como função de ativação do modelo final, e continuará sendo usada nas próximas buscas.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\linewidth]{../../plot/mlp/search_activation_fnc}
@@ -132,6 +148,11 @@ Ao analisar a acurácia e perda de validação para cada um dos modelos treinado
 \end{figure}
 
 \subsubsection{\textit{Dropout}}
+
+	Uma vez que se está sendo utilizada uma rede com 4096 neurônios na camada intermediária, o treinamento se torna desafiador, onde para maximizar a capacidade de generalização, se deseja que todos os neurônios apresentem uma função útil na camada. Para isso, buscou-se o uso do \textit{dropout}, que foi testado com diferentes taxas.
+	
+	Os gráficos da \autoref{fig:training_search_dropout} mostram a evolução do treinamento da MLP sem \textit{dropout}, e com taxas de \textit{dropout} de 0,25 e 0,5. Observa-se primeiramente, que a inserção dessa técnica limitou o \textit{overfitting}, e para o caso da \autoref{fig:mlp_4096_relu_0.5_sgd}, resultou em uma maior lentidão do treinamento da rede, ou seja, o desligamento dos neurônios se tornou forte o suficiente para diminuir a capacidade de aprendizado da rede.
+	
 
 \begin{figure}[H]
 	\centering
@@ -153,7 +174,10 @@ Ao analisar a acurácia e perda de validação para cada um dos modelos treinado
 		\label{fig:mlp_4096_relu_0.5_sgd}
 	\end{subfigure}
 	\caption{Evolução da perda e acurácia de treinamento e validação com as épocas de treinamento para diferentes taxas de \textit{dropout}.}
+	\label{fig:training_search_dropout}
 \end{figure}
+
+Dessa forma, a taxa de \textit{dropout} de 0,25 foi incorporada à rede MLP, e será utilizada nas buscas posteriores.
 
 \begin{figure}[H]
 \centering
@@ -163,6 +187,10 @@ Ao analisar a acurácia e perda de validação para cada um dos modelos treinado
 \end{figure}
 
 \subsubsection{Otimizador}
+
+	Uma vez que a superfície de erro é desconhecida e comumente multimodal, o uso de um bom otimizador se faz crucial para garantir a convergência do modelo para um bom mínimo local, que garante uma melhor chance de maximização da capacidade de generalização do modelo. Para a busca, foram candidatos um algoritmo clássico, o \textit{Stochastic Descendent Gradient} (SGD), e um algoritmo adaptativo, o ADAM. 
+	
+	O treinamento com cada um dos otimizadores se dá na \autoref{fig:train_search_opt}, onde pode-se observar que como esperado, o algoritmo adaptativo converge em menos épocas e de forma menos ruidosa, porém para um mínimo local de pior qualidade. Já o SGD, apresenta uma trajetória ruidosa, mas consegue alcançar um mínimo local de melhor qualidade, atingindo valores altos de acurácia e minimizando consideravelmente a perda.
 
 \begin{figure}[H]
 	\centering
@@ -178,18 +206,32 @@ Ao analisar a acurácia e perda de validação para cada um dos modelos treinado
 		\label{fig:mlp_4096_relu_0.25_adam}
 	\end{subfigure}
 	\caption{Evolução da perda e acurácia de treinamento e validação com as épocas de treinamento para os otimizadores analisados.}
+	\label{fig:train_search_opt}
 \end{figure}
 
-Citar \cite{wilson2018marginal}
+	Como já se sabe, algoritmos adaptativos tendem a convergir em menos épocas, porém nada se garante sobre a qualidade do mínimo local de convergência. No trabalho realizado por \citeonline{wilson2018marginal}, a principal conclusão obtida é que máquinas treinadas com algoritmos adaptativos tendem a generalizar pior do que máquinas treinadas com algoritmos de SGD. Dessa forma, o mesmo resultado pode ser visto na MLP treinada, onde pela \autoref{fig:search_optimizer}, observa-se que a rede neural treinada com SGD consegue uma acurácia consideravelmente maior, e minimiza mais a função de custo sobre os dados de validação.
+	
+	Sendo assim, o algoritmo de otimização SGD foi definido para o modelo final da rede, encerrando a busca de hiper-parâmetros.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.75\linewidth]{../../plot/mlp/search_optimizer}
+\includegraphics[width=0.65\linewidth]{../../plot/mlp/search_optimizer}
 \caption{Acurácia e perda com a variação do algoritmo de otimização.}
 \label{fig:search_optimizer}
 \end{figure}
 
 \subsection{Análise do melhor modelo}
+
+	Com a realização da busca exaustiva, foram obtidos como melhores hiper-parâmetros para a rede MLP: 
+	
+	\begin{itemize}
+		\item Número de neurônios: [ \texttt{4096} ]
+		\item Função de ativação: [ \texttt{ReLU} ]
+		\item \textit{Dropout}: [ \texttt{0,25} ]
+		\item Otimizador: [ \texttt{SGD} ]
+	\end{itemize} 
+
+	Essa rede apresenta um total de 9,670,664 pesos treináveis, que uma vez ajustados durante o treinamento, apresentaram os seguintes valores de acurácia e acurácia balanceada frente aos dados de teste:
 
 \begin{equation}\label{eq:acc_MLP}
 	Accuracy = 0.8705
@@ -198,6 +240,8 @@ Citar \cite{wilson2018marginal}
 \begin{equation}\label{eq:ba_MLP}
 	BA = 0.8437
 \end{equation}
+
+	A matriz de confusão do classificador é exibida na \autoref{tab:mc_MLP}. Primeiramente, observa-se que a classe 3 é a mais desafiadora, uma vez que ela é fortemente confundida com as classes 0, 2, 4, 5 e 6, sendo a classe 7 a única que não se confunde com a 3. Pela \autoref{tab:pr_MLP}, consegue-se ter um melhor panorama da precisão e do \textit{recall} das classes, uma vez que as mesmas não são balanceadas. Como esperado, a classe 3 apresenta baixa precisão e o pior \textit{recall}, mas a classe 0 é a que apresenta pior precisão, apresentando falsos positivos para a classe 3, 4 e 5. A classe 7 é a que apresenta a melhor classificação, com precisão quase unitária.
 
 
 \begin{table}[H]
@@ -210,7 +254,7 @@ Citar \cite{wilson2018marginal}
 		\multicolumn{1}{|c||}{\textbf{2}} & 4          & 1          & 264        & 16         & 6          & 3          & 11         & 6          \\ \hline
 		\multicolumn{1}{|c||}{\textbf{3}} & 34         & 26         & 3          & 447        & 5          & 32         & 32         & 0          \\ \hline
 		\multicolumn{1}{|c||}{\textbf{4}} & 13         & 0          & 11         & 31         & 182        & 0          & 6          & 0          \\ \hline
-		\multicolumn{1}{|c||}{5}          & 10         & 2          & 1          & 48         & 3          & 215        & 5          & 0          \\ \hline
+		\multicolumn{1}{|c||}{\textbf{5}} & 10         & 2          & 1          & 48         & 3          & 215        & 5          & 0          \\ \hline
 		\multicolumn{1}{|c||}{\textbf{6}} & 0          & 22         & 5          & 22         & 2          & 2          & 611        & 2          \\ \hline
 		\multicolumn{1}{|c||}{\textbf{7}} & 0          & 0          & 1          & 0          & 0          & 0          & 0          & 469        \\ \hline
 	\end{tabular}
@@ -237,6 +281,10 @@ Citar \cite{wilson2018marginal}
 
 \subsubsection{Análise dos erros}
 
+Foram selecionados alguns casos de erro, onde é exibido a amostra que foi classificada erroneamente, uma representante da classe do falso positivo, e uma representante da classe real daquela amostra, seguido pelas probabilidades daquele dado pertencer a cada uma das classes.
+
+Nas Figuras~\ref{fig:error_analyser_88}~e~\ref{fig:error_analyser_36}, observa-se que houve grande desafio para classificar a classe da amostra, e a classe correta se encontra como a 2ª maior probabilidade, sem estar consideravelmente para trás.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\linewidth]{../../plot/mlp/error_analyser_88}
@@ -251,6 +299,8 @@ Citar \cite{wilson2018marginal}
 \label{fig:error_analyser_36}
 \end{figure}
 
+Já para as amostras das Figuras~\ref{fig:error_analyser_0}~e~\ref{fig:error_analyser_62}, o classificador errou com grande certeza, apresentando mais de 0,8 de probabilidade de ser a classe errada, mostrando uma grande falha na classificação. Porém, a classe correta continuou sendo a 2ª mais provável.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\linewidth]{../../plot/mlp/error_analyser_0}
@@ -260,16 +310,18 @@ Citar \cite{wilson2018marginal}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.75\linewidth]{../../plot/mlp/error_analyser_25}
-\caption{Análise de um caso de erro de classificação.}
-\label{fig:error_analyser_25}
-\end{figure}
-
-\begin{figure}[H]
-\centering
 \includegraphics[width=0.75\linewidth]{../../plot/mlp/error_analyser_62}
 \caption{Análise de um caso de erro de classificação.}
 \label{fig:error_analyser_62}
+\end{figure}
+
+Já para a classificação do dado da \autoref{fig:error_analyser_25}, houve grande certeza que a amostra era da classe 1, apresentando na sequência maiores probabilidades de pertencer à classe 2 e 7, respectivamente. Porém, a classe correta, 6, foi a 4ª mais provável, se mostrando como uma amostra muito desafiadora, o que pode ser percebido visualmente, por apresentar um padrão muito diferente do visto para a classe 6 na \autoref{fig:samples_of_classes}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth]{../../plot/mlp/error_analyser_25}
+\caption{Análise de um caso de erro de classificação.}
+\label{fig:error_analyser_25}
 \end{figure}
 
 
@@ -279,8 +331,117 @@ Citar \cite{wilson2018marginal}
 \clearpage
 \section{CNN Simples}
 
+% Arquitetura da rede
+% Hiperparâmetros escolhidos
+% Pooling utilizado
 
 
+\subsection{Busca do melhor modelo}
+
+\begin{itemize}
+	\item Número de \textit{kernels}: [ \texttt{8}; \texttt{16}; \texttt{32}; \texttt{64}; \texttt{128} ]
+	\item Tamanho dos \textit{kernels}: [ \texttt{3x3}; \texttt{5x5}; \texttt{7x7}; \texttt{9x9} ]
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth]{../../plot/cnn_shallow/hiper_parameters_search}
+\caption{Acurácia e perda com a variação do algoritmo de otimização.}
+\label{fig:hiper_parameters_search}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth]{../../plot/cnn_shallow/best_model_training}
+\caption{Acurácia e perda com a variação do algoritmo de otimização.}
+\label{fig:best_model_training}
+\end{figure}
+
+\subsection{Melhor modelo}
+
+\textbf{Quantidade de parâmetros: 115,976}
+
+\begin{equation}\label{eq:accuracy_CNN_shallow}
+	Accuracy = 0.9088
+\end{equation}
+
+\begin{equation}\label{eq:BA_CNN_shallow}
+	BA = 0.8905
+\end{equation}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{c||c|c|c|c|c|c|c|c|}
+		\cline{2-9}
+		\textbf{}                        & \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} \\ \hline \hline
+		\multicolumn{1}{|c||}{\textbf{0}} & 193        & 2          & 1          & 34         & 4          & 10         & 0          & 0          \\ \hline
+		\multicolumn{1}{|c||}{\textbf{1}} & 2          & 610        & 0          & 4          & 1          & 1          & 6          & 0          \\ \hline
+		\multicolumn{1}{|c||}{\textbf{2}} & 3          & 2          & 286        & 9          & 2          & 3          & 4          & 2          \\ \hline
+		\multicolumn{1}{|c||}{\textbf{3}} & 23         & 12         & 14         & 478        & 13         & 21         & 18         & 0          \\ \hline
+		\multicolumn{1}{|c||}{\textbf{4}} & 9          & 0          & 6          & 12         & 214        & 1          & 1          & 0          \\ \hline
+		\multicolumn{1}{|c||}{\textbf{5}}          & 4          & 0          & 4          & 50         & 6          & 219        & 1          & 0          \\ \hline
+		\multicolumn{1}{|c||}{\textbf{6}} & 1          & 7          & 2          & 14         & 2          & 0          & 640        & 0          \\ \hline
+		\multicolumn{1}{|c||}{\textbf{7}} & 0          & 0          & 0          & 0          & 0          & 0          & 1          & 469        \\ \hline
+	\end{tabular}
+	\caption{Matriz de confusão do classificador baseado em CNN \textit{Shallow}.}
+	\label{tab:mc_CNN_shallow}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{c|c|c}
+		\textbf{Classe} & \textbf{Precisão} & \textit{\textbf{Recall}} \\ \hline
+		\textbf{0}      & 0.7910            & 0.8213                   \\
+		\textbf{1}      & 0.9776            & 0.9637                   \\
+		\textbf{2}      & 0.9196            & 0.9137                   \\
+		\textbf{3}      & 0.8256            & 0.7953                   \\
+		\textbf{4}      & 0.8807            & 0.8843                   \\
+		\textbf{5}      & 0.7711            & 0.8588                   \\
+		\textbf{6}      & 0.9610            & 0.9538                   \\
+		\textbf{7}      & 0.9979            & 0.9958                  
+	\end{tabular}
+	\caption{Matriz de confusão do classificador baseado em CNN \textit{Shallow}.}
+	\label{tab:pr_CNN_shallow}
+\end{table}
+
+\subsubsection{Análise dos erros}
+
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\linewidth]{../../plot/cnn_shallow/error_analyser_35}
+	\caption{Análise de um caso de erro de classificação.}
+	\label{fig:error_analyser_35}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth]{../../plot/cnn_shallow/error_analyser_36}
+\caption{Análise de um caso de erro de classificação.}
+\label{fig:error_analyser_36_cnn}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth]{../../plot/cnn_shallow/error_analyser_62}
+\caption{Análise de um caso de erro de classificação.}
+\label{fig:error_analyser_62_cnn}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth]{../../plot/cnn_shallow/error_analyser_1455}
+\caption{Análise de um caso de erro de classificação.}
+\label{fig:error_analyser_1455}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth]{../../plot/cnn_shallow/error_analyser_1516}
+\caption{Análise de um caso de erro de classificação.}
+\label{fig:error_analyser_1516}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
