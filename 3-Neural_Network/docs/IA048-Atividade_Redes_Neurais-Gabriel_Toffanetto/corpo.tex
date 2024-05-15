@@ -331,35 +331,47 @@ Já para a classificação do dado da \autoref{fig:error_analyser_25}, houve gra
 \clearpage
 \section{CNN Simples}
 
-% Arquitetura da rede
-% Hiperparâmetros escolhidos
-% Pooling utilizado
+Para a implementação a rede neural convolucional (CNN) com arquitetura rasa (\textit{shallow}), foi utilizada uma rede possuindo apenas uma camada convolucional, uma camada de \textit{pooling} e uma camada de saída com função de ativação \textit{softmax}.
 
+Com base no visto anteriormente, a função de ativação foi mantida como ReLU, o otimizador como SGD e não foi empregado o uso de \textit{dropout}, devido ao tamanho da rede. A camada de \textit{pooling} escolhida utiliza a operação de máximo, operação selecionada a partir de um teste prévio, que mostrou maior acurácia da rede utilizando a operação de máximo frente à operação de média. O \textit{kernel} de \textit{pooling} foi mantido em um tamanho pequeno, de 2x2, pois como a rede é rasa, houve a intenção de preservar a maior quantidade de dados possível, em vista que não há expansão do campo receptivo.
 
 \subsection{Busca do melhor modelo}
+
+Para realizar a busca do melhor modelo de CNN, foram treinadas redes para os números de \textit{kernels} e tamanhos de \textit{kernels} mostrados a seguir:
 
 \begin{itemize}
 	\item Número de \textit{kernels}: [ \texttt{8}; \texttt{16}; \texttt{32}; \texttt{64}; \texttt{128} ]
 	\item Tamanho dos \textit{kernels}: [ \texttt{3x3}; \texttt{5x5}; \texttt{7x7}; \texttt{9x9} ]
 \end{itemize}
 
+Diferentemente da MLP, devido à variação de somente dois hiper-parâmetros, foi realizada a busca exaustiva completa sobre tais variáveis no intervalo estipulado, e o mesmo foi expresso em um gráfico de temperatura, mostrado na \autoref{fig:hiper_parameters_search}. Observa-se que a acurácia aumenta com o aumento do número de \textit{kernels}, e também com o aumento do tamanho do \textit{kernel}, mas principalmente com o primeiro. Como a rede convolucional possuí apenas uma camada convolucional, não existe a expansão do campo receptivo dos neurônios sob o dado de entrada através das camadas, logo, um \textit{kernel} maior consegue captar mais padrões, e dessa forma, chegar à um desempenho melhor. Já em relação ao número de \textit{kernels}, é esperado que possuindo mais canais, cada canal possa detectar um atributo diferente e dessa forma generalizar melhor.
+
+Devido ao pouco ganho de acurácia da configuração com \textit{kernel} 9x9 para 64 ou 128 \textit{kernels}, escolheu-se a opção com menos \textit{kernels} para simplicidade da CNN, obtendo assim o melhor configuração da CNN \textit{Shallow}: 
+
+\begin{itemize}
+	\item Número de \textit{kernels}: [ \texttt{64} ]
+	\item Tamanho dos \textit{kernels}: [ \texttt{9x9} ]
+\end{itemize}
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\linewidth]{../../plot/cnn_shallow/hiper_parameters_search}
-\caption{Acurácia e perda com a variação do algoritmo de otimização.}
+\caption{Acurácia do classificador de acordo com o número e tamanho dos \textit{kernels}.}
 \label{fig:hiper_parameters_search}
 \end{figure}
 
+A \autoref{fig:best_model_training} mostra o treinamento da rede com melhor configuração por 200 épocas. Observa-se que a perda sob os dados de validação é bem menos errática, e não se percebe \textit{overfitting}. Devido à saturação da acurácia, se fez satisfatório o treinamento em apenas 200 épocas, adotando de \textit{early stopping} para concluir o treinamento da rede.
+
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.75\linewidth]{../../plot/cnn_shallow/best_model_training}
-\caption{Acurácia e perda com a variação do algoritmo de otimização.}
+\includegraphics[width=0.65\linewidth]{../../plot/cnn_shallow/best_model_training}
+\caption{Acurácia e perda durante as épocas de treinamento do melhor modelo CNN \textit{Shallow}.}
 \label{fig:best_model_training}
 \end{figure}
 
-\subsection{Melhor modelo}
+\subsection{Análise do Melhor modelo}
 
-\textbf{Quantidade de parâmetros: 115,976}
+	Avaliando o desempenho do modelo com melhor configuração, o primeiro contraste que se explicita é que ele possuí apenas 115,976 pesos treináveis, uma quantidade drasticamente inferior à da rede com camada densa. A acurácia e acurácia balanceada do classificador se veem em \eqref{eq:accuracy_CNN_shallow} e \eqref{eq:BA_CNN_shallow}, apresentando um desempenho superior ao da MLP, com uma quantidade 842 vezes menor de parâmetros.
 
 \begin{equation}\label{eq:accuracy_CNN_shallow}
 	Accuracy = 0.9088
@@ -368,6 +380,8 @@ Já para a classificação do dado da \autoref{fig:error_analyser_25}, houve gra
 \begin{equation}\label{eq:BA_CNN_shallow}
 	BA = 0.8905
 \end{equation}
+
+A matriz de confusão do classificador baseado em CNN \textit{Shallow} se encontra na \autoref{tab:mc_CNN_shallow}.
 
 \begin{table}[H]
 	\centering
@@ -379,7 +393,7 @@ Já para a classificação do dado da \autoref{fig:error_analyser_25}, houve gra
 		\multicolumn{1}{|c||}{\textbf{2}} & 3          & 2          & 286        & 9          & 2          & 3          & 4          & 2          \\ \hline
 		\multicolumn{1}{|c||}{\textbf{3}} & 23         & 12         & 14         & 478        & 13         & 21         & 18         & 0          \\ \hline
 		\multicolumn{1}{|c||}{\textbf{4}} & 9          & 0          & 6          & 12         & 214        & 1          & 1          & 0          \\ \hline
-		\multicolumn{1}{|c||}{\textbf{5}}          & 4          & 0          & 4          & 50         & 6          & 219        & 1          & 0          \\ \hline
+		\multicolumn{1}{|c||}{\textbf{5}} & 4          & 0          & 4          & 50         & 6          & 219        & 1          & 0          \\ \hline
 		\multicolumn{1}{|c||}{\textbf{6}} & 1          & 7          & 2          & 14         & 2          & 0          & 640        & 0          \\ \hline
 		\multicolumn{1}{|c||}{\textbf{7}} & 0          & 0          & 0          & 0          & 0          & 0          & 1          & 469        \\ \hline
 	\end{tabular}
@@ -406,13 +420,25 @@ Já para a classificação do dado da \autoref{fig:error_analyser_25}, houve gra
 
 \subsubsection{Análise dos erros}
 
-
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth]{../../plot/cnn_shallow/error_analyser_1455}
+\caption{Análise de um caso de erro de classificação.}
+\label{fig:error_analyser_1455}
+\end{figure}
 
 \begin{figure}[H]
-	\centering
-	\includegraphics[width=0.75\linewidth]{../../plot/cnn_shallow/error_analyser_35}
-	\caption{Análise de um caso de erro de classificação.}
-	\label{fig:error_analyser_35}
+\centering
+\includegraphics[width=0.75\linewidth]{../../plot/cnn_shallow/error_analyser_35}
+\caption{Análise de um caso de erro de classificação.}
+\label{fig:error_analyser_35}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth]{../../plot/cnn_shallow/error_analyser_1516}
+\caption{Análise de um caso de erro de classificação.}
+\label{fig:error_analyser_1516}
 \end{figure}
 
 \begin{figure}[H]
@@ -429,19 +455,24 @@ Já para a classificação do dado da \autoref{fig:error_analyser_25}, houve gra
 \label{fig:error_analyser_62_cnn}
 \end{figure}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.75\linewidth]{../../plot/cnn_shallow/error_analyser_1455}
-\caption{Análise de um caso de erro de classificação.}
-\label{fig:error_analyser_1455}
-\end{figure}
+
+\subsection{Aplicando uma entrada 64x64 à camada convolucional}
+
+Como se sabe, a camada convolucional é robusta à alteração da dimensão do dado de entrada, ou seja, a rede aqui treinada para dados 28x28, suporta o processamento de dados de dimensão, como será testado, 64x64. Porém, como uma entrada maior gera \textit{feature maps} de saída também maiores, a camada convolucional terá seus pesos congelados, e uma nova camada de saída \textit{softmax} será treinada.
+
+Ao treinar os 524,296 pesos resultantes da camada \textit{softmax}, conservando os 15,616 pesos da camada convolucional, obteve-se o perfil de treinamento mostrado na \autoref{fig:64x64_model_training}, e a acurácia sobre os dados de teste da \eqref{eq:64x64}. Uma vez que apenas a camada de saída foi treinada, para um dado consideravelmente maior de entrada, a queda de acurácia não se faz tão grande, uma vez que para uma entrada com esse tamanho, além de pesos com diferença relevante, pode se fazer necessário o uso de \textit{kernels} maiores. 
+
+\begin{equation}\label{eq:64x64}
+	Accuracy = 0.8620
+\end{equation}
 
 \begin{figure}[H]
-\centering
-\includegraphics[width=0.75\linewidth]{../../plot/cnn_shallow/error_analyser_1516}
-\caption{Análise de um caso de erro de classificação.}
-\label{fig:error_analyser_1516}
+	\centering
+	\includegraphics[width=0.75\linewidth]{../../plot/cnn_shallow/64x64_model_training}
+	\caption{Análise de um caso de erro de classificação.}
+	\label{fig:64x64_model_training}
 \end{figure}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
