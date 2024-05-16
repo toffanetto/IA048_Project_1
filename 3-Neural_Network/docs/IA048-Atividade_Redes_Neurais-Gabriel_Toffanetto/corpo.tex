@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Apresentação dos dados}
 
-A base de dados BloodMNIST é formada por um total de 15380 imagens de células sanguíneas divdidas em 8 classes, como mostrado na \autoref{fig:samples_of_classes}. Essas amostras se dividem em conjunto de treinamento, com 11959 representantes e teste, com 3421 itens. As imagens estão disponíveis em diferentes resoluções, sendo \textit{a priori}, escolhida a resolução de 28x28 para trazer uma maior eficiência computacional, principalmente para o caso das redes densas. \textbf{Porém, propõem-se o teste de amostras de maior resolução para a rede convolucional já treinada com as amostras 28x28, para validação da robustez ao tamanho da entrada.}
+A base de dados BloodMNIST é formada por um total de 15380 imagens de células sanguíneas divdidas em 8 classes, como mostrado na \autoref{fig:samples_of_classes}. Essas amostras se dividem em conjunto de treinamento, com 11959 representantes e teste, com 3421 itens. As imagens estão disponíveis em diferentes resoluções, sendo \textit{a priori}, escolhida a resolução de 28x28 para trazer uma maior eficiência computacional, principalmente para o caso das redes densas. Porém, propõem-se o teste de amostras de maior resolução para a rede convolucional já treinada com as amostras 28x28, para validação da robustez ao tamanho da entrada.
 
 \begin{figure}[H]
 	\centering
@@ -41,7 +41,7 @@ A implementação da rede MLP com uma camada intermediária se deu por meio do u
 
 \subsection{Busca do melhor modelo}
 
-Para realizar a busca do melhor modelo da MLP, considerando que existem uma grande possibilidade de hiper-parâmetros, foi realizada uma busca exaustiva simplificada por etapas, baseada no funcionamento dos \textit{wrappers}, onde dada uma configuração inicial de parâmetros, baseado no comumente visto na literatura \cite{geron2019hands}. As variáveis selecionadas para a busca foram: Número de neurônios da camada intermediária, função de ativação dos neurônios da camada intermediária, taxa de \textit{dropout} dos neurônios da camada intermediária e otimizador para ajuste dos pesos. Demais hiper-parâmetros como tamanho do \textit{batch} e passo do algoritmo de otimização foram mantidos \textit{default}.
+Para realizar a busca do melhor modelo da MLP, considerando que existem uma grande possibilidade de hiper-parâmetros, foi realizada uma busca exaustiva simplificada por etapas, baseada no funcionamento dos \textit{wrappers}, onde dada uma configuração inicial de parâmetros, baseado no comumente visto na literatura \cite{geron2019hands}. As variáveis selecionadas para a busca foram: Número de neurônios da camada intermediária, função de ativação dos neurônios da camada intermediária, taxa de \textit{dropout} dos neurônios da camada intermediária e otimizador para ajuste dos pesos. Demais hiper-parâmetros como tamanho do \textit{batch} e passo do algoritmo de otimização foram mantidos \textit{default}, e foi utilizada a entropia cruzada como função de custo, acompanhando também a métrica de acurácia.
 
 A busca por etapas se deu da seguinte forma: Dada a condição inicial, uma MLP de 256 neurônios na camada intermediária com função de ativação ReLU, sem \textit{dropout} e ajustada por \textit{Stochastic Gradient Descendent} (SGD), testou-se a rede alterando primeiramente o número de neurônios. Uma vez conhecido o valor que obteve maior acurácia, testou-se as funções de ativações canditadas para esse número de neurônios, buscando a combinação que desse a melhor acurácia. O processo se repete para o \textit{dropout} e o algoritmo de otimização, onde ao final se obtém a combinação que agrega o melhor número de neurônios visto, melhor função de ativação para tal conjunto de neurônios, melhor taxa de \textit{dropout} e o melhor otimizador.
 
@@ -333,7 +333,7 @@ Já para a classificação do dado da \autoref{fig:error_analyser_25}, houve gra
 
 Para a implementação a rede neural convolucional (CNN) com arquitetura rasa (\textit{shallow}), foi utilizada uma rede possuindo apenas uma camada convolucional, uma camada de \textit{pooling} e uma camada de saída com função de ativação \textit{softmax}.
 
-Com base no visto anteriormente, a função de ativação foi mantida como ReLU, o otimizador como SGD e não foi empregado o uso de \textit{dropout}, devido ao tamanho da rede. A camada de \textit{pooling} escolhida utiliza a operação de máximo, operação selecionada a partir de um teste prévio, que mostrou maior acurácia da rede utilizando a operação de máximo frente à operação de média. O \textit{kernel} de \textit{pooling} foi mantido em um tamanho pequeno, de 2x2, pois como a rede é rasa, houve a intenção de preservar a maior quantidade de dados possível, em vista que não há expansão do campo receptivo.
+Com base no visto anteriormente, a função de ativação foi mantida como ReLU, o otimizador como SGD, entropia cruzada como função de custo e não foi empregado o uso de \textit{dropout}, devido ao tamanho da rede. A camada de \textit{pooling} escolhida utiliza a operação de máximo, operação selecionada a partir de um teste prévio, que mostrou maior acurácia da rede utilizando a operação de máximo frente à operação de média. O \textit{kernel} de \textit{pooling} foi mantido em um tamanho pequeno, de 2x2, pois como a rede é rasa, houve a intenção de preservar a maior quantidade de dados possível, em vista que não há expansão do campo receptivo.
 
 \subsection{Busca do melhor modelo}
 
@@ -484,9 +484,9 @@ Para a solução do problema de classificação das células sanguíneas, utiliz
 	\centering
 	\begin{tabular}{c|c|cccc}
 		\textbf{Camada}  & \textbf{Dimensão de saída} & \textbf{Descrição}                                                                                        \\ \hline
-		Convolução       & $[28, \ 28, \ 3]$          & $128, \ 7\times 7 + 1(\text{S})$  + ReLU() + BN()                                                         \\ \hline
+		Convolução       & $[28, \ 28, \ 3]$          & BN() + ReLU() + $128, \ 7\times 7 + 1(\text{S})$  \\ \hline
 		\textit{Pooling} & $[14, \ 14, \ 64]$           & $\ 2\times 2 + 1(\text{S})$ max pooling                                                                   \\ \hline &&&\\[-1em]
-		\textit{Dense Block}      & $[14, \ 14, \ 256]$        & $ \begin{bmatrix} 32, \ 1\times 1 + 1(\text{S}) \\ 32, \ 3\times 3 + 1(\text{S}) \end{bmatrix} + \text{ReLU}() + \text{BN}() \times 6 $ \\ &&&\\[-1em] \hline
+		\textit{Dense Block}      & $[14, \ 14, \ 256]$        & $ \text{BN}() +\text{ReLU}() + \begin{bmatrix} 32, \ 1\times 1 + 1(\text{S}) \\ 32, \ 3\times 3 + 1(\text{S}) \end{bmatrix} \times 6 $ \\ &&&\\[-1em] \hline
 		\textit{Pooling} & $[256]$                    & \textit{Global average pooling}                                                                         \\ \hline
 		Saída            & $[8]$                      & \textit{softmax}()                                                                                                
 	\end{tabular}
@@ -494,7 +494,11 @@ Para a solução do problema de classificação das células sanguíneas, utiliz
 	\label{tab:cnn_dense}
 \end{table}
 
+Como feito na versão inicial, para cada camada convolucional, é aplicado uma camada de \textit{batch normalization}, função de ativação ReLU e então é feita a convolução dos dados. Isso se faz tanto na camada convolucional inicial, como nas que estão presentes dentro do bloco denso.
+
 A rede possuí um total de 351,048 parâmetros, sendo 347,656 deles treináveis. Observa-se que mesmo com a camada densa de saída, o número de parâmetros não aumenta expressivamente devido ao uso da camada de \textit{global average pooling}, que compacta cada canal de saída do \textit{dense block} em um único valor, reduzindo consideravelmente a quantidade de dados que serão enfileirados para gerar a saída pela camada \textit{softmax}. 
+
+Assim como anteriormente, o tamanho do \textit{mini-batch} e o passo do otimizador SGD foram mantidos como padrão, e foi utilizada a entropia cruzada como função de custo. O modelo foi treinado por 200 épocas, sendo sempre salvo o valor da melhor época por meio de validação cruzada, que foi restaurado ao final do treinamento.
 
 \subsection{Análise do desempenho}
 
@@ -542,6 +546,8 @@ A rede possuí um total de 351,048 parâmetros, sendo 347,656 deles treináveis.
 \end{table}
 
 \subsection{Análise de erros}
+
+% Menos erros desafiadores -> Erra sempre com certeza
 
 \begin{figure}[H]
 	\centering
