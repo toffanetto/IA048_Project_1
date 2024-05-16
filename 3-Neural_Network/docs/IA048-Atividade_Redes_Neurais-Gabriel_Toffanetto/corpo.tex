@@ -478,20 +478,25 @@ Ao treinar os 524,296 pesos resultantes da camada \textit{softmax}, conservando 
 \clearpage
 \section{CNN Profunda}
 
-Para a solução do problema de classificação das células sanguíneas, utilizando uma rede neural convolucional profunda, foi criada uma arquitetura inspirada nas \textit{DenseNets} \cite{huang2018densely}. A rede profunda modelo foi bastante simplificada, reduzindo o número de camadas, ao utilizar apenas um \textit{Dense Block}, e também considerando camadas convolucionais e de \textit{pooling} com \textit{stride} unitário, com intuito de preservar melhor a dimensão dos dados, em vista que a entrada utilizada é 28x28. A arquitetura da rede neural implementada é mostrada na \autoref{tab:cnn_dense}.
+Para a solução do problema de classificação das células sanguíneas, utilizando uma rede neural convolucional profunda, foi criada uma arquitetura inspirada nas \textit{DenseNets} \cite{huang2018densely}. A rede profunda modelo foi bastante simplificada, reduzindo o número de camadas, ao utilizar apenas um \textit{Dense Block}, e também considerando camadas convolucionais e de \textit{pooling} com \textit{stride} unitário, com intuito de preservar melhor a dimensão dos dados, em vista que a entrada utilizada é 28x28. Em vista disso, o tamanho do \textit{kernel} da camada de \textit{pooling} também foi alterada para 2x2, conservando um canal de saída maior, e a camada de transição não foi utilizada devido ao fato de não haver a concatenação de \textit{dense blocks}. A arquitetura da rede neural implementada é mostrada na \autoref{tab:cnn_dense}.
 
 \begin{table}[H]
+	\centering
 	\begin{tabular}{c|c|cccc}
 		\textbf{Camada}  & \textbf{Dimensão de saída} & \textbf{Descrição}                                                                                        \\ \hline
 		Convolução       & $[28, \ 28, \ 3]$          & $128, \ 7\times 7 + 1(\text{S})$  + ReLU() + BN()                                                         \\ \hline
-		\textit{Pooling} & $[10, \ 10, \ 64]$           & $\ 3\times 3 + 1(\text{S})$ max pooling                                                                   \\ \hline &&&\\[-1em]
-		\textit{Dense Block}      & $[10, \ 10, \ 256]$        & $ \begin{bmatrix} 32, \ 1\times 1 + 1(\text{S}) \\ 32, \ 3\times 3 + 1(\text{S}) \end{bmatrix} + \text{ReLU}() + \text{BN}() \times 6 $ \\ &&&\\[-1em] \hline
+		\textit{Pooling} & $[14, \ 14, \ 64]$           & $\ 2\times 2 + 1(\text{S})$ max pooling                                                                   \\ \hline &&&\\[-1em]
+		\textit{Dense Block}      & $[14, \ 14, \ 256]$        & $ \begin{bmatrix} 32, \ 1\times 1 + 1(\text{S}) \\ 32, \ 3\times 3 + 1(\text{S}) \end{bmatrix} + \text{ReLU}() + \text{BN}() \times 6 $ \\ &&&\\[-1em] \hline
 		\textit{Pooling} & $[256]$                    & \textit{Global average pooling}                                                                         \\ \hline
 		Saída            & $[8]$                      & \textit{softmax}()                                                                                                
 	\end{tabular}
 	\caption{Estrura da CNN profunda baseada na \textit{DenseNet}.}
 	\label{tab:cnn_dense}
 \end{table}
+
+A rede possuí um total de 351,048 parâmetros, sendo 347,656 deles treináveis. Observa-se que mesmo com a camada densa de saída, o número de parâmetros não aumenta expressivamente devido ao uso da camada de \textit{global average pooling}, que compacta cada canal de saída do \textit{dense block} em um único valor, reduzindo consideravelmente a quantidade de dados que serão enfileirados para gerar a saída pela camada \textit{softmax}. 
+
+\subsection{Análise do desempenho}
 
 \begin{equation}\label{eq:cnn_deep_accuracy}
 	Accuracy = 0.9497
@@ -536,3 +541,43 @@ Para a solução do problema de classificação das células sanguíneas, utiliz
 	\label{tab:pr_CNN_deep}
 \end{table}
 
+\subsection{Análise de erros}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\linewidth]{../../plot/cnn_deep/error_analyser_8}
+	\caption{Análise de um caso de erro de classificação.}
+	\label{fig:error_analyser_8}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth]{../../plot/cnn_deep/error_analyser_187}
+\caption{Análise de um caso de erro de classificação.}
+\label{fig:error_analyser_187}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth]{../../plot/cnn_deep/error_analyser_259}
+\caption{Análise de um caso de erro de classificação.}
+\label{fig:error_analyser_259}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth]{../../plot/cnn_deep/error_analyser_35}
+\caption{Análise de um caso de erro de classificação.}
+\label{fig:error_analyser_35_cnn_deep}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth]{../../plot/cnn_deep/error_analyser_62}
+\caption{Análise de um caso de erro de classificação.}
+\label{fig:error_analyser_62_cnn_deep}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\section{Conclusão}
