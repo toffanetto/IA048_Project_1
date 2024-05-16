@@ -460,7 +460,7 @@ A matriz de confusão do classificador baseado em CNN \textit{Shallow} se encont
 
 Como se sabe, a camada convolucional é robusta à alteração da dimensão do dado de entrada, ou seja, a rede aqui treinada para dados 28x28, suporta o processamento de dados de dimensão, como será testado, 64x64. Porém, como uma entrada maior gera \textit{feature maps} de saída também maiores, a camada convolucional terá seus pesos congelados, e uma nova camada de saída \textit{softmax} será treinada.
 
-Ao treinar os 524,296 pesos resultantes da camada \textit{softmax}, conservando os 15,616 pesos da camada convolucional, obteve-se o perfil de treinamento mostrado na \autoref{fig:64x64_model_training}, e a acurácia sobre os dados de teste da \eqref{eq:64x64}. Uma vez que apenas a camada de saída foi treinada, para um dado consideravelmente maior de entrada, a queda de acurácia não se faz tão grande, uma vez que para uma entrada com esse tamanho, além de pesos com diferença relevante, pode se fazer necessário o uso de \textit{kernels} maiores. 
+Ao treinar os 524,296 pesos resultantes da camada \textit{softmax}, conservando os 15,616 pesos da camada convolucional, obteve-se o perfil de treinamento mostrado na \autoref{fig:64x64_model_training}, e a acurácia sobre os dados de teste  \eqref{eq:64x64}. Uma vez que apenas a camada de saída foi treinada, para um dado consideravelmente maior de entrada, a queda de acurácia não se faz tão grande, uma vez que para uma entrada com esse tamanho, além de pesos com diferença relevante, pode se fazer necessário o uso de \textit{kernels} maiores. 
 
 \begin{equation}\label{eq:64x64}
 	Accuracy = 0.8620
@@ -477,4 +477,62 @@ Ao treinar os 524,296 pesos resultantes da camada \textit{softmax}, conservando 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 \section{CNN Profunda}
+
+Para a solução do problema de classificação das células sanguíneas, utilizando uma rede neural convolucional profunda, foi criada uma arquitetura inspirada nas \textit{DenseNets} \cite{huang2018densely}. A rede profunda modelo foi bastante simplificada, reduzindo o número de camadas, ao utilizar apenas um \textit{Dense Block}, e também considerando camadas convolucionais e de \textit{pooling} com \textit{stride} unitário, com intuito de preservar melhor a dimensão dos dados, em vista que a entrada utilizada é 28x28. A arquitetura da rede neural implementada é mostrada na \autoref{tab:cnn_dense}.
+
+\begin{table}[H]
+	\begin{tabular}{c|c|cccc}
+		\textbf{Camada}  & \textbf{Dimensão de saída} & \textbf{Descrição}                                                                                        \\ \hline
+		Convolução       & $[28, \ 28, \ 3]$          & $128, \ 7\times 7 + 1(\text{S})$  + ReLU() + BN()                                                         \\ \hline
+		\textit{Pooling} & $[10, \ 10, \ 64]$           & $\ 3\times 3 + 1(\text{S})$ max pooling                                                                   \\ \hline &&&\\[-1em]
+		\textit{Dense Block}      & $[10, \ 10, \ 256]$        & $ \begin{bmatrix} 32, \ 1\times 1 + 1(\text{S}) \\ 32, \ 3\times 3 + 1(\text{S}) \end{bmatrix} + \text{ReLU}() + \text{BN}() \times 6 $ \\ &&&\\[-1em] \hline
+		\textit{Pooling} & $[256]$                    & \textit{Global average pooling}                                                                         \\ \hline
+		Saída            & $[8]$                      & \textit{softmax}()                                                                                                
+	\end{tabular}
+	\caption{Estrura da CNN profunda baseada na \textit{DenseNet}.}
+	\label{tab:cnn_dense}
+\end{table}
+
+\begin{equation}\label{eq:cnn_deep_accuracy}
+	Accuracy = 0.9497
+\end{equation}
+
+\begin{equation}\label{eq:cnn_deep_ba}
+	BA = 0.9444
+\end{equation}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{c||c|c|c|c|c|c|c|c|}
+		\cline{2-9}
+		& \textbf{0} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} \\ \hline \hline
+		\multicolumn{1}{|c||}{\textbf{0}} & 228        & 0          & 0          & 7          & 2          & 5          & 2          & 0          \\ \hline
+		\multicolumn{1}{|c||}{\textbf{1}} & 1          & 621        & 0          & 1          & 0          & 0          & 1          & 0          \\ \hline
+		\multicolumn{1}{|c||}{\textbf{2}} & 1          & 0          & 304        & 2          & 3          & 0          & 0          & 1          \\ \hline
+		\multicolumn{1}{|c||}{\textbf{3}} & 17         & 2          & 12         & 504        & 5          & 21         & 18         & 0          \\ \hline
+		\multicolumn{1}{|c||}{\textbf{4}} & 0          & 0          & 6          & 14         & 221        & 2          & 0          & 0          \\ \hline
+		\multicolumn{1}{|c||}{\textbf{5}} & 1          & 0          & 1          & 24         & 2          & 255        & 1          & 0          \\ \hline
+		\multicolumn{1}{|c||}{\textbf{6}} & 1          & 1          & 4          & 13         & 0          & 1          & 646        & 0          \\ \hline
+		\multicolumn{1}{|c||}{\textbf{7}} & 0          & 0          & 0          & 0          & 0          & 0          & 0          & 470        \\ \hline
+	\end{tabular}
+	\caption{Matriz de confusão do classificador baseado em CNN \textit{Shallow}.}
+	\label{tab:mc_CNN_deep}
+\end{table}
+
+\begin{table}[H]
+	\centering
+\begin{tabular}{c|c|c}
+	\textbf{Classe} & \textbf{Precisão} & \textit{\textbf{Recall}} \\ \hline
+	0               & 0.9344            & 0.9157                   \\
+	1               & 0.9952            & 0.9952                   \\
+	2               & 0.9775            & 0.9297                   \\
+	3               & 0.8705            & 0.8920                   \\
+	4               & 0.9095            & 0.9485                   \\
+	5               & 0.8979            & 0.8979                   \\
+	6               & 0.9700            & 0.9671                   \\
+	7               & 1.0000            & 0.9979                  
+\end{tabular}
+	\caption{Matriz de confusão do classificador baseado em CNN \textit{Shallow}.}
+	\label{tab:pr_CNN_deep}
+\end{table}
 
