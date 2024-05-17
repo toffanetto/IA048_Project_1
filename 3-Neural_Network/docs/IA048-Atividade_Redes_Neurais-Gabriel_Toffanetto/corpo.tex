@@ -381,8 +381,7 @@ A \autoref{fig:best_model_training} mostra o treinamento da rede com melhor conf
 	BA = 0.8905
 \end{equation}
 
-A matriz de confusão do classificador baseado em CNN \textit{Shallow} se encontra na \autoref{tab:mc_CNN_shallow}.
-
+A matriz de confusão do classificador baseado em CNN \textit{Shallow} se encontra na \autoref{tab:mc_CNN_shallow}. 
 \begin{table}[H]
 	\centering
 	\begin{tabular}{c||c|c|c|c|c|c|c|c|}
@@ -419,6 +418,8 @@ A matriz de confusão do classificador baseado em CNN \textit{Shallow} se encont
 \end{table}
 
 \subsubsection{Análise dos erros}
+
+
 
 \begin{figure}[H]
 \centering
@@ -478,7 +479,7 @@ Ao treinar os 524,296 pesos resultantes da camada \textit{softmax}, conservando 
 \clearpage
 \section{CNN Profunda}
 
-Para a solução do problema de classificação das células sanguíneas, utilizando uma rede neural convolucional profunda, foi criada uma arquitetura inspirada nas \textit{DenseNets} \cite{huang2018densely}. A rede profunda modelo foi bastante simplificada, reduzindo o número de camadas, ao utilizar apenas um \textit{Dense Block}, e também considerando camadas convolucionais e de \textit{pooling} com \textit{stride} unitário, com intuito de preservar melhor a dimensão dos dados, em vista que a entrada utilizada é 28x28. Em vista disso, o tamanho do \textit{kernel} da camada de \textit{pooling} também foi alterada para 2x2, conservando um canal de saída maior, e a camada de transição não foi utilizada devido ao fato de não haver a concatenação de \textit{dense blocks}. A arquitetura da rede neural implementada é mostrada na \autoref{tab:cnn_dense}.
+Para a solução do problema de classificação das células sanguíneas, utilizando uma rede neural convolucional profunda, foi criada uma arquitetura inspirada nas \textit{DenseNets} \cite{huang2018densely}. A rede profunda modelo foi bastante simplificada, reduzindo o número de camadas, ao utilizar apenas um \textit{Dense Block}, e também considerando camadas convolucionais e de \textit{pooling} com \textit{stride} unitário, com intuito de preservar melhor a dimensão dos dados, em vista que a entrada utilizada é 28x28. Em vista disso, o tamanho do \textit{kernel} da camada de \textit{pooling} também foi alterada para 2x2, conservando um canal de saída maior, e a camada de transição não foi utilizada devido ao fato de não haver a concatenação de \textit{dense blocks}. O tamanho do \textit{kernel} da primeira camada convolucional também foi aumentado para 9x9, o que resultou em um impacto positivo na acurácia do classificador. A arquitetura da rede neural implementada é mostrada na \autoref{tab:cnn_dense}.
 
 \begin{table}[H]
 	\centering
