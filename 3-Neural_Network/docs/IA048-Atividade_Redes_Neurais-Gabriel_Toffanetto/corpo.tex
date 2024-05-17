@@ -10,7 +10,7 @@ A base de dados BloodMNIST é formada por um total de 15380 imagens de células 
 	\label{fig:samples_of_classes}
 \end{figure}
 
-O \textit{dataset} BloodMNIST já fornece de forma separada os dados utilizados para treinamento, e os que serão utilizados para teste. A \autoref{fig:balancingofclasses} mostra a distribuição de amostrar para cada classe, para os conjuntos de treinamento, em azul, e de teste, em verde. Observa-se que existem classes majoritárias, como a 1, 3, 6 e 7, que apresentam muito mais amostras que as demais. O perfil de amostras por classe é similar nos conjuntos de teste e treinamento, o que mostra que o impacto no mapeamento pelo desbalanceamento das classes irá afetar de forma igual ambos os \textit{datasets}. \textbf{Tal disparidade pode ser tanto causada por um viés na coleta de dados, quanto também pela ocorrência real de mais representantes de uma classe do que das demais, o que modela de forma realista os dados.}
+O \textit{dataset} BloodMNIST já fornece de forma separada os dados utilizados para treinamento, e os que serão utilizados para teste. A \autoref{fig:balancingofclasses} mostra a distribuição de amostrar para cada classe, para os conjuntos de treinamento, em azul, e de teste, em verde. Observa-se que existem classes majoritárias, como a 1, 3, 6 e 7, que apresentam muito mais amostras que as demais. O perfil de amostras por classe é similar nos conjuntos de teste e treinamento, o que mostra que o impacto no mapeamento pelo desbalanceamento das classes irá afetar de forma igual ambos os \textit{datasets}.
 
 % TODO: \usepackage{graphicx} required
 \begin{figure}[H]
@@ -20,7 +20,9 @@ O \textit{dataset} BloodMNIST já fornece de forma separada os dados utilizados 
 	\label{fig:balancingofclasses}
 \end{figure}
 
-Para realizar o treinamento utilizando da ferramenta de validação cruzada, foi escolhida a validação do tipo \textit{holdout}, por meio do particionamento do conjunto de dados de treinamento, obtendo um novo conjunto de dados de validação. O novo conjunto de treinamento é formado pelos primeiros 70\% do conjunto original de treinamento, enquanto o de validação, os 30\% restantes do final do \textit{dataset} original. Para garantir a veracidade da validação, quer-se que ambos os conjuntos tenham a mesma representação de cada classe, o que pode se afirmar positivo de acordo com a \autoref{fig:balancingofclasses_holdout}.
+Para realizar o treinamento utilizando da ferramenta de validação cruzada, foi escolhida a validação do tipo \textit{holdout}, por meio do particionamento do conjunto de dados de treinamento, obtendo um novo conjunto de dados de validação. O novo conjunto de treinamento é formado pelos primeiros 70\% do conjunto original de treinamento, enquanto o de validação, os 30\% restantes do final do \textit{dataset} original. Para garantir a veracidade da validação, quer-se que ambos os conjuntos tenham a mesma representação de cada classe, o que pode se afirmar positivo de acordo com a \autoref{fig:balancingofclasses_holdout}. 
+
+Os dados de treinamento, validação e teste foram normalizados em uma escada de 0 a 1, de forma a facilitar o processo de ajuste de pesos via gradiente.
 
 % TODO: \usepackage{graphicx} required
 \begin{figure}[H]
@@ -381,7 +383,9 @@ A \autoref{fig:best_model_training} mostra o treinamento da rede com melhor conf
 	BA = 0.8905
 \end{equation}
 
-A matriz de confusão do classificador baseado em CNN \textit{Shallow} se encontra na \autoref{tab:mc_CNN_shallow}. 
+A matriz de confusão do classificador baseado em CNN \textit{Shallow} se encontra na \autoref{tab:mc_CNN_shallow}. Observa-se que o perfil de classificação das classes se mantém o mesmo, porém com menos erros. A classe 3  continua sendo a mais desafiadora, porém a classe 5 passa a ter a menor precisão, sendo constantemente confundida com a classe 3. Dessa forma, se vê que o ganho de acurácia não é igual para todas classes, como visto na \autoref{tab:pr_CNN_shallow}, onde algumas apresentaram um grande aumento de precisão e \textit{recall}, já outras não possuiram grandes ganhos, como a classe 0 e 5.
+
+
 \begin{table}[H]
 	\centering
 	\begin{tabular}{c||c|c|c|c|c|c|c|c|}
@@ -419,7 +423,7 @@ A matriz de confusão do classificador baseado em CNN \textit{Shallow} se encont
 
 \subsubsection{Análise dos erros}
 
-
+Analisando alguns casos de erro de classificação da rede neural convolucional, observa-se na \autoref{fig:error_analyser_1455} um caso onde houve dúvida entre três classes, sendo a verdadeira a segunda maior probabilidade. Observando visualmente, vê-se que a amostra a ser rotulada apresenta uma disparidade com sua representante de classe, o que leva a dificuldade de se encontrar padrões.
 
 \begin{figure}[H]
 \centering
@@ -427,6 +431,8 @@ A matriz de confusão do classificador baseado em CNN \textit{Shallow} se encont
 \caption{Análise de um caso de erro de classificação.}
 \label{fig:error_analyser_1455}
 \end{figure}
+
+Já as amostras das Figuras~\ref{fig:error_analyser_35}~e~\ref{fig:error_analyser_1516}, evidenciam casos muito desafiadores, onde houve dúvida entre 4 classes, e a classe verdadeira se encontrou como a última opção nos dois casos. Como no caso anterior, também se tratam de amostras que visualmente possuem um padrão diferente das suas representantes de classe, podendo se tratar de \textit{outliers} ou amostras de baixa qualidade, onde o classificador demonstra mais dificuldade.
 
 \begin{figure}[H]
 \centering
@@ -441,6 +447,8 @@ A matriz de confusão do classificador baseado em CNN \textit{Shallow} se encont
 \caption{Análise de um caso de erro de classificação.}
 \label{fig:error_analyser_1516}
 \end{figure}
+
+Como visto para a classificação utilizando a rede MLP, os dados das Figuras~\ref{fig:error_analyser_36_cnn}~e~\ref{fig:error_analyser_62_cnn} também foram classificados erroneamente pela CNN \textit{Shallow}, havendo uma certeza de majoritária sobre a classe errada.
 
 \begin{figure}[H]
 \centering
@@ -470,7 +478,7 @@ Ao treinar os 524,296 pesos resultantes da camada \textit{softmax}, conservando 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.75\linewidth]{../../plot/cnn_shallow/64x64_model_training}
-	\caption{Análise de um caso de erro de classificação.}
+	\caption{Acurácia e perda durante as épocas de treinamento apenas da camada de saída.}
 	\label{fig:64x64_model_training}
 \end{figure}
 
@@ -503,6 +511,8 @@ Assim como anteriormente, o tamanho do \textit{mini-batch} e o passo do otimizad
 
 \subsection{Análise do desempenho}
 
+Ao classificar os dados de teste com a rede convolucional profunda já treinada, observa-se um ganho interessante de acurácia, como mostrado em \eqref{eq:cnn_deep_accuracy} e \eqref{eq:cnn_deep_ba}. Com a inserção de mais camadas, o campo receptivo se amplia, permitindo o aprendizado de padrões mais complexos, e o aprendizado da representação, por meio da extração de atributos camada-a-camada.
+
 \begin{equation}\label{eq:cnn_deep_accuracy}
 	Accuracy = 0.9497
 \end{equation}
@@ -510,6 +520,8 @@ Assim como anteriormente, o tamanho do \textit{mini-batch} e o passo do otimizad
 \begin{equation}\label{eq:cnn_deep_ba}
 	BA = 0.9444
 \end{equation}
+
+A matriz de confusão do classificador para os dados de teste é vista na \autoref{tab:mc_CNN_deep}, onde se percebe uma esparsidade maior, apresentando menos casos de erro. A classe mais desafiadora persiste sendo a 3, porém ao contrário do ocorrido com a CNN \textit{Shallow}, a classe 5 apresentou uma grande ganho de precisão, como visto na \autoref{tab:pr_CNN_deep}. As classes 1 e 7 foram as que alcançaram maiores precisões e \textit{recalls}, onde a ultima conseguiu atingir precisão unitária e apenas um caso de falso positivo.
 
 \begin{table}[H]
 	\centering
@@ -548,7 +560,7 @@ Assim como anteriormente, o tamanho do \textit{mini-batch} e o passo do otimizad
 
 \subsection{Análise de erros}
 
-% Menos erros desafiadores -> Erra sempre com certeza
+Analisando os erros da CNN \textit{Deep}, observa-se principalmente um comportamento menos desafiador, onde a rede tende a errar menos, mas ao errar, o faz com certeza que está certa. Tal questão se mostra nas Figuras~\ref{fig:error_analyser_8},~\ref{fig:error_analyser_187}~e~\ref{fig:error_analyser_259}, onde há grande probabilidade para a classe vencedora, e a classe verdadeira ocupa a segunda posição, com probabilidade consideravelmente menor.
 
 \begin{figure}[H]
 	\centering
@@ -571,6 +583,8 @@ Assim como anteriormente, o tamanho do \textit{mini-batch} e o passo do otimizad
 \label{fig:error_analyser_259}
 \end{figure}
 
+A amostra das Figuras~\ref{fig:error_analyser_35_cnn_deep}~e~\ref{fig:error_analyser_62_cnn_deep} também apresentaram erro de classificação para a rede convolucional rasa, porém, ao comparar a \autoref{fig:error_analyser_35} e \autoref{fig:error_analyser_35_cnn_deep}, observa-se a mudança no panorama de probabilidades, onde a rede profunda passa a errar com certeza, onde para a rede rasa existia muita dúvida. Já ao comparar a \autoref{fig:error_analyser_62} e \autoref{fig:error_analyser_62_cnn} com a \autoref{fig:error_analyser_62_cnn_deep} se vê o mesmo perfil de probabilidade, mas agora a rede profunda se confunde mais, colocando a probabilidade da classe real em posições inferiores, e aumentando a certeza sob a classe errada.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\linewidth]{../../plot/cnn_deep/error_analyser_35}
@@ -588,3 +602,35 @@ Assim como anteriormente, o tamanho do \textit{mini-batch} e o passo do otimizad
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 \section{Conclusão}
+%
+%Dados e problema
+%
+%MLP (busca da melhor configuração)
+%CNN Shallow (aumento do tamanho de entrada)
+%CNN Deep (densenet)
+%
+%Comparar:
+%- Quantidade de pesos ajustáveis
+%- Desempenho
+%- Dificuldade de treinamento
+
+O problema solucionado com técnicas de redes neurais é desafiador, uma vez que têm-se que classificar em 8 classes tipos de células sanguíneas, que visualmente não possuem diferenças tão discrepantes, e que ainda porém apresentar variância no tamanho e posição na imagem. Com a utilização das amostras em tamanho 28x28, aceitou-se um pouco de perda de desempenho ao perder resolução, pelo ganho computacional para treinamento e classificação.
+
+Para confecção do classificador, utilizou-se primeiramente redes neurais densas (MLP), que fazem o processamento do dado da imagem a partir do enfileiramento de todos os \textit{pixels} dos três canais de cor em um grande vetor, que foi normalizado. Ao fazer isso, se perde a característica espacial do dado original da imagem, o que faz com seja uma solução menos robusta à variação dos dados de entrada. Para encontrar os hiper-parâmetros que maximizavam o desempenho da MLP, foi realizada uma busca exaustiva pelo número de neurônios da camada intermediária, função de ativação destes neurônios, taxa de \textit{dropout} e algoritmo de otimização. Tal busca, apesar de trazer grande custo computacional, que impede a combinação de todas as possibilidades, trouxe um modelo com boa capacidade de generalização, em vista do uso de apenas uma camada.
+
+O emprego de redes neurais com camadas convolucionais também foi realizado, implementando primeiramente uma CNN de apenas uma camada convolucional. A operação de convolução mantém a natureza espacial dos dados, dessa forma, cada conjunto de pesos aprende a detectar certos padrões, que podem ser encontrados independente da posição na imagem de entrada. Para essa rede, também se fez a busca pelos melhor hiper-parâmetros de número de \textit{kernels} e o tamanho desses \textit{kernels}. Devido a grande redução do número de pesos, nesse caso pode-se fazer uma busca exaustiva completa entre os candidatos, que além dos valores ótimos, exibiu o perfil de comportamento da relação da acurácia com os parâmetros buscados. Como a camada convolucional é robusta ao tamanho do dado de entrada, testou-se também a aplicação de uma imagem de entrada 64x64, onde após treinar apenas a  camada de saída, conseguiu-se manter uma acurácia elevada, o que é limitado pelo campo receptivo reduzido de uma rede rasa. 
+
+Já ao dar profundidade à rede convolucional, com emprego de diversas camadas montadas na forma de blocos densos, assim como na \textit{DenseNet}, observou-se um grande ganho de acurácia, reduzindo o erro em casos desafiadores e dando uma capacidade de generalização ainda maior à rede. Com o emprego de rede convolucionais profundas, consegue-se ampliar o campo receptivo à cada camada, permitindo o uso de \textit{kernels} menores, gerando mais canais de saída e extraindo mais atributos, onde cada camada simplifica o problema, e tornando a classificação pela camada de saída mais simples.
+
+Ao comparar as três redes, o que mais se acentua é a quantidade de pesos ajustáveis presente em cada uma, onde a rede MLP chega a ter mais de 800 vezes a quantidade de pesos da CNN \textit{Shallow}, apresentando um desempenho inferior. Já a rede profunda, devido às suas muitas camadas, apresenta um grande volume de pesos, ainda bem menor que da MLP, mas muito reduzido devido à camada de saída que realiza a compactação de cada um dos 256 canais de saída da rede convolucional em um escalar, reduzindo consideravelmente o número de pesos da camada densa de saída. Porém também é claro o ganho de desempenho ao se escolher redes convolucionais, e principalmente, dando profundidade às mesmas. Ao processar imagens, ser robusto ao tamanho da entrada e à translação dos padrões dentro da imagem trazem resultados positivos, e que são alcançados ao usar CNNs. Porém, as redes MLP também apresentam grande desempenho, e são constantemente utilizadas na literatura para processar os dados no espaço latente criado pelas camadas convolucionais, trazendo um grande desempenho para as redes convolucionais profundas.
+
+Dessa forma, vê-se que para obter um bom desempenho para classificação de imagens utilizando redes neurais, é necessário a tomada de diversas decisões: desde à arquitetura que será utilizada, até os hiper-parâmetros que serão escolhidos para tal. É importante também casar o modelo que se deseja utilizar com o \textit{hardware} disponível, para que seu treinamento ocorra em tempo hábil e a mesma também possa ser utilizada com facilidade. Cada aplicação em aprendizado de máquina terá suas peculiaridades, e cabe ao cientista fazer bom uso da literatura e da sua experiencia para fazer boas escolhas e realizar diversos testes para a escolha de um modelo capaz de generalizar da melhor forma possível, evitando assim um modelo muito rígido, que não aproxima bem os dados, ou um modelo com \textit{overfitting}, que trás grande erro de estimação à solução.
+
+
+
+
+
+
+
+
+
