@@ -10,7 +10,7 @@ A base de dados BloodMNIST é formada por um total de 15380 imagens de células 
 	\label{fig:samples_of_classes}
 \end{figure}
 
-O \textit{dataset} BloodMNIST já fornece de forma separada os dados utilizados para treinamento, e os que serão utilizados para teste. A \autoref{fig:balancingofclasses} mostra a distribuição de amostrar para cada classe, para os conjuntos de treinamento, em azul, e de teste, em verde. Observa-se que existem classes majoritárias, como a 1, 3, 6 e 7, que apresentam muito mais amostras que as demais. O perfil de amostras por classe é similar nos conjuntos de teste e treinamento, o que mostra que o impacto no mapeamento pelo desbalanceamento das classes irá afetar de forma igual ambos os \textit{datasets}.
+O \textit{dataset} BloodMNIST já fornece de forma separada os dados utilizados para treinamento, e os que serão utilizados para teste. A \autoref{fig:balancingofclasses} mostra a distribuição de amostras para cada classe, para os conjuntos de treinamento, em azul, e de teste, em verde. Observa-se que existem classes majoritárias, como a 1, 3, 6 e 7, que apresentam um número maior de amostras que as demais. O perfil de amostras por classe é similar nos conjuntos de teste e treinamento, o que mostra que o impacto no mapeamento pelo desbalanceamento das classes irá afetar de forma igual ambos os \textit{datasets}.
 
 % TODO: \usepackage{graphicx} required
 \begin{figure}[H]
@@ -43,11 +43,11 @@ A implementação da rede MLP com uma camada intermediária se deu por meio do u
 
 \subsection{Busca do melhor modelo}
 
-Para realizar a busca do melhor modelo da MLP, considerando que existem uma grande possibilidade de hiper-parâmetros, foi realizada uma busca exaustiva simplificada por etapas, baseada no funcionamento dos \textit{wrappers}, onde dada uma configuração inicial de parâmetros, baseado no comumente visto na literatura \cite{geron2019hands}. As variáveis selecionadas para a busca foram: Número de neurônios da camada intermediária, função de ativação dos neurônios da camada intermediária, taxa de \textit{dropout} dos neurônios da camada intermediária e otimizador para ajuste dos pesos. Demais hiper-parâmetros como tamanho do \textit{batch} e passo do algoritmo de otimização foram mantidos \textit{default}, e foi utilizada a entropia cruzada como função de custo, acompanhando também a métrica de acurácia.
+Para realizar a busca do melhor modelo da MLP, considerando que existem uma grande possibilidade de hiper-parâmetros, foi realizada uma busca exaustiva simplificada por etapas, baseada no funcionamento dos \textit{wrappers}, onde dada uma configuração inicial de parâmetros, baseado no comumente visto na literatura \cite{geron2019hands}. As variáveis selecionadas para a busca foram: número de neurônios da camada intermediária, função de ativação dos neurônios da camada intermediária, taxa de \textit{dropout} dos neurônios da camada intermediária e otimizador para ajuste dos pesos. Demais hiper-parâmetros como tamanho do \textit{batch} e passo do algoritmo de otimização foram mantidos \textit{default}, e foi utilizada a entropia cruzada como função de custo, acompanhando também a métrica de acurácia durante o treinamento.
 
-A busca por etapas se deu da seguinte forma: Dada a condição inicial, uma MLP de 256 neurônios na camada intermediária com função de ativação ReLU, sem \textit{dropout} e ajustada por \textit{Stochastic Gradient Descendent} (SGD), testou-se a rede alterando primeiramente o número de neurônios. Uma vez conhecido o valor que obteve maior acurácia, testou-se as funções de ativações canditadas para esse número de neurônios, buscando a combinação que desse a melhor acurácia. O processo se repete para o \textit{dropout} e o algoritmo de otimização, onde ao final se obtém a combinação que agrega o melhor número de neurônios visto, melhor função de ativação para tal conjunto de neurônios, melhor taxa de \textit{dropout} e o melhor otimizador.
+A busca por etapas se deu da seguinte forma: dada a condição inicial, uma MLP de 256 neurônios na camada intermediária com função de ativação ReLU, sem \textit{dropout} e ajustada por \textit{Stochastic Gradient Descendent} (SGD), testou-se a rede alterando primeiramente o número de neurônios. Uma vez conhecido a quantidade que obteve maior acurácia, testou-se as funções de ativações canditadas para esse número de neurônios, buscando a combinação que desse a melhor acurácia. O processo se repete para o \textit{dropout} e o algoritmo de otimização, onde ao final se obtém a combinação que agrega o melhor número de neurônios visto, melhor função de ativação para tal conjunto de neurônios, melhor taxa de \textit{dropout} e o melhor otimizador.
 
-Hiper-parâmetros variados durante a busca:
+Conjunto de hiper-parâmetros variados durante a busca:
 
 
 \begin{itemize}
@@ -448,7 +448,7 @@ Já as amostras das Figuras~\ref{fig:error_analyser_35}~e~\ref{fig:error_analyse
 \label{fig:error_analyser_1516}
 \end{figure}
 
-Como visto para a classificação utilizando a rede MLP, os dados das Figuras~\ref{fig:error_analyser_36_cnn}~e~\ref{fig:error_analyser_62_cnn} também foram classificados erroneamente pela CNN \textit{Shallow}, havendo uma certeza de majoritária sobre a classe errada.
+Como visto para a classificação utilizando a rede MLP, os dados das Figuras~\ref{fig:error_analyser_36_cnn}~e~\ref{fig:error_analyser_62_cnn} também foram classificados erroneamente pela CNN \textit{Shallow}, havendo uma certeza majoritária sobre a classe errada.
 
 \begin{figure}[H]
 \centering
@@ -487,7 +487,7 @@ Ao treinar os 524,296 pesos resultantes da camada \textit{softmax}, conservando 
 \clearpage
 \section{CNN Profunda}
 
-Para a solução do problema de classificação das células sanguíneas, utilizando uma rede neural convolucional profunda, foi criada uma arquitetura inspirada nas \textit{DenseNets} \cite{huang2018densely}. A rede profunda modelo foi bastante simplificada, reduzindo o número de camadas, ao utilizar apenas um \textit{Dense Block}, e também considerando camadas convolucionais e de \textit{pooling} com \textit{stride} unitário, com intuito de preservar melhor a dimensão dos dados, em vista que a entrada utilizada é 28x28. Em vista disso, o tamanho do \textit{kernel} da camada de \textit{pooling} também foi alterada para 2x2, conservando um canal de saída maior, e a camada de transição não foi utilizada devido ao fato de não haver a concatenação de \textit{dense blocks}. O tamanho do \textit{kernel} da primeira camada convolucional também foi aumentado para 9x9, o que resultou em um impacto positivo na acurácia do classificador. A arquitetura da rede neural implementada é mostrada na \autoref{tab:cnn_dense}.
+Para a solução do problema de classificação das células sanguíneas, utilizando uma rede neural convolucional profunda, foi criada uma arquitetura inspirada nas \textit{DenseNets} \cite{huang2018densely}. A rede profunda modelo foi bastante simplificada, reduzindo o número de camadas, ao utilizar apenas um \textit{Dense Block}, e também considerando camadas convolucionais e de \textit{pooling} com \textit{stride} unitário, com intuito de preservar melhor a dimensão dos dados, em vista que a entrada utilizada possuí tamanho 28x28. Em vista disso, o tamanho do \textit{kernel} da camada de \textit{pooling} também foi alterado para 2x2, conservando um canal de saída maior, e a camada de transição não foi utilizada devido ao fato de não haver a concatenação de \textit{dense blocks}. A arquitetura da rede neural implementada é mostrada na \autoref{tab:cnn_dense}.
 
 \begin{table}[H]
 	\centering
@@ -503,7 +503,7 @@ Para a solução do problema de classificação das células sanguíneas, utiliz
 	\label{tab:cnn_dense}
 \end{table}
 
-Como feito na versão inicial, para cada camada convolucional, é aplicado uma camada de \textit{batch normalization}, função de ativação ReLU e então é feita a convolução dos dados. Isso se faz tanto na camada convolucional inicial, como nas que estão presentes dentro do bloco denso.
+Como feito na versão original, para cada camada convolucional, é aplicado uma camada de \textit{batch normalization}, função de ativação ReLU e então é feita a convolução dos dados. Isso se faz tanto na camada convolucional inicial, como nas que estão presentes dentro do bloco denso.
 
 A rede possuí um total de 351,048 parâmetros, sendo 347,656 deles treináveis. Observa-se que mesmo com a camada densa de saída, o número de parâmetros não aumenta expressivamente devido ao uso da camada de \textit{global average pooling}, que compacta cada canal de saída do \textit{dense block} em um único valor, reduzindo consideravelmente a quantidade de dados que serão enfileirados para gerar a saída pela camada \textit{softmax}. 
 
@@ -521,7 +521,7 @@ Ao classificar os dados de teste com a rede convolucional profunda já treinada,
 	BA = 0.9444
 \end{equation}
 
-A matriz de confusão do classificador para os dados de teste é vista na \autoref{tab:mc_CNN_deep}, onde se percebe uma esparsidade maior, apresentando menos casos de erro. A classe mais desafiadora persiste sendo a 3, porém ao contrário do ocorrido com a CNN \textit{Shallow}, a classe 5 apresentou uma grande ganho de precisão, como visto na \autoref{tab:pr_CNN_deep}. As classes 1 e 7 foram as que alcançaram maiores precisões e \textit{recalls}, onde a ultima conseguiu atingir precisão unitária e apenas um caso de falso positivo.
+A matriz de confusão do classificador para os dados de teste é vista na \autoref{tab:mc_CNN_deep}, onde se percebe uma esparsidade maior, apresentando menos casos de erro. A classe mais desafiadora persiste sendo a 3, porém ao contrário do ocorrido com a CNN \textit{Shallow}, a classe 5 apresentou uma grande ganho de precisão, como visto na \autoref{tab:pr_CNN_deep}. As classes 1 e 7 foram as que alcançaram maiores precisões e \textit{recalls}, onde a última conseguiu atingir precisão unitária e apenas um caso de falso negativo.
 
 \begin{table}[H]
 	\centering
@@ -618,7 +618,7 @@ O problema solucionado com técnicas de redes neurais é desafiador, uma vez que
 
 Para confecção do classificador, utilizou-se primeiramente redes neurais densas (MLP), que fazem o processamento do dado da imagem a partir do enfileiramento de todos os \textit{pixels} dos três canais de cor em um grande vetor, que foi normalizado. Ao fazer isso, se perde a característica espacial do dado original da imagem, o que faz com seja uma solução menos robusta à variação dos dados de entrada. Para encontrar os hiper-parâmetros que maximizavam o desempenho da MLP, foi realizada uma busca exaustiva pelo número de neurônios da camada intermediária, função de ativação destes neurônios, taxa de \textit{dropout} e algoritmo de otimização. Tal busca, apesar de trazer grande custo computacional, que impede a combinação de todas as possibilidades, trouxe um modelo com boa capacidade de generalização, em vista do uso de apenas uma camada.
 
-O emprego de redes neurais com camadas convolucionais também foi realizado, implementando primeiramente uma CNN de apenas uma camada convolucional. A operação de convolução mantém a natureza espacial dos dados, dessa forma, cada conjunto de pesos aprende a detectar certos padrões, que podem ser encontrados independente da posição na imagem de entrada. Para essa rede, também se fez a busca pelos melhor hiper-parâmetros de número de \textit{kernels} e o tamanho desses \textit{kernels}. Devido a grande redução do número de pesos, nesse caso pode-se fazer uma busca exaustiva completa entre os candidatos, que além dos valores ótimos, exibiu o perfil de comportamento da relação da acurácia com os parâmetros buscados. Como a camada convolucional é robusta ao tamanho do dado de entrada, testou-se também a aplicação de uma imagem de entrada 64x64, onde após treinar apenas a  camada de saída, conseguiu-se manter uma acurácia elevada, o que é limitado pelo campo receptivo reduzido de uma rede rasa. 
+O emprego de redes neurais com camadas convolucionais também foi realizado, implementando primeiramente uma CNN de apenas uma camada convolucional. A operação de convolução mantém a natureza espacial dos dados, dessa forma, cada conjunto de pesos aprende a detectar certos padrões, que podem ser encontrados independente da posição na imagem de entrada. Para essa rede, também se fez a busca pelos melhores valores de dois hiper-parâmetros, sendo eles: o de número de \textit{kernels} e o tamanho desses \textit{kernels}. Devido a grande redução do número de pesos, nesse caso pode-se fazer uma busca exaustiva completa entre os candidatos, que além dos valores ótimos, exibiu o perfil de comportamento da relação da acurácia com os parâmetros buscados. Como a camada convolucional é robusta ao tamanho do dado de entrada, testou-se também a aplicação de uma imagem de entrada 64x64, onde após treinar apenas a  camada de saída, conseguiu-se manter uma acurácia elevada, o que é limitado pelo campo receptivo reduzido de uma rede rasa. 
 
 Já ao dar profundidade à rede convolucional, com emprego de diversas camadas montadas na forma de blocos densos, assim como na \textit{DenseNet}, observou-se um grande ganho de acurácia, reduzindo o erro em casos desafiadores e dando uma capacidade de generalização ainda maior à rede. Com o emprego de rede convolucionais profundas, consegue-se ampliar o campo receptivo à cada camada, permitindo o uso de \textit{kernels} menores, gerando mais canais de saída e extraindo mais atributos, onde cada camada simplifica o problema, e tornando a classificação pela camada de saída mais simples.
 
