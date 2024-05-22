@@ -1,0 +1,73 @@
+%imagem
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = \textwidth]{img/familia_pid.jpg}
+    \caption{Comparação das respostas ao degrau das diferentes variações do compensador PID.}
+    \label{fig:familia}
+    \begin{flushright}
+        Confeccionado pelos autores (2021).
+    \end{flushright}
+\end{figure} 
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = \textwidth]{img/familia_pid.jpg}
+    \caption{Comparação das respostas ao degrau das diferentes variações do compensador PID.}
+    \label{fig:familia}
+\end{figure} 
+
+% codigo fonte
+\begin{lstlisting}[language=Octave]
+std::cout << "Hello wordl" << std::endl;
+\end{lstlisting}
+
+\lstinputlisting[language=Octave]{img/atividade3.m}
+
+
+%sistema linear
+\begin{equation*}
+     \begin{cases} 
+        x+2y+z = 8\\ 
+        2x-y+z = 3\\ 
+        3x+y-z = 2 
+    \end{cases}   
+\end{equation*}
+
+
+%%% MULTI COLUNAS %%%%
+
+\begin{multicols}{2}[]
+
+%text
+
+\end{multicols}
+
+%%% SUBFIGURE %%%
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[H]{0.4\textwidth}
+        \includegraphics[width = \textwidth]{img/circuit1.png}
+        \caption{Circuito.}
+        \label{fig:circuito1}
+    \end{subfigure}
+     \begin{subfigure}[H]{0.5\textwidth}
+        \centering
+        \includegraphics[width = \textwidth]{img/pequenos_sinais.jpg}
+        \caption{Modelo de pequenos sinais para o circuito.}
+        \label{fig:pequenossinais}
+     \end{subfigure}
+\end{figure}
+
+%%% VECTOR IMAGE %%%
+
+\begin{figure}[H]
+        \centering
+        \footnotesize
+        \includesvg[width = 0.9\textwidth]{img/GQ1.svg}
+        \normalsize
+        \caption{ Gráfico que representa o comportamento de ft x VGS}
+        \label{fig:steptemp}
+\end{figure}

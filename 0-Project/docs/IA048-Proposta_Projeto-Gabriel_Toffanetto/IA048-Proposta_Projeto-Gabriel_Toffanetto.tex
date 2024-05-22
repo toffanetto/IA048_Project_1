@@ -1,0 +1,107 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%% toffanetto %%%%%%%%%%%%%%%%%%%%
+% Template para atividades acadêmicas diversas    %
+% Init: 2020 -- Update: 2021                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{atividade_fftt}
+
+%----Dados sobre a atividade----%
+\def\Faculdade{Faculdade de Engenharia Elétrica e de Computação}
+\def\Disciplina{Aprendizado de Máquina}   
+\def\DisciplinaCOD{IA048}                                     
+\def\Professor{Levy Boccato \& Romis Attux}                                      
+\def\Titulo{Proposta de Tema -- Projeto Final}                                          
+\def\TituloShort{}                                           
+\def\Autor{Gabriel Toffanetto França da Rocha -- 289320} 
+%-------------------------------%
+
+%%%%%%%%%%%%%%%%%
+% Configurações %
+%%%%%%%%%%%%%%%%%
+
+%% Text Font %%
+%\timesnewroman 
+%\arial
+%\latinmodern
+
+%% Using -- in itemize %%
+\tracolista
+
+%% PDF metadata setup %%
+\pdfconfig
+
+
+%---------------
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%
+%   Estrutura   %
+%%%%%%%%%%%%%%%%%
+
+%\cabecalho
+%\cabecalholite
+%% Use alone for single author document %%
+\cabecalhoalone
+%\cabecalholitealone
+
+%% Author name | \Autor by default %%
+\autor
+%\autor[Aluno -- RA]
+
+%% Document title %%
+\titulo
+%\titulolite
+
+%% Insert List of Contents %%
+%\sumario
+
+%% Using one and halt spacing between lines %%
+\espacamentoumemeio
+
+%% Remove header and footer
+%\removeheader
+
+%---------------
+
+%%%%%%%%%%%%%%% Conteúdo da atividade %%%%%%%%%%%%%%%
+
+%% Include corpo.tex file with document body %%
+%\corpo
+
+\section*{Segmentação Semântica de Imagens para Percepção de \\Veículos Autônomos}
+
+Para que um robô possa se locomover pelo ambiente de forma autônoma, é preciso que ele tenha a capacidade de perceber o local onde está inserido, para poder interagir com ele de forma coerente. No contexto da navegação urbana de veículos autônomos, o veículo deve ser capaz de identificar no ambiente o que é rua, calçada, pedestres, postes, árvores, outros veículos, etc., com principal objetivo de diferir o que é área navegável do que são obstáculos. Existem muitos métodos e sensores que podem ser utilizados para tal tarefa, como por exemplo LiDARs e radares. Contudo, de forma mais natural, a câmera é o sensor que mais se aproxima da maneira como nós, humanos, percebemos o mundo. Assim, a utilização de imagens leva ao problema de definir, na matriz de pixels que as formam, a qual classe cada um deles pertence, realizando assim uma segmentação semântica da imagem, onde, além de detectar quais entidades estão presentes na cena, define-se com precisão onde elas estão e o espaço que preenchem.
+
+Dessa forma, propõe-se a utilização de algoritmos de Machine Learning, baseados em redes neurais profundas, para realizar, por meio de aprendizado supervisionado, a segmentação semântica de imagens de cenas urbanas, com foco em problemas de navegação de veículos autônomos. Dentre as tecnologias a serem utilizadas, citam-se as \textit{Fully Convolutional Networks} (FCNs) e os \textit{Autoencoders}, além de outras propostas de sucesso da literatura para tal aplicação. Além disso, devido à atividade custosa de criar rótulos para esse tipo de problema, pretende-se analisar a relevância do uso de \textit{Self-Supervised Learning} (SSL) para o pré-treino da rede neural profunda, sendo assim requisitadas menos amostras rotuladas do problema-alvo.
+
+
+
+%----------------------------------------------------
+% Citação extra, sem aparecer no texto
+
+%\nocite{autor}
+
+%----------------------------------------------------
+
+%% Add bibliography %%
+%\bibliografia
+%\bibliografiaintext
+
+
+%% Add attachment %%
+%\anexos
+
+\end{document}
+%----------------------------------------------------
+%                   Links uteis
+% http://www.tablesgenerator.com/                                              % tabela em latex
+% http://truben.no/latex/bibtex/                                               % referencias
+% https://www.overleaf.com/learn/latex/Inserting_Images                        % imagens
+% https://www.overleaf.com/learn/latex/positioning_images_and_tables           % posicionamento
+% https://www.overleaf.com/learn/latex/List_of_Greek_letters_and_math_symbols  % simbolos gregos
+% https://docx2latex.com/tutorials/MaTrix-LaTeX.html                           % matrizes
+% https://formulasheet.com/                                                    % matrizes
+% https://kogler.wordpress.com/2008/03/21/latex-multiline-equations-systems-and-matrices/
+%----------------------------------------------------
