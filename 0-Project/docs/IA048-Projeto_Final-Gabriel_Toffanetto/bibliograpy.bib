@@ -113,7 +113,7 @@
   abstract = {BiSeNet has been proved to be a popular two-stream network for real-time segmentation. However, its principle of adding an extra path to encode spatial information is time-consuming, and the backbones borrowed from pretrained tasks, e.g., image classification, may be inefficient for image segmentation due to the deficiency of task-specific design. To handle these problems, we propose a novel and efficient structure named Short-Term Dense Concatenate network (STDC network) by removing structure redundancy. Specifically, we gradually reduce the dimension of feature maps and use the aggregation of them for image representation, which forms the basic module of STDC network. In the decoder, we propose a Detail Aggregation module by integrating the learning of spatial information into low-level layers in single-stream manner. Finally, the low-level features and deep features are fused to predict the final segmentation results. Extensive experiments on Cityscapes and CamVid dataset demonstrate the effectiveness of our method by achieving promising trade-off between segmentation accuracy and inference speed. On Cityscapes, we achieve 71.9\% mIoU on the test set with a speed of 250.4 FPS on NVIDIA GTX 1080Ti, which is 45.2\% faster than the latest methods, and achieve 76.8\% mIoU with 97.0 FPS while inferring on higher resolution images.},
   archiveprefix = {arxiv},
   keywords = {Target_Net},
-  file = {/home/toffanetto/Zotero/storage/QDQFI9CD/Fan et al. - 2021 - Rethinking BiSeNet For Real-time Semantic Segmenta.pdf;/home/toffanetto/Zotero/storage/3TJW8LWI/2104.html}
+  file = {/home/toffanetto/Zotero/storage/DLRE67CF/Fan et al - 2021 - Rethinking BiSeNet For Real-ti_240610_V0.pdf;/home/toffanetto/Zotero/storage/QDQFI9CD/Fan et al. - 2021 - Rethinking BiSeNet For Real-time Semantic Segmenta.pdf;/home/toffanetto/Zotero/storage/3TJW8LWI/2104.html}
 }
 
 @article{garcia2018VILMAIntelligentVehicle,
@@ -337,6 +337,23 @@
   langid = {english},
   keywords = {Target_Net},
   file = {/home/toffanetto/Zotero/storage/A5DE4ZX9/Wang et al. - 2019 - ESNet An Efficient Symmetric Network for Real-tim.pdf}
+}
+
+@misc{yu2018BiSeNetBilateralSegmentation,
+  title = {{{BiSeNet}}: {{Bilateral Segmentation Network}} for {{Real-time Semantic Segmentation}}},
+  shorttitle = {{{BiSeNet}}},
+  author = {Yu, Changqian and Wang, Jingbo and Peng, Chao and Gao, Changxin and Yu, Gang and Sang, Nong},
+  year = {2018},
+  month = aug,
+  number = {arXiv:1808.00897},
+  eprint = {1808.00897},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  urldate = {2024-06-10},
+  abstract = {Semantic segmentation requires both rich spatial information and sizeable receptive field. However, modern approaches usually compromise spatial resolution to achieve real-time inference speed, which leads to poor performance. In this paper, we address this dilemma with a novel Bilateral Segmentation Network (BiSeNet). We first design a Spatial Path with a small stride to preserve the spatial information and generate high-resolution features. Meanwhile, a Context Path with a fast downsampling strategy is employed to obtain sufficient receptive field. On top of the two paths, we introduce a new Feature Fusion Module to combine features efficiently. The proposed architecture makes a right balance between the speed and segmentation performance on Cityscapes, CamVid, and COCO-Stuff datasets. Specifically, for a 2048x1024 input, we achieve 68.4\% Mean IOU on the Cityscapes test dataset with speed of 105 FPS on one NVIDIA Titan XP card, which is significantly faster than the existing methods with comparable performance.},
+  archiveprefix = {arxiv},
+  keywords = {Computer Science - Computer Vision and Pattern Recognition},
+  file = {/home/toffanetto/Zotero/storage/WUYWWY92/Yu et al. - 2018 - BiSeNet Bilateral Segmentation Network for Real-t.pdf;/home/toffanetto/Zotero/storage/6TBZMEER/1808.html}
 }
 
 @misc{yu2020BiSeNetV2Bilateral,
