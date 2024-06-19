@@ -135,13 +135,39 @@ Este trabalho é dividido em seis partes, onde na Seção~\ref{sc:introducao} é
 	\end{itemize}
 \end{note}
 
+Para a solução do problema foi escolhida a rede STDC1-50, que apresentou maior velocidade nos testes realizados pelos autores do \textit{survey} \cite{papadeas2021RealTimeSemanticImage}, com um desempenho de segmentação considerável. [...]
+
 \subsection{Arquitetura}
+
+A rede STDC1 \cite{fan2021RethinkingBiSeNetRealtime} é baseada na arquitetura de \textit{two-branch network}, onde existe uma bifurcação da rede em dois ramos, um ligado à extração de informações de contexto e o outro aplicado para obtenção de informações espaciais da entrada. A informação de contexto demanda de uma maior profundidade, implementando mecanismos de atenção em dois níveis para extração dos atributos necessários para a identificação das regiões da imagem, como mostrado na Fig.~\ref{fig:stdcseg-architecture}(a).
+
+Porém, o fato de se processar a informação de entrada em dois ramos, traz um inconveniente para o problema de segmentação em tempo real, que é justamente o tempo de inferência da rede. Desta forma, a rede aplica uma estratégia elegante ao utilizar no lugar de um ramo com novas camadas, uma \textit{skip connection} do \textit{Stage 3}, para o bloco de fusão [...]. Para forçar a captura das informações espaciais, a saída da \textit{skip connection} é utilizada em uma tarefa auxiliar de detecção de bordas de cada região semântica da imagem, por meio de uma \textit{detail head}. Tal procedimento é realizado por meio de treinamento supervisionado, onde com a aplicação de filtros laplacianos na imagem rótulo de segmentação semântica, se obtém a imagem rótulo com as bordas de cada segmento da imagem de entrada, que representam os detalhes à serem capturados pelo ramo espacial, e a perda é computada por meio da saída da \textit{detail head} e o rótulo obtido. Reforça-se que esse procedimento é realizado apenas em treinamento, enquanto durante a inferência a rede neural irá utilizar as habilidades aprendidas por meio do gradiente sobre a perda atrelada à segmentação e à detecção de bordas, sem realizar explicitamente a extração das bordas de cada região da imagem.
+
+Cada estágio é composto da forma ... E realiza convolução da forma...
+
+O mecanismo de atenção é ...
+
+Por fim, a fusão é feita ... e o upsampling...
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\linewidth]{img/stdcseg-architecture}
+	\caption{Arquitetura completa da rede neural utilizada \cite{fan2021RethinkingBiSeNetRealtime}.}
+	\label{fig:stdcseg-architecture}
+\end{figure}
+
 
 \subsection{\textit{Dataset} de treinamento e dados de teste}
 
+Dataset... tamanho... particionamento... resolução... classes...
+
 \subsection{Método de treinamento}
 
+Batch... epocas... iterações...
+
 \subsection{Métricas de avaliação}
+
+mIOU50... mIOU75...
 
 \subsection{Teste}
 
