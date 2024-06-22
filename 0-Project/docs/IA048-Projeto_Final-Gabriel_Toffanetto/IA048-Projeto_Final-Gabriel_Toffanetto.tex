@@ -7,6 +7,8 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{subcaption}
+\usepackage{float} % H image float mode
 \usepackage{hyperref}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
@@ -23,9 +25,9 @@
 	colorlinks=true,
 	linkcolor=blue,
 	filecolor=magenta,      
-	urlcolor=cyan,
-	pdftitle={Métodos de Deep Learning aplicados à Segmentação Semântica de Imagens para Percepção de Veículos Autônomos},
-	pdfpagemode=FullScreen,
+	urlcolor=cyan,      
+	citecolor=green,
+	pdftitle={Métodos de Deep Learning aplicados à Segmentação Semântica de Imagens para Percepção de Veículos Autônomos}
 }
 
 \begin{document}
@@ -101,15 +103,13 @@ Para que um veículo autônomo possa entender o ambiente à sua volta, é necess
 	\label{fig:dynamiclocalperception}
 \end{figure}
 
-Existem métodos de processamento de imagens que realizam o mascaramento de cada entidade da imagem, porém a definição de qual é a classe de cada segmento se faz desafiadora, sendo anteriormente empregada a utilização de redes neurais artificiais (ANNs) para tal, como feito por \cite{vitor20132D3DVision}. Porém, devido à utilização de ANNs somente para a classificação final, era necessário muito pré-processamento para realização da segmentação semântica. Com o desenvolvimento das redes neurais profundas (DNNs), obteve-se métodos com poder suficiente para que, dada uma imagem bruta de entrada e uma imagem de referência (\textit{ground truth}) segmentada para comparação, a rede profunda consegue aprender como realizar a segmentação da imagem do ambiente urbano, como nas várias arquiteturas mostradas por \cite{papadeas2021RealTimeSemanticImage}. Com a popularização desses métodos, já existem diversos conjuntos de dados para treinamento das DNNs, como os \cite{cordts2016CityscapesDatasetSemantic} e \cite{brostow2008SegmentationRecognitionUsing,brostow2009SemanticObjectClasses}. Existem também \textit{datasets} que trazem cenas ainda mais desafiadoras, como o \cite{jin2021RaidaRRichAnnotated} que apresenta imagens urbanas durante noites chuvosas.
+Existem métodos de processamento de imagens que realizam o mascaramento de cada entidade da imagem, porém a definição de qual é a classe de cada segmento se faz desafiadora, sendo anteriormente empregada a utilização de redes neurais artificiais (ANNs) para tal, como feito por \cite{vitor20132D3DVision}. Porém, devido à utilização de ANNs somente para a classificação final, era necessário muito pré-processamento para realização da segmentação semântica. Com o desenvolvimento das redes neurais profundas (DNNs), obteve-se métodos com poder suficiente para que, dada uma imagem bruta de entrada e uma imagem de referência (\textit{ground truth}) segmentada para comparação, a rede profunda consegue aprender como realizar a segmentação da imagem do ambiente urbano, como nas várias arquiteturas mostradas por \cite{papadeas2021RealTimeSemanticImage}. Com a popularização desses métodos, já existem diversos conjuntos de dados para treinamento das DNNs, como vistos em \cite{cordts2016CityscapesDatasetSemantic} e \cite{brostow2008SegmentationRecognitionUsing,brostow2009SemanticObjectClasses}. Existem também \textit{datasets} que trazem cenas ainda mais desafiadoras, como o \cite{jin2021RaidaRRichAnnotated} que apresenta imagens urbanas durante noites chuvosas.
 
 Dessa forma, a percepção do ambiente por meio de visão computacional se faz indispensável para o desenvolvimento dos veículos autônomos, e com isso, os métodos de \textit{deep learning} se fazem uma grande ferramenta para conseguir-se reconhecer as entidades de uma cena urbana com robustez às variações de luz e reflexos, sendo assim uma solução a ser explorada. Além do desempenho da segmentação semântica, o tempo demandado para tal operação também é vital, uma vez que durante a navegação, todos os módulos operam em tempo real, e a quantidade de \textit{frames} segmentados por segundo é uma informação importante. Dessa forma, esse trabalho propõem a utilização de redes neurais profundas com diferentes arquiteturas para a segmentação semântica de imagens de cenas urbanas, utilizados \textit{datasets} da literatura e para testes finais, utilizando imagens reais adquiridas pelo autor. Com esse teste, espera-se poder julgar se o treinamento da rede neural com conjuntos de dados da literatura conseguem gerar máquinas que generalizam bem para localidades não vistas durante o treinamento.
 
 Este trabalho é dividido em seis partes, onde na Seção~\ref{sc:introducao} é realizada a motivação e contextualização da pesquisa e na Seção~\ref{sc:estado-da-arte} é apresentado o estado da arte, discorrendo sobre as soluções utilizadas atualmente. Com isso, a Seção~\ref{sc:metodologia} apresenta a metodologia a ser utilizada neste trabalho, seguida dos resultados obtidos na Seção~\ref{sc:resultados} e sua análise na Seção~\ref{sc:analise}. Por fim, são apresentadas as conclusões na Seção~\ref{sc:conclusoes} e as referências utilizadas.
 
 \section{Estado da arte} \label{sc:estado-da-arte}
-
-
 
 %\begin{note}
 %	\begin{itemize}
@@ -256,7 +256,41 @@ Ao realizar a média da IoU para $k+1$ classes, se obtém a mIoU, conforme \eqre
 
 \subsection{Métricas de teste}
 
+mIOU is: 0.7450460195541382
+
 \subsection{Cityscapes}
+
+\begin{figure}[h!]
+\begin{subfigure}[H]{\linewidth}
+\centering
+\includegraphics[width=1\linewidth]{../../src/STDC-Seg/output/sample_frankfurt_000001_077434}
+\caption{}
+\label{fig:sample_munster_000036_000019}
+\end{subfigure}
+
+\begin{subfigure}[H]{\linewidth}
+\centering
+\includegraphics[width=1\linewidth]{../../src/STDC-Seg/output/sample_munster_000078_000019}
+\caption{}
+\label{fig:sample_munster_000078_000019}
+\end{subfigure}
+
+\begin{subfigure}[H]{\linewidth}
+\centering
+\includegraphics[width=1\linewidth]{../../src/STDC-Seg/output/sample_frankfurt_000001_046272}
+\caption{}
+\label{fig:sample_frankfurt_000001_046272}
+\end{subfigure}
+
+\begin{subfigure}[H]{\linewidth}
+	\centering
+	\includegraphics[width=1\linewidth]{../../src/STDC-Seg/output/sample_frankfurt_000001_059119}
+	\caption{}
+	\label{fig:sample_frankfurt_000001_059119}
+\end{subfigure}
+\caption{Predições para cenas do \textit{dataset} Cityscapes.}
+\end{figure}
+
 
 \subsection{Unicamp}
 
