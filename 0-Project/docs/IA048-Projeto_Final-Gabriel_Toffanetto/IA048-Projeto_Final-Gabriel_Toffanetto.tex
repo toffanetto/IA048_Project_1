@@ -42,19 +42,19 @@ g289320@dac.unicamp.br}
 
 \begin{abstract}
 
-\begin{note}
-	\begin{itemize}
-		\item Veículos autonomos
-		\item Visão computacional
-		\item Percepção do ambiente
-		\item Segmentação Semântica de Imagem
-		\item Métodos Vanilla
-		\item Métodos Deep Learning
-		\item Necessidades da aplicação
-		\item Resultados
-		\item Proximos passos (teste para obtenção do Perception grid)
-	\end{itemize}
-\end{note}
+%\begin{note}
+%	\begin{itemize}
+%		\item Veículos autonomos
+%		\item Visão computacional
+%		\item Percepção do ambiente
+%		\item Segmentação Semântica de Imagem
+%		\item Métodos Vanilla
+%		\item Métodos Deep Learning
+%		\item Necessidades da aplicação
+%		\item Resultados
+%		\item Proximos passos (teste para obtenção do Perception grid)
+%	\end{itemize}
+%\end{note}
 
 \end{abstract}
 
@@ -111,21 +111,21 @@ Este trabalho é dividido em seis partes, onde na Seção~\ref{sc:introducao} é
 
 
 
-\begin{note}
-	\begin{itemize}
-		\item Estratégias para operação em real time
-		\begin{itemize}
-			\item Depthwise separable convolution
-		\end{itemize}
-		\item Artigos \textit{Survey} \cite{janai2020ComputerVisionAutonomous}
-		\item Tipos de redes utilizadas \cite{chao2019HarDNetLowMemory,fan2021RethinkingBiSeNetRealtime, wang2019ESNetEfficientSymmetric, yu2020BiSeNetV2Bilateral, yu2018BiSeNetBilateralSegmentation,poudel2018ContextNetExploringContext,badrinarayanan2016SegNetDeepConvolutional} 
-		\item Resultados estado-da-arte \cite{papadeas2021RealTimeSemanticImage}
-		\begin{itemize}
-			\item mIoU
-			\item FPS
-		\end{itemize}
-	\end{itemize}
-\end{note}
+%\begin{note}
+%	\begin{itemize}
+%		\item Estratégias para operação em real time
+%		\begin{itemize}
+%			\item Depthwise separable convolution
+%		\end{itemize}
+%		\item Artigos \textit{Survey} \cite{janai2020ComputerVisionAutonomous}
+%		\item Tipos de redes utilizadas \cite{chao2019HarDNetLowMemory,fan2021RethinkingBiSeNetRealtime, wang2019ESNetEfficientSymmetric, yu2020BiSeNetV2Bilateral, yu2018BiSeNetBilateralSegmentation,poudel2018ContextNetExploringContext,badrinarayanan2016SegNetDeepConvolutional} 
+%		\item Resultados estado-da-arte \cite{papadeas2021RealTimeSemanticImage}
+%		\begin{itemize}
+%			\item mIoU
+%			\item FPS
+%		\end{itemize}
+%	\end{itemize}
+%\end{note}
 
 
 \section{Metodologia} \label{sc:metodologia}
@@ -146,7 +146,7 @@ Este trabalho é dividido em seis partes, onde na Seção~\ref{sc:introducao} é
 %	\end{itemize}
 %\end{note}
 
-Para a solução do problema foi escolhida a rede STDC1-50, que apresentou maior velocidade nos testes realizados pelos autores do \textit{survey} \cite{papadeas2021RealTimeSemanticImage}, com um desempenho de segmentação considerável. [...]
+Para a solução do problema foi escolhida a rede STDC1-50, que apresentou maior velocidade nos testes realizados pelos autores do \textit{survey} \cite{papadeas2021RealTimeSemanticImage}, com um desempenho de segmentação considerável. \textbf{justificar a escolha da rede}
 
 \subsection{Arquitetura}
 
@@ -171,11 +171,11 @@ O módulo principal da rede é o \textit{Short-Term Dense Concatenate Module} (S
 \end{figure}
 
 
-O estágio 1 e 2 realizam a operação de convolução, \textit{batch normalization} e ReLU aos dados de entrada, com \textit{stride} igual a 2. Já os estágios 3, 4 e 5 apresentam realizações em série de módulo STDC. O mecanismo de atenção e o bloco de FFM são baseados na rede BiSeNet \cite{yu2018BiSeNetBilateralSegmentation}, [...]
+O estágio 1 e 2 realizam a operação de convolução, \textit{batch normalization} e ReLU aos dados de entrada, com \textit{stride} igual a 2. Já os estágios 3, 4 e 5 apresentam realizações em série de módulo STDC. O mecanismo de atenção e o bloco de FFM são baseados na rede BiSeNet \cite{yu2018BiSeNetBilateralSegmentation}, \textbf{explicar brevemente funcionamento desses blocos}
 
 Por fim é realizado um \textit{upsampling} de 8 vezes para a recuperação da dimensão de entrada.
 
-Sua implementação se deu com base nos códigos fonte disponibilizados pelo autor, modificados para o problema em questão, e disponibilizados no GitHub\footnote{\href{https://github.com/toffanetto/STDC-Seg}{github.com/toffanetto/STDC-Seg}}. Utilizou-se o \textit{framework} PyTorch, juntamente dos pacotes de CUDA necessários para utilização da GPU NVIDIA em treinamento e inferência.
+Sua implementação se deu com base nos códigos fonte disponibilizados pelos autores da rede, modificados para o problema em questão, e disponibilizados no GitHub\footnote{\href{https://github.com/toffanetto/STDC-Seg}{github.com/toffanetto/STDC-Seg}}. Utilizou-se o \textit{framework} PyTorch, juntamente dos pacotes de CUDA necessários para utilização da GPU NVIDIA em treinamento e inferência.
 
 
 \subsection{\textit{Dataset} de treinamento e dados de teste}
@@ -189,19 +189,34 @@ O conjunto de dados Cityscapes \cite{cordts2016CityscapesDatasetSemantic} foi es
 	\label{fig:legend}
 \end{figure}
 
-Foram implementadas estratégias de \textit{data augmentation} pelos autores da rede neural \cite{fan2021RethinkingBiSeNetRealtime}, utilizando alteração de cor, brilho e contraste, inversão horizontal, aplicação de escala e corte. A aplicação de escala também é utilizada para reduzir a dimensão dos dados de entrada, facilitando a predição do mapa de segmentação semântico em tempo real pela rede, onde foi escolhida a escala de 0,75 por fornecer um desempenho maior.
+Foram implementadas estratégias de \textit{data augmentation} pelos autores da rede neural \cite{fan2021RethinkingBiSeNetRealtime}, utilizando alteração de cor, brilho e contraste, inversão horizontal, aplicação de escala e corte, buscando a inserção de robustez e maximização da capacidade de generalização, evitando \textit{overfitting}. A aplicação de escala também é utilizada para reduzir a dimensão dos dados de entrada, facilitando a predição do mapa de segmentação semântico em tempo real pela rede, onde foi escolhida a escala de 0,75 por fornecer um desempenho maior.
 
 Para teste da capacidade de generalização do modelo, realizou-se uma coleta de dados na mesma forma da realizada pelos autores do \textit{dataset}, no \textit{campus} da Unicamp, sendo assim, imagens de locais que não foram vistos em treinamento, e aplicou-se a inferência da máscara de segmentação semântica das mesmas por meio da rede STCD1.
 
 \subsection{Método de treinamento}
 
-\textit{\color{gray}
-	\begin{itemize}
-		\item mini-batch SGD com momento e decaimento
-		\item poly learning rate policy
-		\item 60000 interações
-		\item Função de custo?
-\end{itemize}}
+%\textit{\color{gray}
+%	\begin{itemize}
+%		\item mini-batch SGD com momento e decaimento
+%		\item poly learning rate policy
+%		\item 60000 interações
+%		\item Função de custo?
+%\end{itemize}}
+
+O treinamento da rede neural foi realizado por meio do algoritmo de gradiente descendente estocástico (SGD), com \textit{momentum} de 0,9, decaimento de pesos de $5e^{-4}$, com atualização dos pesos por \textit{mini-batch} de 4 amostras, devido às limitações de memória da GPU utilizada. O treinamento é limitado por número de iterações, onde com base na rede original, foi limitado em 60000 iterações, onde é adotada uma estratégia de \textit{warmup}. Com isso, a taxa de aprendizado é incrementada de um valor pequeno até o valor alvo durante as primeiras 1000 interações para estabilização do processo de otimização e evitar a divergência do mesmo. Além disso, durante o treinamento a taxa de aprendizado é adaptada por meio de uma política polinomial, dada por $(1 - iter/max\_iter)^{power}$, onde foi considerada uma potência de 0.9 \cite{fan2021RethinkingBiSeNetRealtime}.
+
+Como função de custo para ajuste dos pesos, é considerada a entropia cruzada, por se tratar de um problema de classificação, porém utilizando \textit{Online Hard Example Mining} para a otimização da tarefa de aprendizado da segmentação semântica. \textbf{Explicar rapidamente o OHEM} \cite{shrivastava2016TrainingRegionbasedObject}. 
+
+Também é computada a função de custo para o problema de detecção dos detalhes, realizado pela \textit{detail head}. Nesse caso, não é utilizado a entropia cruzada, devido a ser um problema altamente desbalanceado, onde a mesma não apresenta bons resultado. Nesse caso, são aplicadas as métricas de entropia cruzada binária e \textit{dice loss}, conforme \eqref{eq:ldetail}. A \textit{dice loss}, enunciada em \eqref{eq:ldice} se baseia em medir a sobreposição entre o mapa predito e seu respectivo rótulo, variando no intervalo [0, 1], sendo assim robusta ao número de pixels de cada classe. O equacionamento é realizado considerando uma entrada de $H \times W$ pixels, obtendo assim uma predição do mapa de detalhes $p_d$, sendo $g_d$ seu respectivo rótulo, e $\epsilon$ uma constante para evitar a divisão por zero \cite{deng2018LearningPredictCrisp}.
+
+\begin{equation}\label{eq:ldetail}
+	L_{detail}(p_d,g_d) = L_{dice}(p_d, g_d) + L_{bce}(p_d, g_d)
+\end{equation}
+
+\begin{equation}\label{eq:ldice}
+	L_{dice}(p_d, g_d) = 1 - \frac{2\sum_{i}^{H\times W}p_d^ig_d^i + \epsilon}{\sum_{i}^{H\times W}(p_d^i)^2 + \sum_{i}^{H\times W}(g_d^i)^2 + \epsilon}
+\end{equation}
+
 
 \subsection{Métricas de avaliação}
 
@@ -223,68 +238,69 @@ Ao realizar a média da IoU para $k+1$ classes, se obtém a mIoU, conforme \eqre
 
 \section{Resultados}  \label{sc:resultados}
 
-\begin{note}
-	\begin{itemize}
-		\item Para cada rede:
-		\begin{itemize}
-			\item Métricas 
-			\item Segmentação
-			\begin{itemize}
-				\item Entrada
-				\item \textit{Ground truth}
-				\item Saída
-			\end{itemize}
-			\item Tempo de treinamento
-		\end{itemize}
-	\end{itemize}
-\end{note}
+%\begin{note}
+%	\begin{itemize}
+%		\item Para cada rede:
+%		\begin{itemize}
+%			\item Métricas 
+%			\item Segmentação
+%			\begin{itemize}
+%				\item Entrada
+%				\item \textit{Ground truth}
+%				\item Saída
+%			\end{itemize}
+%			\item Tempo de treinamento
+%		\end{itemize}
+%	\end{itemize}
+%\end{note}
 
-\subsection{Métricas}
+\subsection{Métricas de teste}
 
-\subsection{Dados de teste}
+\subsection{Cityscapes}
+
+\subsection{Unicamp}
 
 
 \section{Análise dos Resultados}  \label{sc:analise}
 
-\begin{note}
-	\begin{itemize}
-		\item Comparar as três redes:
-		\begin{itemize}
-			\item mIoU
-			\item FPS
-			\item Dados segmentados do \textit{dataset}
-			\item Dados segmentados coletados no \textit{campus}
-		\end{itemize}
-		\item Apontar relação custo \textit{vs} desempenho de cada rede
-		\item Considerar custos de treinamento
-	\end{itemize}
-\end{note}
+%\begin{note}
+%	\begin{itemize}
+%		\item Comparar as três redes:
+%		\begin{itemize}
+%			\item mIoU
+%			\item FPS
+%			\item Dados segmentados do \textit{dataset}
+%			\item Dados segmentados coletados no \textit{campus}
+%		\end{itemize}
+%		\item Apontar relação custo \textit{vs} desempenho de cada rede
+%		\item Considerar custos de treinamento
+%	\end{itemize}
+%\end{note}
 
 
 \section{Conclusões}  \label{sc:conclusoes}
 
-\begin{note}
-	\begin{itemize}
-		\item Retomar o problema inicial
-		\item Destacar metodologia e os resultados que foram obtidos
-		\item Comentar a análise dos resultados, mostrando que seria melhor para implementação
-		\item Propor melhorias
-		\item Propor validação de aplicação
-		\item Listar proposta de aplicação dessa técnica
-		\begin{itemize}
-			\item Perception grid
-		\end{itemize}
-	\end{itemize}
-\end{note}
+%\begin{note}
+%	\begin{itemize}
+%		\item Retomar o problema inicial
+%		\item Destacar metodologia e os resultados que foram obtidos
+%		\item Comentar a análise dos resultados, mostrando que seria melhor para implementação
+%		\item Propor melhorias
+%		\item Propor validação de aplicação
+%		\item Listar proposta de aplicação dessa técnica
+%		\begin{itemize}
+%			\item Perception grid
+%		\end{itemize}
+%	\end{itemize}
+%\end{note}
 
 \section*{Agradecimentos}
 
-\begin{note}
-	\begin{itemize}
-		\item Levy e Romis
-		\item Giovani?
-	\end{itemize}
-\end{note}
+%\begin{note}
+%	\begin{itemize}
+%		\item Levy e Romis
+%	\end{itemize}
+%\end{note}
 
 \section*{Referências}  \label{sc:referencias}
 

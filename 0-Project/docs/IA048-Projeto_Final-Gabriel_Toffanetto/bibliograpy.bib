@@ -10,7 +10,7 @@
   publisher = {arXiv},
   urldate = {2024-06-08},
   abstract = {The success of deep learning in computer vision is based on availability of large annotated datasets. To lower the need for hand labeled images, virtually rendered 3D worlds have recently gained popularity. Creating realistic 3D content is challenging on its own and requires significant human effort. In this work, we propose an alternative paradigm which combines real and synthetic data for learning semantic instance segmentation and object detection models. Exploiting the fact that not all aspects of the scene are equally important for this task, we propose to augment real-world imagery with virtual objects of the target category. Capturing real-world images at large scale is easy and cheap, and directly provides real background appearances without the need for creating complex 3D models of the environment. We present an efficient procedure to augment real images with virtual objects. This allows us to create realistic composite images which exhibit both realistic background appearance and a large number of complex object arrangements. In contrast to modeling complete 3D environments, our augmentation approach requires only a few user interactions in combination with 3D shapes of the target object. Through extensive experimentation, we conclude the right set of parameters to produce augmented data which can maximally enhance the performance of instance segmentation models. Further, we demonstrate the utility of our approach on training standard deep models for semantic instance segmentation and object detection of cars in outdoor driving scenes. We test the models trained on our augmented data on the KITTI 2015 dataset, which we have annotated with pixel-accurate ground truth, and on Cityscapes dataset. Our experiments demonstrate that models trained on augmented imagery generalize better than those trained on synthetic data or models trained on limited amount of annotated real data.},
-  archiveprefix = {arxiv},
+  archiveprefix = {arXiv},
   keywords = {Computer Science - Computer Vision and Pattern Recognition},
   file = {/home/toffanetto/Zotero/storage/C9KJEL5W/Alhaija et al. - 2017 - Augmented Reality Meets Computer Vision  Efficien.pdf;/home/toffanetto/Zotero/storage/WMEN7XUZ/1708.html}
 }
@@ -27,7 +27,7 @@
   publisher = {arXiv},
   urldate = {2024-06-08},
   abstract = {We present a novel and practical deep fully convolutional neural network architecture for semantic pixel-wise segmentation termed SegNet. This core trainable segmentation engine consists of an encoder network, a corresponding decoder network followed by a pixel-wise classification layer. The architecture of the encoder network is topologically identical to the 13 convolutional layers in the VGG16 network. The role of the decoder network is to map the low resolution encoder feature maps to full input resolution feature maps for pixel-wise classification. The novelty of SegNet lies is in the manner in which the decoder upsamples its lower resolution input feature map(s). Specifically, the decoder uses pooling indices computed in the max-pooling step of the corresponding encoder to perform non-linear upsampling. This eliminates the need for learning to upsample. The upsampled maps are sparse and are then convolved with trainable filters to produce dense feature maps. We compare our proposed architecture with the widely adopted FCN and also with the well known DeepLab-LargeFOV, DeconvNet architectures. This comparison reveals the memory versus accuracy trade-off involved in achieving good segmentation performance. SegNet was primarily motivated by scene understanding applications. Hence, it is designed to be efficient both in terms of memory and computational time during inference. It is also significantly smaller in the number of trainable parameters than other competing architectures. We also performed a controlled benchmark of SegNet and other architectures on both road scenes and SUN RGB-D indoor scene segmentation tasks. We show that SegNet provides good performance with competitive inference time and more efficient inference memory-wise as compared to other architectures. We also provide a Caffe implementation of SegNet and a web demo at http://mi.eng.cam.ac.uk/projects/segnet/.},
-  archiveprefix = {arxiv},
+  archiveprefix = {arXiv},
   keywords = {Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning,Computer Science - Neural and Evolutionary Computing},
   file = {/home/toffanetto/Zotero/storage/A3WJRWBA/Badrinarayanan et al. - 2016 - SegNet A Deep Convolutional Encoder-Decoder Archi.pdf;/home/toffanetto/Zotero/storage/RPGQWTF9/1511.html}
 }
@@ -95,9 +95,25 @@
   publisher = {arXiv},
   urldate = {2024-06-08},
   abstract = {Visual understanding of complex urban street scenes is an enabling factor for a wide range of applications. Object detection has benefited enormously from large-scale datasets, especially in the context of deep learning. For semantic urban scene understanding, however, no current dataset adequately captures the complexity of real-world urban scenes. To address this, we introduce Cityscapes, a benchmark suite and large-scale dataset to train and test approaches for pixel-level and instance-level semantic labeling. Cityscapes is comprised of a large, diverse set of stereo video sequences recorded in streets from 50 different cities. 5000 of these images have high quality pixel-level annotations; 20000 additional images have coarse annotations to enable methods that leverage large volumes of weakly-labeled data. Crucially, our effort exceeds previous attempts in terms of dataset size, annotation richness, scene variability, and complexity. Our accompanying empirical study provides an in-depth analysis of the dataset characteristics, as well as a performance evaluation of several state-of-the-art approaches based on our benchmark.},
-  archiveprefix = {arxiv},
+  archiveprefix = {arXiv},
   keywords = {Computer Science - Computer Vision and Pattern Recognition},
   file = {/home/toffanetto/Zotero/storage/BFBKJUKX/Cordts et al. - 2016 - The Cityscapes Dataset for Semantic Urban Scene Un.pdf;/home/toffanetto/Zotero/storage/NJY3YZE7/1604.html}
+}
+
+@misc{deng2018LearningPredictCrisp,
+  title = {Learning to Predict Crisp Boundaries},
+  author = {Deng, Ruoxi and Shen, Chunhua and Liu, Shengjun and Wang, Huibing and Liu, Xinru},
+  year = {2018},
+  month = jul,
+  number = {arXiv:1807.10097},
+  eprint = {1807.10097},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  urldate = {2024-06-22},
+  abstract = {Recent methods for boundary or edge detection built on Deep Convolutional Neural Networks (CNNs) typically suffer from the issue of predicted edges being thick and need post-processing to obtain crisp boundaries. Highly imbalanced categories of boundary versus background in training data is one of main reasons for the above problem. In this work, the aim is to make CNNs produce sharp boundaries without post-processing. We introduce a novel loss for boundary detection, which is very effective for classifying imbalanced data and allows CNNs to produce crisp boundaries. Moreover, we propose an end-to-end network which adopts the bottom-up/top-down architecture to tackle the task. The proposed network effectively leverages hierarchical features and produces pixel-accurate boundary mask, which is critical to reconstruct the edge map. Our experiments illustrate that directly making crisp prediction not only promotes the visual results of CNNs, but also achieves better results against the state-of-the-art on the BSDS500 dataset (ODS F-score of .815) and the NYU Depth dataset (ODS F-score of .762).},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Computer Vision and Pattern Recognition},
+  file = {/home/toffanetto/Zotero/storage/45UDSTFI/Deng et al. - 2018 - Learning to predict crisp boundaries.pdf;/home/toffanetto/Zotero/storage/5FDY42CW/1807.html}
 }
 
 @misc{fan2021RethinkingBiSeNetRealtime,
@@ -111,7 +127,7 @@
   publisher = {arXiv},
   urldate = {2024-05-24},
   abstract = {BiSeNet has been proved to be a popular two-stream network for real-time segmentation. However, its principle of adding an extra path to encode spatial information is time-consuming, and the backbones borrowed from pretrained tasks, e.g., image classification, may be inefficient for image segmentation due to the deficiency of task-specific design. To handle these problems, we propose a novel and efficient structure named Short-Term Dense Concatenate network (STDC network) by removing structure redundancy. Specifically, we gradually reduce the dimension of feature maps and use the aggregation of them for image representation, which forms the basic module of STDC network. In the decoder, we propose a Detail Aggregation module by integrating the learning of spatial information into low-level layers in single-stream manner. Finally, the low-level features and deep features are fused to predict the final segmentation results. Extensive experiments on Cityscapes and CamVid dataset demonstrate the effectiveness of our method by achieving promising trade-off between segmentation accuracy and inference speed. On Cityscapes, we achieve 71.9\% mIoU on the test set with a speed of 250.4 FPS on NVIDIA GTX 1080Ti, which is 45.2\% faster than the latest methods, and achieve 76.8\% mIoU with 97.0 FPS while inferring on higher resolution images.},
-  archiveprefix = {arxiv},
+  archiveprefix = {arXiv},
   keywords = {Target_Net},
   file = {/home/toffanetto/Zotero/storage/DLRE67CF/Fan et al - 2021 - Rethinking BiSeNet For Real-ti_240610_V0.pdf;/home/toffanetto/Zotero/storage/QDQFI9CD/Fan et al. - 2021 - Rethinking BiSeNet For Real-time Semantic Segmenta.pdf;/home/toffanetto/Zotero/storage/3TJW8LWI/2104.html}
 }
@@ -219,7 +235,7 @@
   publisher = {arXiv},
   urldate = {2024-06-08},
   abstract = {We introduce RaidaR, a rich annotated image dataset of rainy street scenes, to support autonomous driving research. The new dataset contains the largest number of rainy images (58,542) to date, 5,000 of which provide semantic segmentations and 3,658 provide object instance segmentations. The RaidaR images cover a wide range of realistic rain-induced artifacts, including fog, droplets, and road reflections, which can effectively augment existing street scene datasets to improve data-driven machine perception during rainy weather. To facilitate efficient annotation of a large volume of images, we develop a semi-automatic scheme combining manual segmentation and an automated processing akin to cross validation, resulting in 10-20 fold reduction on annotation time. We demonstrate the utility of our new dataset by showing how data augmentation with RaidaR can elevate the accuracy of existing segmentation algorithms. We also present a novel unpaired image-to-image translation algorithm for adding/removing rain artifacts, which directly benefits from RaidaR.},
-  archiveprefix = {arxiv},
+  archiveprefix = {arXiv},
   keywords = {Computer Science - Computer Vision and Pattern Recognition},
   file = {/home/toffanetto/Zotero/storage/92UUP9LJ/Jin et al. - 2021 - RaidaR A Rich Annotated Image Dataset of Rainy St.pdf;/home/toffanetto/Zotero/storage/XAUI36KL/2104.html}
 }
@@ -270,10 +286,26 @@
   publisher = {arXiv},
   urldate = {2024-05-24},
   abstract = {Modern deep learning architectures produce highly accurate results on many challenging semantic segmentation datasets. State-ofthe-art methods are, however, not directly transferable to real-time applications or embedded devices, since na{\textasciidieresis}{\i}ve adaptation of such systems to reduce computational cost (speed, memory and energy) causes a significant drop in accuracy. We propose ContextNet, a new deep neural network architecture which builds on factorized convolution, network compression and pyramid representation to produce competitive semantic segmentation in real-time with low memory requirement. ContextNet combines a deep network branch at low resolution that captures global context information efficiently with a shallow branch that focuses on high-resolution segmentation details. We analyse our network in a thorough ablation study and present results on the Cityscapes dataset, achieving 66.1\% accuracy at 18.3 frames per second at full (1024 {\texttimes} 2048) resolution (41.9 fps with pipelined computations for streamed data).},
-  archiveprefix = {arxiv},
+  archiveprefix = {arXiv},
   langid = {english},
   keywords = {Example_Net},
   file = {/home/toffanetto/Zotero/storage/BIAN9YX8/Poudel et al. - 2018 - ContextNet Exploring Context and Detail for Seman.pdf}
+}
+
+@misc{shrivastava2016TrainingRegionbasedObject,
+  title = {Training {{Region-based Object Detectors}} with {{Online Hard Example Mining}}},
+  author = {Shrivastava, Abhinav and Gupta, Abhinav and Girshick, Ross},
+  year = {2016},
+  month = apr,
+  number = {arXiv:1604.03540},
+  eprint = {1604.03540},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  urldate = {2024-06-22},
+  abstract = {The field of object detection has made significant advances riding on the wave of region-based ConvNets, but their training procedure still includes many heuristics and hyperparameters that are costly to tune. We present a simple yet surprisingly effective online hard example mining (OHEM) algorithm for training region-based ConvNet detectors. Our motivation is the same as it has always been -- detection datasets contain an overwhelming number of easy examples and a small number of hard examples. Automatic selection of these hard examples can make training more effective and efficient. OHEM is a simple and intuitive algorithm that eliminates several heuristics and hyperparameters in common use. But more importantly, it yields consistent and significant boosts in detection performance on benchmarks like PASCAL VOC 2007 and 2012. Its effectiveness increases as datasets become larger and more difficult, as demonstrated by the results on the MS COCO dataset. Moreover, combined with complementary advances in the field, OHEM leads to state-of-the-art results of 78.9\% and 76.3\% mAP on PASCAL VOC 2007 and 2012 respectively.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning},
+  file = {/home/toffanetto/Zotero/storage/DV3R7NHD/Shrivastava et al. - 2016 - Training Region-based Object Detectors with Online.pdf;/home/toffanetto/Zotero/storage/JV65BQXZ/1604.html}
 }
 
 @inproceedings{vitor20132D3DVision,
@@ -333,7 +365,7 @@
   publisher = {arXiv},
   urldate = {2024-05-24},
   abstract = {The recent years have witnessed great advances for semantic segmentation using deep convolutional neural networks (DCNNs). However, a large number of convolutional layers and feature channels lead to semantic segmentation as a computationally heavy task, which is disadvantage to the scenario with limited resources. In this paper, we design an efficient symmetric network, called (ESNet), to address this problem. The whole network has nearly symmetric architecture, which is mainly composed of a series of factorized convolution unit (FCU) and its parallel counterparts. On one hand, the FCU adopts a widely-used 1D factorized convolution in residual layers. On the other hand, the parallel version employs a transform-split-transform-merge strategy in the designment of residual module, where the split branch adopts dilated convolutions with different rate to enlarge receptive field. Our model has nearly 1.6M parameters, and is able to be performed over 62 FPS on a single GTX 1080Ti GPU. The experiments demonstrate that our approach achieves state-of-the-art results in terms of speed and accuracy trade-off for realtime semantic segmentation on CityScapes dataset.},
-  archiveprefix = {arxiv},
+  archiveprefix = {arXiv},
   langid = {english},
   keywords = {Target_Net},
   file = {/home/toffanetto/Zotero/storage/A5DE4ZX9/Wang et al. - 2019 - ESNet An Efficient Symmetric Network for Real-tim.pdf}
@@ -351,7 +383,7 @@
   publisher = {arXiv},
   urldate = {2024-06-10},
   abstract = {Semantic segmentation requires both rich spatial information and sizeable receptive field. However, modern approaches usually compromise spatial resolution to achieve real-time inference speed, which leads to poor performance. In this paper, we address this dilemma with a novel Bilateral Segmentation Network (BiSeNet). We first design a Spatial Path with a small stride to preserve the spatial information and generate high-resolution features. Meanwhile, a Context Path with a fast downsampling strategy is employed to obtain sufficient receptive field. On top of the two paths, we introduce a new Feature Fusion Module to combine features efficiently. The proposed architecture makes a right balance between the speed and segmentation performance on Cityscapes, CamVid, and COCO-Stuff datasets. Specifically, for a 2048x1024 input, we achieve 68.4\% Mean IOU on the Cityscapes test dataset with speed of 105 FPS on one NVIDIA Titan XP card, which is significantly faster than the existing methods with comparable performance.},
-  archiveprefix = {arxiv},
+  archiveprefix = {arXiv},
   keywords = {Computer Science - Computer Vision and Pattern Recognition},
   file = {/home/toffanetto/Zotero/storage/WUYWWY92/Yu et al. - 2018 - BiSeNet Bilateral Segmentation Network for Real-t.pdf;/home/toffanetto/Zotero/storage/6TBZMEER/1808.html}
 }
@@ -368,7 +400,7 @@
   publisher = {arXiv},
   urldate = {2024-05-24},
   abstract = {The low-level details and high-level semantics are both essential to the semantic segmentation task. However, to speed up the model inference, current approaches almost always sacrifice the low-level details, which leads to a considerable accuracy decrease. We propose to treat these spatial details and categorical semantics separately to achieve high accuracy and high efficiency for realtime semantic segmentation. To this end, we propose an efficient and effective architecture with a good trade-off between speed and accuracy, termed Bilateral Segmentation Network (BiSeNet V2). This architecture involves: (i) a Detail Branch, with wide channels and shallow layers to capture low-level details and generate high-resolution feature representation; (ii) a Semantic Branch, with narrow channels and deep layers to obtain high-level semantic context. The Semantic Branch is lightweight due to reducing the channel capacity and a fast-downsampling strategy. Furthermore, we design a Guided Aggregation Layer to enhance mutual connections and fuse both types of feature representation. Besides, a booster training strategy is designed to improve the segmentation performance without any extra inference cost. Extensive quantitative and qualitative evaluations demonstrate that the proposed architecture performs favourably against a few state-of-the-art real-time semantic segmentation approaches. Specifically, for a 2,048x1,024 input, we achieve 72.6\% Mean IoU on the Cityscapes test set with a speed of 156 FPS on one NVIDIA GeForce GTX 1080 Ti card, which is significantly faster than existing methods, yet we achieve better segmentation accuracy.},
-  archiveprefix = {arxiv},
+  archiveprefix = {arXiv},
   keywords = {Example_Net},
   file = {/home/toffanetto/Zotero/storage/4RM7QFWS/Yu et al. - 2020 - BiSeNet V2 Bilateral Network with Guided Aggregat.pdf;/home/toffanetto/Zotero/storage/38GSMPXJ/2004.html}
 }
