@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{hyperref}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
@@ -18,6 +19,14 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=magenta,      
+	urlcolor=cyan,
+	pdftitle={Métodos de Deep Learning aplicados à Segmentação Semântica de Imagens para Percepção de Veículos Autônomos},
+	pdfpagemode=FullScreen,
+}
 
 \begin{document}
 
@@ -94,10 +103,9 @@ Para que um veículo autônomo possa entender o ambiente à sua volta, é necess
 
 Existem métodos de processamento de imagens que realizam o mascaramento de cada entidade da imagem, porém a definição de qual é a classe de cada segmento se faz desafiadora, sendo anteriormente empregada a utilização de redes neurais artificiais (ANNs) para tal, como feito por \cite{vitor20132D3DVision}. Porém, devido à utilização de ANNs somente para a classificação final, era necessário muito pré-processamento para realização da segmentação semântica. Com o desenvolvimento das redes neurais profundas (DNNs), obteve-se métodos com poder suficiente para que, dada uma imagem bruta de entrada e uma imagem de referência (\textit{ground truth}) segmentada para comparação, a rede profunda consegue aprender como realizar a segmentação da imagem do ambiente urbano, como nas várias arquiteturas mostradas por \cite{papadeas2021RealTimeSemanticImage}. Com a popularização desses métodos, já existem diversos conjuntos de dados para treinamento das DNNs, como os \cite{cordts2016CityscapesDatasetSemantic} e \cite{brostow2008SegmentationRecognitionUsing,brostow2009SemanticObjectClasses}. Existem também \textit{datasets} que trazem cenas ainda mais desafiadoras, como o \cite{jin2021RaidaRRichAnnotated} que apresenta imagens urbanas durante noites chuvosas.
 
-Dessa forma, a percepção do ambiente por meio de visão computacional se faz indispensável para o desenvolvimento dos veículos autônomos, e com isso, os métodos de \textit{deep learning} se fazem uma grande ferramenta para conseguir-se reconhecer as entidades de uma cena urbana com robustez às variações de luz e reflexos, sendo assim uma solução a ser explorada. Além do desempenho da segmentação semântica, o tempo demandado para tal operação também é vital, uma vez que durante a navegação, todos os módulos operam em tempo real, e a quantidade de \textit{frames} segmentados por segundo é uma informação importante. Dessa forma, esse trabalho propõem a utilização de redes neurais profundas com diferentes arquiteturas para a segmentação semântica de imagens de cenas urbanas, utilizados \textit{datasets} da literatura e para testes finais, utilizando imagens reais adquiridas pelo autor.
+Dessa forma, a percepção do ambiente por meio de visão computacional se faz indispensável para o desenvolvimento dos veículos autônomos, e com isso, os métodos de \textit{deep learning} se fazem uma grande ferramenta para conseguir-se reconhecer as entidades de uma cena urbana com robustez às variações de luz e reflexos, sendo assim uma solução a ser explorada. Além do desempenho da segmentação semântica, o tempo demandado para tal operação também é vital, uma vez que durante a navegação, todos os módulos operam em tempo real, e a quantidade de \textit{frames} segmentados por segundo é uma informação importante. Dessa forma, esse trabalho propõem a utilização de redes neurais profundas com diferentes arquiteturas para a segmentação semântica de imagens de cenas urbanas, utilizados \textit{datasets} da literatura e para testes finais, utilizando imagens reais adquiridas pelo autor. Com esse teste, espera-se poder julgar se o treinamento da rede neural com conjuntos de dados da literatura conseguem gerar máquinas que generalizam bem para localidades não vistas durante o treinamento.
 
 Este trabalho é dividido em seis partes, onde na Seção~\ref{sc:introducao} é realizada a motivação e contextualização da pesquisa e na Seção~\ref{sc:estado-da-arte} é apresentado o estado da arte, discorrendo sobre as soluções utilizadas atualmente. Com isso, a Seção~\ref{sc:metodologia} apresenta a metodologia a ser utilizada neste trabalho, seguida dos resultados obtidos na Seção~\ref{sc:resultados} e sua análise na Seção~\ref{sc:analise}. Por fim, são apresentadas as conclusões na Seção~\ref{sc:conclusoes} e as referências utilizadas.
-
 
 \section{Estado da arte} \label{sc:estado-da-arte}
 
@@ -106,6 +114,9 @@ Este trabalho é dividido em seis partes, onde na Seção~\ref{sc:introducao} é
 \begin{note}
 	\begin{itemize}
 		\item Estratégias para operação em real time
+		\begin{itemize}
+			\item Depthwise separable convolution
+		\end{itemize}
 		\item Artigos \textit{Survey} \cite{janai2020ComputerVisionAutonomous}
 		\item Tipos de redes utilizadas \cite{chao2019HarDNetLowMemory,fan2021RethinkingBiSeNetRealtime, wang2019ESNetEfficientSymmetric, yu2020BiSeNetV2Bilateral, yu2018BiSeNetBilateralSegmentation,poudel2018ContextNetExploringContext,badrinarayanan2016SegNetDeepConvolutional} 
 		\item Resultados estado-da-arte \cite{papadeas2021RealTimeSemanticImage}
@@ -119,35 +130,27 @@ Este trabalho é dividido em seis partes, onde na Seção~\ref{sc:introducao} é
 
 \section{Metodologia} \label{sc:metodologia}
 
-\begin{note}
-	\begin{itemize}
-		\item Arquiteturas escolhidas 
-		\item Redes escolhidas
-		\item \textit{Datasets} escolhidos
-		\begin{itemize}
-			\item Proposta de utilizar dados coletados no \textit{campus}
-		\end{itemize}
-		\item Método de treinamento
-		\item Métricas utilizadas
-		\item \textit{Frameworks} utilizados
-		\item \textit{Hardware} utilizado
-		
-	\end{itemize}
-\end{note}
+%\begin{note}
+%	\begin{itemize}
+%		\item Arquiteturas escolhidas 
+%		\item Redes escolhidas
+%		\item \textit{Datasets} escolhidos
+%		\begin{itemize}
+%			\item Proposta de utilizar dados coletados no \textit{campus}
+%		\end{itemize}
+%		\item Método de treinamento
+%		\item Métricas utilizadas
+%		\item \textit{Frameworks} utilizados
+%		\item \textit{Hardware} utilizado
+%		
+%	\end{itemize}
+%\end{note}
 
 Para a solução do problema foi escolhida a rede STDC1-50, que apresentou maior velocidade nos testes realizados pelos autores do \textit{survey} \cite{papadeas2021RealTimeSemanticImage}, com um desempenho de segmentação considerável. [...]
 
 \subsection{Arquitetura}
 
 A rede STDC1 \cite{fan2021RethinkingBiSeNetRealtime} é baseada na arquitetura de \textit{two-branch network}, onde existe uma bifurcação da rede em dois ramos, um ligado à extração de informações de contexto e o outro aplicado para obtenção de informações espaciais da entrada. A informação de contexto demanda de uma maior profundidade, implementando mecanismos de atenção em dois níveis para extração dos atributos necessários para a identificação das regiões da imagem, como mostrado na Fig.~\ref{fig:stdcseg-architecture}(a).
-
-Porém, o fato de se processar a informação de entrada em dois ramos, traz um inconveniente para o problema de segmentação em tempo real, que é justamente o tempo de inferência da rede. Desta forma, a rede aplica uma estratégia elegante ao utilizar no lugar de um ramo com novas camadas, uma \textit{skip connection} do \textit{Stage 3}, para o bloco de fusão [...]. Para forçar a captura das informações espaciais, a saída da \textit{skip connection} é utilizada em uma tarefa auxiliar de detecção de bordas de cada região semântica da imagem, por meio de uma \textit{detail head}. Tal procedimento é realizado por meio de treinamento supervisionado, onde com a aplicação de filtros laplacianos na imagem rótulo de segmentação semântica, se obtém a imagem rótulo com as bordas de cada segmento da imagem de entrada, que representam os detalhes à serem capturados pelo ramo espacial, e a perda é computada por meio da saída da \textit{detail head} e o rótulo obtido. Reforça-se que esse procedimento é realizado apenas em treinamento, enquanto durante a inferência a rede neural irá utilizar as habilidades aprendidas por meio do gradiente sobre a perda atrelada à segmentação e à detecção de bordas, sem realizar explicitamente a extração das bordas de cada região da imagem.
-
-Cada estágio é composto da forma ... E realiza convolução da forma...
-
-O mecanismo de atenção é ...
-
-Por fim, a fusão é feita ... e o upsampling...
 
 \begin{figure}[h!]
 	\centering
@@ -156,20 +159,65 @@ Por fim, a fusão é feita ... e o upsampling...
 	\label{fig:stdcseg-architecture}
 \end{figure}
 
+Porém, o fato de se processar a informação de entrada em dois ramos, traz um inconveniente para o problema de segmentação em tempo real, que é justamente o tempo de inferência da rede. Desta forma, a rede aplica uma estratégia elegante ao utilizar no lugar de um ramo com novas camadas, uma \textit{skip connection} do \textit{Stage 3}, para o bloco de fusão dos \textit{feature maps} oriundos dos dois braços da rede. Para forçar a captura das informações espaciais, a saída da \textit{skip connection} é utilizada em uma tarefa auxiliar de detecção de bordas de cada região semântica da imagem, por meio de uma \textit{detail head}, como visto na Fig.~\ref{fig:stdcseg-architecture}(b). Tal procedimento é realizado por meio de treinamento supervisionado, onde com a aplicação de filtros laplacianos na imagem rótulo de segmentação semântica, se obtém a imagem rótulo com as bordas de cada segmento da imagem de entrada, procedimento ilustrado na Fig.~\ref{fig:stdcseg-architecture}(c). Tal informação explicita os detalhes à serem capturados pelo ramo espacial, e a perda é computada por meio da saída da \textit{detail head} e o rótulo obtido. Reforça-se que esse procedimento é realizado apenas em treinamento, enquanto durante a inferência a rede neural irá utilizar as habilidades aprendidas por meio do gradiente sobre a perda atrelada à segmentação e à detecção de bordas, sem realizar explicitamente a extração das bordas de cada região da imagem.
+
+O módulo principal da rede é o \textit{Short-Term Dense Concatenate Module} (STDC), que possuí quatro camadas internas de convolução (convolução + \textit{batch normalization} + ReLU), e os \textit{feature maps} de todas as camadas convolucionais do bloco são concatenadas na saída, formando assim um bloco com característica densa, como descrito na Fig. \ref{fig:stdc}. Dada uma entrada de $M$ canais, a primeira camada possuí \textit{kernels} $1 \times 1$, gerando $N/2$ \textit{feature maps}. A segunda camada realiza \textit{downsampling}, apresentando \textit{stride} = 2 e \textit{kernel} $3 \times 3$, assim como as consecutivas, porém contribuindo com $N/4$ canais de saída. Por fim, as duas ultimas camadas contribuem cada uma com $N/8$ mapas de ativação, e com isso, o bloco concatena todos os canais de saída, apresentando uma saída com $N$ canais. Tal configuração se fez para valorizar a tarefa de segmentação de imagem, onde nas primeiras camadas existem mais filtros, e com isso, conseguindo explorar melhor a extração de informação multi-escala \cite{fan2021RethinkingBiSeNetRealtime}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\linewidth]{../../src/STDC-Seg/images/stdc}
+	\caption{Estrutura do módulo STDC. Adaptado de \cite{fan2021RethinkingBiSeNetRealtime}.}
+	\label{fig:stdc}
+\end{figure}
+
+
+O estágio 1 e 2 realizam a operação de convolução, \textit{batch normalization} e ReLU aos dados de entrada, com \textit{stride} igual a 2. Já os estágios 3, 4 e 5 apresentam realizações em série de módulo STDC. O mecanismo de atenção e o bloco de FFM são baseados na rede BiSeNet \cite{yu2018BiSeNetBilateralSegmentation}, [...]
+
+Por fim é realizado um \textit{upsampling} de 8 vezes para a recuperação da dimensão de entrada.
+
+Sua implementação se deu com base nos códigos fonte disponibilizados pelo autor, modificados para o problema em questão, e disponibilizados no GitHub\footnote{\href{https://github.com/toffanetto/STDC-Seg}{github.com/toffanetto/STDC-Seg}}. Utilizou-se o \textit{framework} PyTorch, juntamente dos pacotes de CUDA necessários para utilização da GPU NVIDIA em treinamento e inferência.
+
 
 \subsection{\textit{Dataset} de treinamento e dados de teste}
 
-Dataset... tamanho... particionamento... resolução... classes...
+O conjunto de dados Cityscapes \cite{cordts2016CityscapesDatasetSemantic} foi escolhido como base para treinamento e avaliação do modelo, sendo um \textit{dataset} que contempla imagens de alta resolução, de contextos urbanos, capturados em diversas cidades da Europa. A base de dados conta com a anotação de 30 classes, sendo que 19 estão disponíveis para o problema de segmentação semântica, sendo elas: estrada, calçada, pedestre, piloto/condutor, carro, caminhão, ônibus, trem, moto, bicicleta, edifício, muro, cerca, poste, placa de transito, semáforo, vegetação, terreno e céu, cuja legenda está disponível na Fig.~\ref{fig:legend}. Estão disponíveis no mesmo, 5000 imagens com anotação fina dos segmentos semânticos, divididos em treinamento (2975), validação (500) e teste (1525). A resolução das imagens é de $2048 \times 1024$ pixels, sendo uma entrada desafiadora para a inferência em tempo real.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\linewidth]{../../src/STDC-Seg/output/legend.pdf}
+	\caption{Legenda de cores referentes à cada classe do \textit{dataset}.}
+	\label{fig:legend}
+\end{figure}
+
+Foram implementadas estratégias de \textit{data augmentation} pelos autores da rede neural \cite{fan2021RethinkingBiSeNetRealtime}, utilizando alteração de cor, brilho e contraste, inversão horizontal, aplicação de escala e corte. A aplicação de escala também é utilizada para reduzir a dimensão dos dados de entrada, facilitando a predição do mapa de segmentação semântico em tempo real pela rede, onde foi escolhida a escala de 0,75 por fornecer um desempenho maior.
+
+Para teste da capacidade de generalização do modelo, realizou-se uma coleta de dados na mesma forma da realizada pelos autores do \textit{dataset}, no \textit{campus} da Unicamp, sendo assim, imagens de locais que não foram vistos em treinamento, e aplicou-se a inferência da máscara de segmentação semântica das mesmas por meio da rede STCD1.
 
 \subsection{Método de treinamento}
 
-Batch... epocas... iterações...
+\textit{\color{gray}
+	\begin{itemize}
+		\item mini-batch SGD com momento e decaimento
+		\item poly learning rate policy
+		\item 60000 interações
+		\item Função de custo?
+\end{itemize}}
 
 \subsection{Métricas de avaliação}
 
-mIOU50... mIOU75...
+Sendo um problema de segmentação com $k +1$ classes considerando o fundo da imagem, têm-se que $p_{ij}$ é o número de pixels pertencentes à classe $i$ que foram preditos para a classe $j$, logo, $i = j$ representa uma classificação correta da classe do pixel.
 
-\subsection{Teste}
+Com isso, as duas métricas mais famosas para segmentação semântica, sendo elas a \textit{Intersection over Union} (IoU) e \textit{mean Intersection over Union} (mIoU). A IoU, enunciada em \eqref{eq:IoU}, é obtida pela quantidade de pixels preditos corretamente para uma certa classe (interseção predição e \textit{ground truth}), divido pela quantidade de pixels preditos incorretamente somado ao \textit{ground truth} (união) \cite{papadeas2021RealTimeSemanticImage}. 
+
+\begin{equation}\label{eq:IoU}
+	IoU = \frac{\sum_{i=0}^{k}p_{ii}}{\sum_{i=0}^{k}\sum_{j=0}^{k}\left(p_{ij} + p_{ji}\right) - \sum_{i=0}^{k}p_{ii}}
+\end{equation}
+
+Ao realizar a média da IoU para $k+1$ classes, se obtém a mIoU, conforme \eqref{eq:mIoU}. Devido à informação de um desempenho médio para todas as classes, essa métrica foi escolhida para realização da medida de efetividade da segmentação semântica.
+
+\begin{equation}\label{eq:mIoU}
+	mIoU = \frac{1}{k+1} \sum_{i = 0}^{k}\frac{p_{ii}}{\sum_{j=0}^{k}\left(p_{ij} + p_{ji}\right) - p_{ii}}
+\end{equation}
 
 
 
