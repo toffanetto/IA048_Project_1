@@ -128,6 +128,7 @@ Este trabalho é dividido em seis partes, onde na Seção~\ref{sc:introducao} é
 %\end{note}
 
 
+
 \section{Metodologia} \label{sc:metodologia}
 
 %\begin{note}
@@ -146,7 +147,7 @@ Este trabalho é dividido em seis partes, onde na Seção~\ref{sc:introducao} é
 %	\end{itemize}
 %\end{note}
 
-Para a solução do problema foi escolhida a rede STDC1-50, que apresentou maior velocidade nos testes realizados pelos autores do \textit{survey} \cite{papadeas2021RealTimeSemanticImage}, com um desempenho de segmentação considerável. \textbf{justificar a escolha da rede}
+Para a solução do problema foi escolhida uma rede da família STDC, que conseguem realizar a segmentação semântica de imagens de forma rápida e com desempenho estado da arte. Tal arquitetura apresenta grande riqueza de recursos, empregando inspirações na BiSeNet, SENet, U-Net e utilizando mecanismos de atenção, além da utilização de uma função de custo secundária para potencializar a captação de detalhes pela rede. A rede STDC75-1 foi escolhida por apresentar a maior velocidade nos testes realizados pelos autores do \textit{survey} \cite{papadeas2021RealTimeSemanticImage}, com um desempenho de segmentação considerável, permitindo uma melhor \textit{performance} no \textit{hardware} disponível.
 
 \subsection{Arquitetura}
 
@@ -171,9 +172,7 @@ O módulo principal da rede é o \textit{Short-Term Dense Concatenate Module} (S
 \end{figure}
 
 
-O estágio 1 e 2 realizam a operação de convolução, \textit{batch normalization} e ReLU aos dados de entrada, com \textit{stride} igual a 2. Já os estágios 3, 4 e 5 apresentam realizações em série de módulo STDC. O mecanismo de atenção e o bloco de FFM são baseados na rede BiSeNet \cite{yu2018BiSeNetBilateralSegmentation}, \textbf{explicar brevemente funcionamento desses blocos}
-
-Por fim é realizado um \textit{upsampling} de 8 vezes para a recuperação da dimensão de entrada.
+O estágio 1 e 2 realizam a operação de convolução, \textit{batch normalization} e ReLU aos dados de entrada, com \textit{stride} igual a 2. Já os estágios 3, 4 e 5 apresentam realizações em série de módulo STDC. O mecanismo de atenção e o bloco \textit{Feature Fusion Module} (FFM) são baseados na rede BiSeNet \cite{yu2018BiSeNetBilateralSegmentation}, onde o funciona com base em obter os pesos de atenção por meio da aplicação de \textit{global pooling}, computando o vetor de pesos por uma camada convolucional com \textit{kernel} $1 \times 1$, aplicando \textit{batch normalization} e ativação logística. Dessa forma, a informação de contexto global é integrada com baixo custo computacional, evitando \textit{up-sampling}. Já o bloco FFM, é inspirado no conceito da SENet, e condiciona a soma as informações do ramo de contexto e do ramo espacial da rede \textit{two-branch}. O mesmo se faz por meio da concatenação dos \textit{feature maps}, normalização por \textit{batch normalization} e ponderação dessas informações por meio de um vetor de pesos obtido por meio da aplicação de \textit{global pooling}, e duas camadas de convolução de \textit{kernel} de tamanho unitário, a primeira seguida por ReLU e a segunda por uma sigmoide. Por fim é realizado um \textit{upsampling} de 8 vezes para a recuperação da dimensão de entrada.
 
 Sua implementação se deu com base nos códigos fonte disponibilizados pelos autores da rede, modificados para o problema em questão, e disponibilizados no GitHub\footnote{\href{https://github.com/toffanetto/STDC-Seg}{github.com/toffanetto/STDC-Seg}}. Utilizou-se o \textit{framework} PyTorch, juntamente dos pacotes de CUDA necessários para utilização da GPU NVIDIA em treinamento e inferência.
 
@@ -205,7 +204,7 @@ Para teste da capacidade de generalização do modelo, realizou-se uma coleta de
 
 O treinamento da rede neural foi realizado por meio do algoritmo de gradiente descendente estocástico (SGD), com \textit{momentum} de 0,9, decaimento de pesos de $5e^{-4}$, com atualização dos pesos por \textit{mini-batch} de 4 amostras, devido às limitações de memória da GPU utilizada. O treinamento é limitado por número de iterações, onde com base na rede original, foi limitado em 60000 iterações, onde é adotada uma estratégia de \textit{warmup}. Com isso, a taxa de aprendizado é incrementada de um valor pequeno até o valor alvo durante as primeiras 1000 interações para estabilização do processo de otimização e evitar a divergência do mesmo. Além disso, durante o treinamento a taxa de aprendizado é adaptada por meio de uma política polinomial, dada por $(1 - iter/max\_iter)^{power}$, onde foi considerada uma potência de 0.9 \cite{fan2021RethinkingBiSeNetRealtime}.
 
-Como função de custo para ajuste dos pesos, é considerada a entropia cruzada, por se tratar de um problema de classificação, porém utilizando \textit{Online Hard Example Mining} para a otimização da tarefa de aprendizado da segmentação semântica. \textbf{Explicar rapidamente o OHEM} \cite{shrivastava2016TrainingRegionbasedObject}. 
+Como função de custo para ajuste dos pesos, é considerada a entropia cruzada, por se tratar de um problema de classificação, e aplicando recursos \textit{Online Hard Example Mining} para a otimização da tarefa de aprendizado da segmentação semântica. O OHEM é uma estratégia de exploração de amostras desafiadoras, que tendem a trazer mais aprendizado ao modelo devido à riqueza de informações transpassadas pela complexidade de classificação, sendo selecionados durante o treinamento, e trazendo mais robustez à rede \cite{shrivastava2016TrainingRegionbasedObject}. 
 
 Também é computada a função de custo para o problema de detecção dos detalhes, realizado pela \textit{detail head}. Nesse caso, não é utilizado a entropia cruzada, devido a ser um problema altamente desbalanceado, onde a mesma não apresenta bons resultado. Nesse caso, são aplicadas as métricas de entropia cruzada binária e \textit{dice loss}, conforme \eqref{eq:ldetail}. A \textit{dice loss}, enunciada em \eqref{eq:ldice} se baseia em medir a sobreposição entre o mapa predito e seu respectivo rótulo, variando no intervalo [0, 1], sendo assim robusta ao número de pixels de cada classe. O equacionamento é realizado considerando uma entrada de $H \times W$ pixels, obtendo assim uma predição do mapa de detalhes $p_d$, sendo $g_d$ seu respectivo rótulo, e $\epsilon$ uma constante para evitar a divisão por zero \cite{deng2018LearningPredictCrisp}.
 
