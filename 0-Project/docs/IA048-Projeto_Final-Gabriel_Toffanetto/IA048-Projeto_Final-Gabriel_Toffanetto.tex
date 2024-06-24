@@ -10,6 +10,9 @@
 \usepackage{subcaption}
 \usepackage{float} % H image float mode
 \usepackage{hyperref}
+
+
+
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
@@ -117,7 +120,7 @@ Este trabalho é dividido em seis partes, onde na Seção~\ref{sc:introducao} é
 %		\begin{itemize}
 %			\item Depthwise separable convolution
 %		\end{itemize}
-%		\item Artigos \textit{Survey} \cite{janai2020ComputerVisionAutonomous}
+%		\item Artigos \textit{Survey} \cite{jeba...}
 %		\item Tipos de redes utilizadas \cite{chao2019HarDNetLowMemory,fan2021RethinkingBiSeNetRealtime, wang2019ESNetEfficientSymmetric, yu2020BiSeNetV2Bilateral, yu2018BiSeNetBilateralSegmentation,poudel2018ContextNetExploringContext,badrinarayanan2016SegNetDeepConvolutional} 
 %		\item Resultados estado-da-arte \cite{papadeas2021RealTimeSemanticImage}
 %		\begin{itemize}
@@ -127,6 +130,9 @@ Este trabalho é dividido em seis partes, onde na Seção~\ref{sc:introducao} é
 %	\end{itemize}
 %\end{note}
 
+As aplicações de \textit{deep learning} para solução de problemas de segmentação semântica de imagem vem trazendo resultados de alta performance, a partir de dados brutos, ou seja, sem a necessidade de pré-processamento das informações capturadas pela câmera. Porém, para que seja possível a realização dessa tarefa em tempo real, a literatura propõem a utilização de aproximações que permitem a redução do tempo de inferência \cite{papadeas2021RealTimeSemanticImage}. Entre tais métodos, se propõem a utilização de \textit{Depthwise Separable Convolution}, \textit{channel shuffling}, utilização de \textit{decoders} enxutos, redução eficiente do tamanho dos \textit{feature maps} e \textit{two-branch network}. A última em especial, sendo utilizada no presente trabalho, permite que sejam utilizada uma arquitetura mais leve, onde um ramo será suficientemente profundo para obter as informações semânticas da entrada, enquanto o outro é raso para captar os detalhes espaciais, ou seja, um ramo define os segmentos da imagem, e o outro os classifica.
+
+O \textit{survey} \cite{papadeas2021RealTimeSemanticImage} demonstra a comparação entre diversas arquiteturas de redes neurais, ponderando o desempenho das mesmas, por meio da métrica mIoU, e o tempo de inferência, expressado em \textit{frames per second} (FPS). Estão presentes na comparação, redes baseadas em \textit{encoder-decoder}, U-Net, DenseNet, SENet e \textit{two-branch network}, onde as que derivam a arquitetura da última, como a BiSeNet \cite{yu2018BiSeNetBilateralSegmentation}, BiSeNet V2 \cite{yu2020BiSeNetV2Bilateral} e STDC \cite{fan2021RethinkingBiSeNetRealtime} apresentam as maiores velocidades de inferência, alcançando os 250 FPS, enquanto SqueezeNet \cite{treml2016SpeedingSemanticSegmentation} obtém o maior mIoU, obtendo 84,3 \%.
 
 
 \section{Metodologia} \label{sc:metodologia}
@@ -208,13 +214,11 @@ Como função de custo para ajuste dos pesos, é considerada a entropia cruzada,
 
 Também é computada a função de custo para o problema de detecção dos detalhes, realizado pela \textit{detail head}. Nesse caso, não é utilizado a entropia cruzada, devido a ser um problema altamente desbalanceado, onde a mesma não apresenta bons resultado. Nesse caso, são aplicadas as métricas de entropia cruzada binária e \textit{dice loss}, conforme \eqref{eq:ldetail}. A \textit{dice loss}, enunciada em \eqref{eq:ldice} se baseia em medir a sobreposição entre o mapa predito e seu respectivo rótulo, variando no intervalo [0, 1], sendo assim robusta ao número de pixels de cada classe. O equacionamento é realizado considerando uma entrada de $H \times W$ pixels, obtendo assim uma predição do mapa de detalhes $p_d$, sendo $g_d$ seu respectivo rótulo, e $\epsilon$ uma constante para evitar a divisão por zero \cite{deng2018LearningPredictCrisp}.
 
-\begin{equation}\label{eq:ldetail}
-	L_{detail}(p_d,g_d) = L_{dice}(p_d, g_d) + L_{bce}(p_d, g_d)
-\end{equation}
-
-\begin{equation}\label{eq:ldice}
+\begin{gather}
+	L_{detail}(p_d,g_d) = L_{dice}(p_d, g_d) + L_{bce}(p_d, g_d) \label{eq:ldetail} \\ 
 	L_{dice}(p_d, g_d) = 1 - \frac{2\sum_{i}^{H\times W}p_d^ig_d^i + \epsilon}{\sum_{i}^{H\times W}(p_d^i)^2 + \sum_{i}^{H\times W}(g_d^i)^2 + \epsilon}
-\end{equation}
+	\label{eq:ldice}
+\end{gather}
 
 
 \subsection{Métricas de avaliação}
@@ -224,13 +228,13 @@ Sendo um problema de segmentação com $k +1$ classes considerando o fundo da im
 Com isso, as duas métricas mais famosas para segmentação semântica, sendo elas a \textit{Intersection over Union} (IoU) e \textit{mean Intersection over Union} (mIoU). A IoU, enunciada em \eqref{eq:IoU}, é obtida pela quantidade de pixels preditos corretamente para uma certa classe (interseção predição e \textit{ground truth}), divido pela quantidade de pixels preditos incorretamente somado ao \textit{ground truth} (união) \cite{papadeas2021RealTimeSemanticImage}. 
 
 \begin{equation}\label{eq:IoU}
-	IoU = \frac{\sum_{i=0}^{k}p_{ii}}{\sum_{i=0}^{k}\sum_{j=0}^{k}\left(p_{ij} + p_{ji}\right) - \sum_{i=0}^{k}p_{ii}}
+	\text{IoU} = \frac{\sum_{i=0}^{k}p_{ii}}{\sum_{i=0}^{k}\sum_{j=0}^{k}\left(p_{ij} + p_{ji}\right) - \sum_{i=0}^{k}p_{ii}}
 \end{equation}
 
 Ao realizar a média da IoU para $k+1$ classes, se obtém a mIoU, conforme \eqref{eq:mIoU}. Devido à informação de um desempenho médio para todas as classes, essa métrica foi escolhida para realização da medida de efetividade da segmentação semântica.
 
 \begin{equation}\label{eq:mIoU}
-	mIoU = \frac{1}{k+1} \sum_{i = 0}^{k}\frac{p_{ii}}{\sum_{j=0}^{k}\left(p_{ij} + p_{ji}\right) - p_{ii}}
+	\text{mIoU} = \frac{1}{k+1} \sum_{i = 0}^{k}\frac{p_{ii}}{\sum_{j=0}^{k}\left(p_{ij} + p_{ji}\right) - p_{ii}}
 \end{equation}
 
 
@@ -255,11 +259,12 @@ Ao realizar a média da IoU para $k+1$ classes, se obtém a mIoU, conforme \eqre
 
 \subsection{Métricas de teste}
 
-mIOU is: 0.7450460195541382
+Ao realizar a validação da rede treinada para as 500 amostras de teste do conjunto de validação do \textit{dataset} Cityscapes, obteve-se um índice de mIOU igual a \textbf{74,5046\%}.
 
 \subsection{Cityscapes}
 
 \begin{figure}[h!]
+	
 \begin{subfigure}[H]{\linewidth}
 \centering
 \includegraphics[width=1\linewidth]{../../src/STDC-Seg/output/sample_frankfurt_000001_077434}
@@ -288,6 +293,7 @@ mIOU is: 0.7450460195541382
 	\label{fig:sample_frankfurt_000001_059119}
 \end{subfigure}
 \caption{Predições para cenas do \textit{dataset} Cityscapes.}
+\label{fig:result_cityscapes}
 \end{figure}
 
 
@@ -310,6 +316,7 @@ mIOU is: 0.7450460195541382
 %	\end{itemize}
 %\end{note}
 
+A partir do resultado de mIoU obtido, pode-se dizer que a rede treinada obtida está entre as concorrentes do estado da arte. Analisando algumas amostras tomadas do dados de teste, observa-se na Fig. \ref{fig:result_cityscapes}(\subref{fig:sample_munster_000036_000019}) a detecção precisa do ciclista, dos pedestres, e também a diferenciação entre a rua e a calçada, que visualmente não apresentam grande diferença. Já na Fig. \ref{fig:result_cityscapes}(\subref{fig:sample_munster_000078_000019}), é possível ver a definição das entidades do trânsito, como carros, caminhões, semáforos e placas, assim como seus respectivos postes. Novamente, a ciclovia é reconhecida como calçada. Por fim, as imagens das Fig. \ref{fig:result_cityscapes}(\subref{fig:sample_frankfurt_000001_046272})~e~\ref{fig:result_cityscapes}(\subref{fig:sample_frankfurt_000001_059119}) se mostram mais desafiadores, uma vez que possuem sombras. Porém, a rede neural consegue com facilidade definir a rua, os pedestres, a calçada e as placas de sinalização mesmo com a presença de diferentes níveis de iluminação da cena.
 
 \section{Conclusões}  \label{sc:conclusoes}
 
