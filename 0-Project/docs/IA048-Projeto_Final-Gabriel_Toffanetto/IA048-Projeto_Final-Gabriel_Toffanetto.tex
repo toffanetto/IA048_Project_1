@@ -132,7 +132,7 @@ Este trabalho é dividido em seis partes, onde na Seção~\ref{sc:introducao} é
 
 As aplicações de \textit{deep learning} para solução de problemas de segmentação semântica de imagem vem trazendo resultados de alta performance, a partir de dados brutos, ou seja, sem a necessidade de pré-processamento das informações capturadas pela câmera. Porém, para que seja possível a realização dessa tarefa em tempo real, a literatura propõem a utilização de aproximações que permitem a redução do tempo de inferência \cite{papadeas2021RealTimeSemanticImage}. Entre tais métodos, se propõem a utilização de \textit{Depthwise Separable Convolution}, \textit{channel shuffling}, utilização de \textit{decoders} enxutos, redução eficiente do tamanho dos \textit{feature maps} e \textit{two-branch network}. A última em especial, sendo utilizada no presente trabalho, permite que sejam utilizada uma arquitetura mais leve, onde um ramo será suficientemente profundo para obter as informações semânticas da entrada, enquanto o outro é raso para captar os detalhes espaciais, ou seja, um ramo define os segmentos da imagem, e o outro os classifica.
 
-O \textit{survey} \cite{papadeas2021RealTimeSemanticImage} demonstra a comparação entre diversas arquiteturas de redes neurais, ponderando o desempenho das mesmas, por meio da métrica mIoU, e o tempo de inferência, expressado em \textit{frames per second} (FPS). Estão presentes na comparação, redes baseadas em \textit{encoder-decoder}, U-Net, DenseNet, SENet e \textit{two-branch network}, onde as que derivam a arquitetura da última, como a BiSeNet \cite{yu2018BiSeNetBilateralSegmentation}, BiSeNet V2 \cite{yu2020BiSeNetV2Bilateral} e STDC \cite{fan2021RethinkingBiSeNetRealtime} apresentam as maiores velocidades de inferência, alcançando os 250 FPS, enquanto SqueezeNet \cite{treml2016SpeedingSemanticSegmentation} obtém o maior mIoU, obtendo 84,3 \%.
+O \textit{survey} \cite{papadeas2021RealTimeSemanticImage} demonstra a comparação entre diversas arquiteturas de redes neurais, ponderando o desempenho das mesmas, por meio da métrica mIoU, e o tempo de inferência, expressado em \textit{frames per second} (FPS). Estão presentes na comparação, redes baseadas em \textit{encoder-decoder}, U-Net, DenseNet, SENet e \textit{two-branch network}, onde as que derivam a arquitetura da última, como a BiSeNet \cite{yu2018BiSeNetBilateralSegmentation}, BiSeNet V2 \cite{yu2020BiSeNetV2Bilateral} e STDC \cite{fan2021RethinkingBiSeNetRealtime} apresentam as maiores velocidades de inferência, com a última alcançando os 250 FPS, enquanto SqueezeNet \cite{treml2016SpeedingSemanticSegmentation} obtém o maior mIoU, chegando a 84,3\%.
 
 
 \section{Metodologia} \label{sc:metodologia}
@@ -185,7 +185,7 @@ Sua implementação se deu com base nos códigos fonte disponibilizados pelos au
 
 \subsection{\textit{Dataset} de treinamento e dados de teste}
 
-O conjunto de dados Cityscapes \cite{cordts2016CityscapesDatasetSemantic} foi escolhido como base para treinamento e avaliação do modelo, sendo um \textit{dataset} que contempla imagens de alta resolução, de contextos urbanos, capturados em diversas cidades da Europa. A base de dados conta com a anotação de 30 classes, sendo que 19 estão disponíveis para o problema de segmentação semântica, sendo elas: estrada, calçada, pedestre, piloto/condutor, carro, caminhão, ônibus, trem, moto, bicicleta, edifício, muro, cerca, poste, placa de transito, semáforo, vegetação, terreno e céu, cuja legenda está disponível na Fig.~\ref{fig:legend}. Estão disponíveis no mesmo, 5000 imagens com anotação fina dos segmentos semânticos, divididos em treinamento (2975), validação (500) e teste (1525). A resolução das imagens é de $2048 \times 1024$ pixels, sendo uma entrada desafiadora para a inferência em tempo real.
+O conjunto de dados Cityscapes \cite{cordts2016CityscapesDatasetSemantic} foi escolhido como base para treinamento e avaliação do modelo, sendo um \textit{dataset} que contempla imagens de alta resolução, de contextos urbanos, capturados em diversas cidades da Europa. A base de dados conta com a anotação de 30 classes, sendo que 19 estão disponíveis para o problema de segmentação semântica, sendo elas: estrada, calçada, pedestre, piloto/condutor, carro, caminhão, ônibus, trem, moto, bicicleta, edifício, muro, cerca, poste, placa de transito, semáforo, vegetação, solo e céu, cuja legenda está disponível na Fig.~\ref{fig:legend}. Estão disponíveis no mesmo, 5000 imagens com anotação fina dos segmentos semânticos, divididos em treinamento (2975), validação (500) e teste (1525). A resolução das imagens é de $2048 \times 1024$ pixels, sendo uma entrada desafiadora para a inferência em tempo real.
 
 \begin{figure}[h!]
 	\centering
@@ -212,13 +212,15 @@ O treinamento da rede neural foi realizado por meio do algoritmo de gradiente de
 
 Como função de custo para ajuste dos pesos, é considerada a entropia cruzada, por se tratar de um problema de classificação, e aplicando recursos \textit{Online Hard Example Mining} para a otimização da tarefa de aprendizado da segmentação semântica. O OHEM é uma estratégia de exploração de amostras desafiadoras, que tendem a trazer mais aprendizado ao modelo devido à riqueza de informações transpassadas pela complexidade de classificação, sendo selecionados durante o treinamento, e trazendo mais robustez à rede \cite{shrivastava2016TrainingRegionbasedObject}. 
 
-Também é computada a função de custo para o problema de detecção dos detalhes, realizado pela \textit{detail head}. Nesse caso, não é utilizado a entropia cruzada, devido a ser um problema altamente desbalanceado, onde a mesma não apresenta bons resultado. Nesse caso, são aplicadas as métricas de entropia cruzada binária e \textit{dice loss}, conforme \eqref{eq:ldetail}. A \textit{dice loss}, enunciada em \eqref{eq:ldice} se baseia em medir a sobreposição entre o mapa predito e seu respectivo rótulo, variando no intervalo [0, 1], sendo assim robusta ao número de pixels de cada classe. O equacionamento é realizado considerando uma entrada de $H \times W$ pixels, obtendo assim uma predição do mapa de detalhes $p_d$, sendo $g_d$ seu respectivo rótulo, e $\epsilon$ uma constante para evitar a divisão por zero \cite{deng2018LearningPredictCrisp}.
+Também é computada a função de custo para o problema de detecção dos detalhes, realizado pela \textit{detail head}. Nesse caso, não é utilizado a entropia cruzada, devido a ser um problema altamente desbalanceado, onde a mesma não apresenta bons resultado. Nesse caso, são aplicadas as métricas de entropia cruzada binária ($L_{bce}$) e \textit{dice loss} ($L_{dice}$), conforme \eqref{eq:ldetail}. A \textit{dice loss}, enunciada em \eqref{eq:ldice} se baseia em medir a sobreposição entre o mapa predito e seu respectivo rótulo, variando no intervalo [0, 1], sendo assim robusta ao número de pixels de cada classe. O equacionamento é realizado considerando uma entrada de $H \times W$ pixels, obtendo assim uma predição do mapa de detalhes $p_d$, sendo $g_d$ seu respectivo rótulo, e $\epsilon$ uma constante para evitar a divisão por zero \cite{deng2018LearningPredictCrisp}.
 
-\begin{gather}
-	L_{detail}(p_d,g_d) = L_{dice}(p_d, g_d) + L_{bce}(p_d, g_d) \label{eq:ldetail} \\ 
+\begin{equation} \label{eq:ldetail}
+	L_{detail}(p_d,g_d) = L_{dice}(p_d, g_d) + L_{bce}(p_d, g_d)
+\end{equation}
+
+\begin{equation} \label{eq:ldice}
 	L_{dice}(p_d, g_d) = 1 - \frac{2\sum_{i}^{H\times W}p_d^ig_d^i + \epsilon}{\sum_{i}^{H\times W}(p_d^i)^2 + \sum_{i}^{H\times W}(g_d^i)^2 + \epsilon}
-	\label{eq:ldice}
-\end{gather}
+\end{equation}
 
 
 \subsection{Métricas de avaliação}
@@ -257,7 +259,7 @@ Ao realizar a média da IoU para $k+1$ classes, se obtém a mIoU, conforme \eqre
 %	\end{itemize}
 %\end{note}
 
-\subsection{Métricas de teste}
+\subsection{Avaliação de desempenho}
 
 Ao realizar a validação da rede treinada para as 500 amostras de teste do conjunto de validação do \textit{dataset} Cityscapes, obteve-se um índice de mIOU igual a \textbf{74,5046\%}.
 
