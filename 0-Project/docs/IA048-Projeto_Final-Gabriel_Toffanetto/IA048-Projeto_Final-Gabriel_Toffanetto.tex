@@ -61,6 +61,8 @@ g289320@dac.unicamp.br}
 %	\end{itemize}
 %\end{note}
 
+No contexto de veículos autônomos, a percepção do ambiente urbano se faz peça chave para a viabilidade, desempenho e segurança da aplicação da presença dos mesmos na sociedade. Nesse âmbito, a visão computacional por meio de técnicas como segmentação semântica de imagens consegue entender o ambiente, e com isso conseguir distinguir área navegável de obstáculos. Existem soluções para tal tarefa, que empregam a necessidade de grande pré-processamento dos dados, porém, métodos de \textit{deep learing} permitem que a segmentação semântica seja realizada em tempo real, aprendendo diretamente dos dados brutos. Nesse sentido, este trabalho aplica uma rede neural profunda com arquitetura \textit{two-branch} baseada na rede STDC para segmentação semântica de imagens com uso do \textit{dataset} Cityscapes e validação com imagens capturadas pelo autor. Dessa forma, foi visto que o desempenho da rede STDC foi satisfatório, chegando a valores de mIoU dentro do estado da arte, e que o treinamento da rede por meio do \textit{dataset}, ao ser aplicado em imagens obtidas pelo autor apresentou erros em relação a entidades muito diferentes das vistas no treinamento. Dessa forma, a verificação da necessidade \textit{fine tunning} com dados locais pode ser importante para o desempenho e confiabilidade da solução.
+
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -301,6 +303,90 @@ Ao realizar a validação da rede treinada para as 500 amostras de teste do conj
 
 \subsection{Unicamp}
 
+\begin{figure}[H]
+	
+	\begin{subfigure}[H]{\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{../../src/STDC-Seg/output/inference/sample_unicamp_scape_250624_5}
+		\caption{}
+		\label{fig:sample_unicamp_scape_250624_5}
+	\end{subfigure}
+	
+	\begin{subfigure}[H]{\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{../../src/STDC-Seg/output/inference/sample_unicamp_scape_250624_19}
+		\caption{}
+		\label{fig:sample_unicamp_scape_250624_19}
+	\end{subfigure}
+	
+	\begin{subfigure}[H]{\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{../../src/STDC-Seg/output/inference/sample_unicamp_scape_250624_24}
+		\caption{}
+		\label{fig:sample_unicamp_scape_250624_24}
+	\end{subfigure}
+
+	\begin{subfigure}[H]{\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{../../src/STDC-Seg/output/inference/sample_unicamp_scape_250624_14}
+		\caption{}
+		\label{fig:sample_unicamp_scape_250624_14}
+	\end{subfigure}
+	
+	\begin{subfigure}[H]{\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{../../src/STDC-Seg/output/inference/sample_unicamp_scape_250624_15}
+		\caption{}
+		\label{fig:sample_unicamp_scape_250624_15}
+	\end{subfigure}
+
+
+
+	\caption{Inferência de cenas capturadas na Unicamp.}
+	\label{fig:result_unicamp1}
+\end{figure}
+
+\begin{figure}[h!]
+	
+	\begin{subfigure}[H]{\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{../../src/STDC-Seg/output/inference/sample_unicamp_scape_250624_16}
+		\caption{}
+		\label{fig:sample_unicamp_scape_250624_16}
+	\end{subfigure}
+
+	\begin{subfigure}[H]{\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{../../src/STDC-Seg/output/inference/sample_unicamp_scape_250624_17}
+		\caption{}
+		\label{fig:sample_unicamp_scape_250624_17}
+	\end{subfigure}
+	
+	\begin{subfigure}[H]{\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{../../src/STDC-Seg/output/inference/sample_unicamp_scape_250624_3}
+		\caption{}
+		\label{fig:sample_unicamp_scape_250624_3}
+	\end{subfigure}
+	
+	\begin{subfigure}[H]{\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{../../src/STDC-Seg/output/inference/sample_unicamp_scape_250624_33}
+		\caption{}
+		\label{fig:sample_unicamp_scape_250624_33}
+	\end{subfigure}
+	
+	\begin{subfigure}[H]{\linewidth}
+		\centering
+		\includegraphics[width=1\linewidth]{../../src/STDC-Seg/output/inference/sample_unicamp_scape_250624_36}
+		\caption{}
+		\label{fig:sample_unicamp_scape_250624_36}
+	\end{subfigure}
+
+\caption{Inferência de cenas capturadas na Unicamp e em Barão Geraldo.}
+\label{fig:result_unicamp2}
+\end{figure}
+
 
 \section{Análise dos Resultados}  \label{sc:analise}
 
@@ -318,7 +404,13 @@ Ao realizar a validação da rede treinada para as 500 amostras de teste do conj
 %	\end{itemize}
 %\end{note}
 
-A partir do resultado de mIoU obtido, pode-se dizer que a rede treinada obtida está entre as concorrentes do estado da arte. Analisando algumas amostras tomadas do dados de teste, observa-se na Fig. \ref{fig:result_cityscapes}(\subref{fig:sample_munster_000036_000019}) a detecção precisa do ciclista, dos pedestres, e também a diferenciação entre a rua e a calçada, que visualmente não apresentam grande diferença. Já na Fig. \ref{fig:result_cityscapes}(\subref{fig:sample_munster_000078_000019}), é possível ver a definição das entidades do trânsito, como carros, caminhões, semáforos e placas, assim como seus respectivos postes. Novamente, a ciclovia é reconhecida como calçada. Por fim, as imagens das Fig. \ref{fig:result_cityscapes}(\subref{fig:sample_frankfurt_000001_046272})~e~\ref{fig:result_cityscapes}(\subref{fig:sample_frankfurt_000001_059119}) se mostram mais desafiadores, uma vez que possuem sombras. Porém, a rede neural consegue com facilidade definir a rua, os pedestres, a calçada e as placas de sinalização mesmo com a presença de diferentes níveis de iluminação da cena.
+A partir do resultado de mIoU obtido, pode-se dizer que a rede treinada obtida está entre as concorrentes do estado da arte. Analisando algumas amostras tomadas do dados de teste, observa-se na Fig.~\ref{fig:result_cityscapes}(\subref{fig:sample_munster_000036_000019}) a detecção precisa do ciclista, dos pedestres, e também a diferenciação entre a rua e a calçada, que visualmente não apresentam grande diferença. Já na Fig.~\ref{fig:result_cityscapes}(\subref{fig:sample_munster_000078_000019}), é possível ver a definição das entidades do trânsito, como carros, caminhões, semáforos e placas, assim como seus respectivos postes. Novamente, a ciclovia é reconhecida como calçada. Por fim, as imagens das Fig.~\ref{fig:result_cityscapes}(\subref{fig:sample_frankfurt_000001_046272})~e~\ref{fig:result_cityscapes}(\subref{fig:sample_frankfurt_000001_059119}) se mostram mais desafiadores, uma vez que possuem sombras. Porém, a rede neural consegue com facilidade definir a rua, os pedestres, a calçada e as placas de sinalização mesmo com a presença de diferentes níveis de iluminação da cena.
+
+Ao utilizar as imagens capturadas no \textit{campus} da Unicamp, observa-se nas  Fig.~\ref{fig:result_unicamp1}(\subref{fig:sample_unicamp_scape_250624_5}), Fig.~\ref{fig:result_unicamp1}(\subref{fig:sample_unicamp_scape_250624_19}), e Fig.~\ref{fig:result_unicamp1}(\subref{fig:sample_unicamp_scape_250624_24}) que o modelo conseguiu definir bem a rua, os carros, a calçada, placas, vegetação, construções e pessoas, diferenciando área navegável de obstáculos e mantendo a resistência à sombras. Na Fig.~\ref{fig:result_unicamp1}(\subref{fig:sample_unicamp_scape_250624_14}), consegue-se detectar e segmentar com precisão o ciclista, mesmo com um pequeno reflexo de luz no mesmo, e já na Fig.~\ref{fig:result_unicamp1}(\subref{fig:sample_unicamp_scape_250624_15}), os pedestres são detectados na faixa de pedestres. 
+
+Já na Fig.~\ref{fig:result_unicamp2} são apresentados casos mais desafiadores, onde houve muito reflexo do sol na imagem, além de um ambiente mais inesperado frente aos que a rede viu em treinamento. Nas  Fig.~\ref{fig:result_unicamp2}(\subref{fig:sample_unicamp_scape_250624_16}) e Fig.~\ref{fig:result_unicamp2}(\subref{fig:sample_unicamp_scape_250624_17}) mesmo com toda interferência de luz na parte esquerda da imagem, foi possível realizar a segmentação da imagem de forma competente, porém, já na Fig.~\ref{fig:result_unicamp2}(\subref{fig:sample_unicamp_scape_250624_3}), a rede não foi capaz de classificar corretamente o pedestre e o cadeirante. As Fig.~\ref{fig:result_unicamp2}(\subref{fig:sample_unicamp_scape_250624_33}) e Fig.~\ref{fig:result_unicamp2}(\subref{fig:sample_unicamp_scape_250624_36}) foram capturadas em Barão Geraldo e apresentam um cenário que se diferencia do ambiente urbano desenvolvido utilizado no \textit{dataset} de treinamento, porém, mesmo assim na primeira figura a rede neural consegue segmentar a cena e detectar o pedestre. Porém, já na segunda, a mesma detecta o ciclista mas tem grande dificuldade em identificar a estrada.
+
+
 
 \section{Conclusões}  \label{sc:conclusoes}
 
@@ -335,6 +427,16 @@ A partir do resultado de mIoU obtido, pode-se dizer que a rede treinada obtida e
 %		\end{itemize}
 %	\end{itemize}
 %\end{note}
+
+A navegação de veículos autônomos se faz um problema desafiador, onde a forma como o ambiente é representado se faz vital para a resolução da mesma. Dessa forma, a segmentação semântica de imagens faz com que seja possível detectar os componentes presentes no ambiente, e fundindo essas informações com a profundidade calculada por meio de câmeras \textit{stereo}, é possível obter um mapa dinâmico onde a trajetória a ser seguida pelo veículo é planejada.
+
+O uso da rede STDC para resolução do problema se mostrou positivo, obtendo uma métrica de desempenho competitiva com os modelos estado da arte, e possuindo um tempo de inferência reduzido. Ao observar as imagens do \textit{dataset} segmentadas pelo modelo, facilmente se observa a diferenciação da área navegável e obstáculos, mostrando que a segmentação executa sua principal função. Porém, a captura de detalhes também é bem precisa, detectando postes, placas de trânsito e semáforos com exito.
+
+Porém, ao utilizar a rede neural aplicada a dados capturados pelo autor, em um ambiente que possuí características diferentes do presente no conjunto de dados de treinamento, observou-se dificuldade de segmentação e detecção de certos tipos de vegetação, calçadas, delimitações da via e veículos. Os reflexos do sol no vidro do veículo utilizado para a coleta de dados também fez da segmentação uma tarefa mais desafiadora, porém em muitos casos o modelo conseguiu ser robusto a essa interferência. Todavia, mesmo com alguns erros de classificação e ruídos, o modelo conseguiu em grande parte detectar o espaço navegável e obstáculos, que mesmo não definidos com exatidão, seriam compreendidos pelo algoritmo de navegação. Por fim, ao aplicar a rede a um ambiente menos característicos de centros urbanos modernos, a rede apresentou grande dificuldade de definir a área navegável.
+
+Dessa forma, mesmo que o resultado da segmentação com imagens de uma rede neural treinada com conjunto de dados da literatura para um ambiente local seja satisfatório, se faz a proposta de realizar o \textit{fine tunning} do modelo da rede neural com imagens do ambiente em que se deseja aplicar o veículo autônomo, maximizando assim a capacidade de generalização da mesma. Com isso, se propõem também a aplicação da rede neural trabalhando em conjunto com o algoritmo de percepção dinâmica, obtendo assim não só as imagens segmentadas, mas também um \textit{grid} que representa o plano do veículo, onde pode ser obtida a trajetória que o mesmo deve seguir.
+
+\newpage
 
 \section*{Agradecimentos}
 
